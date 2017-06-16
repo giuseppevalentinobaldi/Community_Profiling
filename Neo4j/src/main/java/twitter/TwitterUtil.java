@@ -3,6 +3,7 @@ package twitter;
 import java.util.LinkedList;
 import java.util.List;
 
+import twitter4j.GeoLocation;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -62,8 +63,17 @@ public class TwitterUtil {
 				temp+="\t"+idContributor;
 		}
 		item.add(temp);
-		item.add(status.getGeoLocation().getLongitude()+"");
-		item.add(status.getGeoLocation().getLatitude()+"");
+		GeoLocation geoLocation=status.getGeoLocation();
+		if(geoLocation!=null){	
+			item.add(geoLocation.getLongitude()+"");
+			item.add(geoLocation.getLatitude()+"");
+			item.add(geoLocation.toString());
+		}
+		else{
+			item.add("");
+			item.add("");
+			item.add("");
+		}
 		item.add(status.getCreatedAt()+"");
 		item.add(status.getCreatedAt()+"");
 		HashtagEntity[] hashtagEntities = status.getHashtagEntities();
@@ -111,7 +121,6 @@ public class TwitterUtil {
 		item.add(status.getRetweetCount()+"");
 		item.add(status.getSource());
 		item.add(status.getUser().getName());
-		item.add(status.getGeoLocation().toString());
 		item.add(status.getUser().getScreenName());
 		item.add(status.getUser().getId()+"");
 		return item;
