@@ -39,38 +39,22 @@ public class Neo4JUtil implements AutoCloseable {
 			System.out.println(greeting);
 		}
 	}
-	
-	public void printTweets(List<String> tweetItem){
-		/*continuo domani inizio a non connettere più XD*/
-		// crazione nodi
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
-		// creazione archo
-		driver.session().run("MATCH (a:Person),(b:Person) WHERE a.name = 'Mario' AND b.name = 'Maria' CREATE (a)-[r:RELTYPE]->(b)");
+
+	public void printTweets(List<String> tweetItem) {
+		/* continuo domani inizio a non connettere più XD */
+		try (Session session = driver.session()) {
+			// crazione nodi
+			session.run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })",
+					Values.parameters("label", "Mario", "value", "Rossi", "description", ""));
+			// creazione archo
+			session.run(
+					"MATCH (a:Person),(b:Person) WHERE a.name = 'Mario' AND b.name = 'Maria' CREATE (a)-[r:RELTYPE]->(b)");
+		}
 	}
 }
 
-	/*
-	 * public static void main( String[] args ) throws Exception { try ( Main
-	 * greeter = new Main( "bolt://localhost:7687", "neo4j", "neo4j" ) ) {
-	 * greeter.printGreeting( "hello, world" ); } }
-	 */
-
+/*
+ * public static void main( String[] args ) throws Exception { try ( Main
+ * greeter = new Main( "bolt://localhost:7687", "neo4j", "neo4j" ) ) {
+ * greeter.printGreeting( "hello, world" ); } }
+ */
