@@ -16,16 +16,19 @@ public class TwitterUtil {
 	
 	private Twitter twitter;
 	
-	public TwitterUtil() throws TwitterException{
+	public TwitterUtil(){
 		TwitterFactory factory = new TwitterFactory();
 		AccessToken accessToken = new AccessToken(this.getToken(), this.getTokenSecret());
-		Twitter twitter = factory.getInstance();
+		this.twitter = factory.getInstance();
 		twitter.setOAuthConsumer(this.getConsumerKey(),this.getConsumerSecret());
 		twitter.setOAuthAccessToken(accessToken);
-		List<Status> statuses = twitter.getUserTimeline(769181646176284672L);
+	}
+	
+	public void Tweets() throws TwitterException{
+		List<Status> statuses = this.twitter.getUserTimeline(769181646176284672L);
 	    System.out.println("Showing home timeline.");
 	    for (Status status : statuses) {
-	        System.out.println(status.getUser()+""+status.getUser().getName() + ":" +
+	        System.out.println(status.getUser().getName() + ":" +
 	                           status.getText());
 	    }
 	}
