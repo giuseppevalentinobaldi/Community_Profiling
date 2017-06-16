@@ -21,7 +21,7 @@ user screen name responded to -> status.getInReplyToScreenName()
 tweet id responded to -> status.getInReplyToStatusId()
 user id responded to -> status.getInReplyToUserId()
 tweet language -> status.getLang()
-data set containing associated geographical regions -> status.getWithheldInCountries().toString() //ritorna un puntatore se non c'è nulla  ??????
+data set containing associated geographical regions -> status.getPlace().getContainedWithIn() //ritorna un puntatore se non c'è nulla
 sensitive content flag ?
 count of retweets -> status.getRetweetCount()
 retweeted flag ???
