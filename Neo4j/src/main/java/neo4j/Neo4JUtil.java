@@ -1,4 +1,4 @@
-package main;
+package neo4j;
 
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
@@ -9,12 +9,11 @@ import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.TransactionWork;
 import org.neo4j.driver.v1.Values;
 
-import twitter.TwitterUtil;
+public class Neo4JUtil implements AutoCloseable {
 
-public class Main implements AutoCloseable {
 	private final Driver driver;
 
-	public Main(String uri, String user, String password) {
+	public Neo4JUtil(String uri, String user, String password) {
 		driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
 	}
 
@@ -39,18 +38,9 @@ public class Main implements AutoCloseable {
 		}
 	}
 
-	public static void main(String args[]) throws Exception {
-		TwitterUtil twitter = new TwitterUtil();
-		
-		//Status status = twitter.updateStatus("prova");
-		//System.out.println("Successfully updated the status to [" + status.getText() + "].");
-		System.exit(0);
-	}
-
 	/*
-	 * public static void main( String[] args ) throws Exception { try (
-	 * Main greeter = new Main(
-	 * "bolt://localhost:7687", "neo4j", "neo4j" ) ) { greeter.printGreeting(
-	 * "hello, world" ); } }
+	 * public static void main( String[] args ) throws Exception { try ( Main
+	 * greeter = new Main( "bolt://localhost:7687", "neo4j", "neo4j" ) ) {
+	 * greeter.printGreeting( "hello, world" ); } }
 	 */
 }
