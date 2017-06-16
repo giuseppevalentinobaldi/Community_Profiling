@@ -1,4 +1,4 @@
-package kgou;
+package main;
 
 import java.util.List;
 
@@ -11,15 +11,13 @@ import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.TransactionWork;
 import org.neo4j.driver.v1.Values;
 
+import twitter.TwitterUtil;
 import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
 
-public class HelloWorldExample implements AutoCloseable {
+public class Main implements AutoCloseable {
 	private final Driver driver;
 
-	public HelloWorldExample(String uri, String user, String password) {
+	public Main(String uri, String user, String password) {
 		driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
 	}
 
@@ -45,27 +43,16 @@ public class HelloWorldExample implements AutoCloseable {
 	}
 
 	public static void main(String args[]) throws Exception {
-		// The factory instance is re-useable and thread safe.
-		TwitterFactory factory = new TwitterFactory();
-		AccessToken accessToken = loadAccessToken();
-		Twitter twitter = factory.getInstance();
-		twitter.setOAuthConsumer("N2LZiDdNAqY1qtgJ8EPRoAdx9", "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU");
-		twitter.setOAuthAccessToken(accessToken);
-		List<Status> statuses = twitter.getUserTimeline(769181646176284672L);
+		TwitterUtil twitter = new TwitterUtil();
+		List<Status> statuses = twitter.getTwitter().getUserTimeline(769181646176284672L);
 	    System.out.println("Showing home timeline.");
 	    for (Status status : statuses) {
-	        System.out.println(status.getUser().getName() + ":" +
+	        System.out.println(status.getUser()+""+status.getUser().getName() + ":" +
 	                           status.getText());
 	    }
 		//Status status = twitter.updateStatus("prova");
 		//System.out.println("Successfully updated the status to [" + status.getText() + "].");
 		System.exit(0);
-	}
-
-	private static AccessToken loadAccessToken(){
-		String token = "769181646176284672-0IC2vOHqXZ22Rxe6inpBCYAecQsZouN";
-		String tokenSecret = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
-		return new AccessToken(token, tokenSecret);
 	}
 
 	/*
