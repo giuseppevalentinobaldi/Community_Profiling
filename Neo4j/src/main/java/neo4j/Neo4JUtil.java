@@ -1,5 +1,7 @@
 package neo4j;
 
+import java.util.List;
+
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
@@ -38,13 +40,18 @@ public class Neo4JUtil implements AutoCloseable {
 		}
 	}
 	
-	public void printTweets(){
-		
+	public void printTweets(List<String> tweetItem){
+		// crazione nodi
+		driver.session().run("CREATE (a:Person {name: {name}, last_name: {last_name}})", Values.parameters("name", "Mario", "last_name", "Rossi"));
+		driver.session().run("CREATE (a:Person {name: {name}, last_name: {last_name}})", Values.parameters("name", "Maria", "last_name", "Verdi"));
+		// creazione archo
+		driver.session().run("MATCH (a:Person),(b:Person) WHERE a.name = 'Mario' AND b.name = 'Maria' CREATE (a)-[r:RELTYPE]->(b)");
 	}
+}
 
 	/*
 	 * public static void main( String[] args ) throws Exception { try ( Main
 	 * greeter = new Main( "bolt://localhost:7687", "neo4j", "neo4j" ) ) {
 	 * greeter.printGreeting( "hello, world" ); } }
 	 */
-}
+
