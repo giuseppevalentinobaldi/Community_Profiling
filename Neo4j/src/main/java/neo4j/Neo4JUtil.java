@@ -41,9 +41,28 @@ public class Neo4JUtil implements AutoCloseable {
 	}
 	
 	public void printTweets(List<String> tweetItem){
+		/*continuo domani inizio a non connettere più XD*/
 		// crazione nodi
-		driver.session().run("CREATE (a:Person {name: {name}, last_name: {last_name}})", Values.parameters("name", "Mario", "last_name", "Rossi"));
-		driver.session().run("CREATE (a:Person {name: {name}, last_name: {last_name}})", Values.parameters("name", "Maria", "last_name", "Verdi"));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
+		driver.session().run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })", Values.parameters("label", "Mario", "value", "Rossi","description",""));
 		// creazione archo
 		driver.session().run("MATCH (a:Person),(b:Person) WHERE a.name = 'Mario' AND b.name = 'Maria' CREATE (a)-[r:RELTYPE]->(b)");
 	}
