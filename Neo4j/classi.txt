@@ -35,7 +35,7 @@ copyright ???
 retweeting process ???
 favoriting process ???
 tweet generation process ???
-coordinates -> status.getPlace().getGeometryCoordinates()
+coordinates -> status.getGeoLocation().toString()
 twitter user data item ???
 twitter user data item part ???
 twitter user screen name -> status.getUser().getScreenName()
