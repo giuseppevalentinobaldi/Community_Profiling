@@ -37,6 +37,10 @@ public class Neo4JUtil implements AutoCloseable {
 			System.out.println(greeting);
 		}
 	}
+	
+	public void printTweets(){
+		
+	}
 
 	/*
 	 * public static void main( String[] args ) throws Exception { try ( Main
