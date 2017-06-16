@@ -9,9 +9,9 @@ data set containing contributors ids -> status.getContributors()
 longitude of the location tweet was generated -> status.getGeoLocation().getLongitude()
 latitude of the location tweet was generated -> status.getGeoLocation().getLatitude()
 created timestamp -> status.getCreatedAt()
-data set containing hashtags -> status.getHashtagEntities().toString() ritorna un puntatore se non c'è nulla
+data set containing hashtags -> status.getHashtagEntities().toString() //ritorna un puntatore se non c'è nulla
 data set containing tweet-relevant urls ?
-data set containing mentioned user ids ?
+data set containing mentioned user ids -> status.getUserMentionEntities().toString() //ritorna un puntatore se non c'è nulla
 retweet data item ?
 count of users who favorited -> status.getFavoriteCount()
 favorited flag ?
