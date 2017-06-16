@@ -1,0 +1,42 @@
+RELAZIONE
+has asserted value
+
+CLASSI
+tweet data item
+tweet data item part
+tweet message -> status.getText()
+data set containing contributors ids -> status.getContributors()
+longitude of the location tweet was generated -> status.getGeoLocation().getLongitude()
+latitude of the location tweet was generated -> status.getGeoLocation().getLatitude()
+created timestamp -> status.getCreatedAt()
+data set containing hashtags -> status.getHashtagEntities().toString() ritorna un puntatore se non c'è nulla
+data set containing tweet-relevant urls ?
+data set containing mentioned user ids ?
+retweet data item ?
+count of users who favorited -> status.getFavoriteCount()
+favorited flag ?
+filter level -> status.getAccessLevel() ????
+tweet id -> status.getId()
+user screen name responded to -> status.getInReplyToScreenName() 
+tweet id responded to -> status.getInReplyToStatusId()
+user id responded to -> status.getInReplyToUserId()
+tweet language -> status.getLang()
+data set containing associated geographical regions ?
+sensitive content flag ?
+count of retweets -> status.getRetweetCount()
+retweeted flag ???
+retweeted tweet -> status.getRetweetedStatus() ???
+data item about the application used to generate tweet -> status.getSource()
+truncated flag ???
+tweet user -> status.getUser().getName()
+copyrighted flag ???
+data set containing countries where tweet is disallowed ???
+copyright ???
+retweeting process ???
+favoriting process ???
+tweet generation process ???
+coordinates ???
+twitter user data item ???
+twitter user data item part ???
+twitter user screen name -> status.getUser().getScreenName()
+twitter user id -> status.getUser().getId()

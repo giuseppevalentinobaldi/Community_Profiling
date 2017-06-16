@@ -16,12 +16,12 @@ public class TwitterUtil {
 	
 	private Twitter twitter;
 	
-	public TwitterUtil(){
+	public TwitterUtil() {
 		TwitterFactory factory = new TwitterFactory();
 		AccessToken accessToken = new AccessToken(this.getToken(), this.getTokenSecret());
 		this.twitter = factory.getInstance();
-		twitter.setOAuthConsumer(this.getConsumerKey(),this.getConsumerSecret());
-		twitter.setOAuthAccessToken(accessToken);
+		this.twitter.setOAuthConsumer(this.getConsumerKey(),this.getConsumerSecret());
+		this.twitter.setOAuthAccessToken(accessToken);
 	}
 	
 	public void Tweets() throws TwitterException{
