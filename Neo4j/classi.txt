@@ -22,7 +22,7 @@ tweet id responded to -> status.getInReplyToStatusId()
 user id responded to -> status.getInReplyToUserId()
 tweet language -> status.getLang()
 data set containing associated geographical regions -> status.getPlace().getContainedWithIn() //ritorna un puntatore se non c'è nulla
-sensitive content flag ?
+sensitive content flag ???
 count of retweets -> status.getRetweetCount()
 retweeted flag ???
 retweeted tweet -> status.getRetweetedStatus() ???
