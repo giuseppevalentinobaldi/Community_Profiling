@@ -1,4 +1,4 @@
-# Community_Profiling
+# Community Profiling
 Creating knowledge graphs of twitter users based on ontologies
 
 * Twitter Ontology
