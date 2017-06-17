@@ -10,6 +10,7 @@ public class TwitterOntologyUser {
 
 	private final String idLabel = "twitter user id";
 	private final String idDescricption = "";
+	
 	public String getNameLabel() {
 		return nameLabel;
 	}
