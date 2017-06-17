@@ -2,13 +2,13 @@ package ontology;
 
 public class TwitterOntologyUser {
 	
-	private final String nameLabel = "tweet user";
+	private final String nameLabel = "tweet_user";
 	private final String nameDescription = "A data item about the user account which generated the associated tweet data item.";
 
-	private final String screenNameLabel = "twitter user screen name";
+	private final String screenNameLabel = "twitter_user_screen_name";
 	private final String screenNameDescricption = "";
 
-	private final String idLabel = "twitter user id";
+	private final String idLabel = "twitter_user_id";
 	private final String idDescricption = "";
 	
 	//user data ontology 

@@ -28,10 +28,11 @@ public class Neo4jUtil {
 	}
 
 	public void printUserData(TwitterUserData twitterUserData) {
-		session.run("CREATE (a:TwitterUser {user_id: {user_id}, name: {name}, screen_name: {screen_name}})",
+		session.run("CREATE (a:TwitterUser {name : 'Entity', " + twitterUserData.getIdLabel() + ": {user_id}, "
+				+ twitterUserData.getNameLabel() + ": {name}, " + twitterUserData.getScreenNameLabel() + ": {screen_name}})",
 				Values.parameters("user_id", twitterUserData.getId(), "name", twitterUserData.getName(), "screen_name",
 						twitterUserData.getScreenName()));
-		System.out.println("prova");
+		System.out.println(twitterUserData.getNameLabel());
 		// session.run("CREATE (a:Person {name: {name}, last_name:
 		// {last_name}})", Values.parameters("name", "Maria", "last_name",
 		// "Verdi"));
