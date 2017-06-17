@@ -2,7 +2,9 @@ package twitter;
 
 import java.util.Date;
 
-public class TweetData {
+import ontology.TwitterOntologyData;
+
+public class TweetData extends TwitterOntologyData {
 
 	private long id;
 	private String message;
