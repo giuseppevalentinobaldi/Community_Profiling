@@ -1,16 +1,16 @@
 package twitter;
 
-import java.util.LinkedList;
+//import java.util.LinkedList;
 import java.util.List;
 
-import twitter4j.GeoLocation;
-import twitter4j.HashtagEntity;
+//import twitter4j.GeoLocation;
+//import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
+//import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.URLEntity;
-import twitter4j.UserMentionEntity;
+//import twitter4j.URLEntity;
+//import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
 
 public class TwitterUtil {
@@ -45,14 +45,70 @@ public class TwitterUtil {
 		// creazione dell'oggetto TwitterUserData
 		TwitterUserData userData = new TwitterUserData(userId, userName, userScreenName);
 		
-		// estrazione dei dati da ogni tweet
+		// estrazione dei dati da ogni tweet ed inserimento in TwitterUserData
+		TweetData tweetData;
+		
 		for (Status status : statuses) {
 			
-			// commit
+			tweetData = new TweetData();
+			
+			// tweet id
+			tweetData.setId(status.getId());
+			
+			// tweet message
+			tweetData.setMessage(status.getText());
+			
+			// data set containing contributors ids
+			tweetData.setContributorsId(status.getContributors());
+			
+			// longitude of the location tweet was generated
+			tweetData.setLongitude(status.getGeoLocation().getLongitude());
+			
+			// latitude of the location tweet was generated
+			tweetData.setLatitude(status.getGeoLocation().getLatitude());
+			
+			// created timestamp
+			tweetData.setTimeStamp(status.getCreatedAt());
+			
+			// data set containing hashtags
+			tweetData.setHashTag(status.getHashtagEntities().toString());
+			
+			// data set containing tweet-relevant urls
+			tweetData.setUrl(status.getURLEntities().toString());
+			
+			// data set containing mentioned user ids
+			tweetData.setMentionedUserId(status.getUserMentionEntities().toString());
+			
+			// count of users who favorited
+			tweetData.setCountFavoriteUser(status.getFavoriteCount());
+			
+			// user screen name responded to
+			tweetData.setScreenNameRespondedUser(status.getInReplyToScreenName());
+			
+			// tweet id responded to
+			tweetData.setTweetIdResponded(status.getInReplyToStatusId());
+			
+			// user id responded to
+			tweetData.setUserIdResponded(status.getInReplyToUserId());
+			
+			// tweet language
+			tweetData.setLanguage(status.getLang());
+			
+			// count of retweets
+			tweetData.setCountRetweet(status.getRetweetCount());
+			
+			// data item about the application used to generate tweet
+			tweetData.setSource(status.getSource());
+			
+			// coordinates
+			tweetData.setCoordinates(status.getGeoLocation().toString());
+			
+			// inserimento del TweetData in TwitterUserData
+			userData.addTweetData(tweetData);
 			
 		}
 		
-		return null;
+		return userData;
 		
 	}
 
