@@ -48,7 +48,7 @@ public class TwitterUtil {
 		// estrazione dei dati da ogni tweet
 		for (Status status : statuses) {
 			
-			
+			// commit
 			
 		}
 		
