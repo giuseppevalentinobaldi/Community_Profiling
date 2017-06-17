@@ -9,8 +9,8 @@ public class TweetData extends TwitterOntologyData {
 	private long id;
 	private String message;
 	private long[] contributorsId;
-	private double longitude;
-	private double latitude;
+	private String longitude;
+	private String latitude;
 	private Date timeStamp;
 	private String hashTag;
 	private String url;
@@ -59,22 +59,22 @@ public class TweetData extends TwitterOntologyData {
 	}
 
 
-	public double getLongitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 
 
-	public double getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 

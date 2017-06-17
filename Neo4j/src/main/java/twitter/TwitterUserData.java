@@ -15,8 +15,8 @@ public class TwitterUserData extends TwitterOntologyUser {
 	public TwitterUserData(long userId){
 		
 		this.id = userId;
-		this.name = null;
-		this.screenName = null;
+		this.name = "";
+		this.screenName = "";
 		this.tweetDataList = null;
 		
 	}

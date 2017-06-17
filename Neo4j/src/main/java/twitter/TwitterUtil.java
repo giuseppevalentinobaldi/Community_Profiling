@@ -57,22 +57,47 @@ public class TwitterUtil{
 			tweetData.setContributorsId(status.getContributors());
 			
 			// longitude of the location tweet was generated
-			tweetData.setLongitude(status.getGeoLocation().getLongitude());
+			if(status.getGeoLocation() != null){
+				tweetData.setLongitude(""+status.getGeoLocation().getLongitude());
+			}
+			else{
+				tweetData.setLongitude("");
+			}
 			
 			// latitude of the location tweet was generated
-			tweetData.setLatitude(status.getGeoLocation().getLatitude());
+			if(status.getGeoLocation() != null){
+				tweetData.setLatitude(""+status.getGeoLocation().getLatitude());
+			}
+			else{
+				tweetData.setLatitude("");
+			}
 			
 			// created timestamp
 			tweetData.setTimeStamp(status.getCreatedAt());
 			
 			// data set containing hashtags
-			tweetData.setHashTag(status.getHashtagEntities().toString());
+			if(status.getHashtagEntities() != null){
+				tweetData.setHashTag(status.getHashtagEntities().toString());
+			}
+			else{
+				tweetData.setHashTag("");
+			}
 			
 			// data set containing tweet-relevant urls
-			tweetData.setUrl(status.getURLEntities().toString());
+			if(status.getURLEntities() != null){
+				tweetData.setUrl(status.getURLEntities().toString());
+			}
+			else{
+				tweetData.setUrl("");
+			}
 			
 			// data set containing mentioned user ids
-			tweetData.setMentionedUserId(status.getUserMentionEntities().toString());
+			if(status.getUserMentionEntities() != null){
+				tweetData.setMentionedUserId(status.getUserMentionEntities().toString());
+			}
+			else{
+				tweetData.setMentionedUserId("");
+			}
 			
 			// count of users who favorited
 			tweetData.setCountFavoriteUser(status.getFavoriteCount());
@@ -96,7 +121,12 @@ public class TwitterUtil{
 			tweetData.setSource(status.getSource());
 			
 			// coordinates
-			tweetData.setCoordinates(status.getGeoLocation().toString());
+			if(status.getGeoLocation() != null){
+				tweetData.setCoordinates(status.getGeoLocation().toString());
+			}
+			else{
+				tweetData.setCoordinates("");
+			}
 			
 			// inserimento del TweetData in TwitterUserData
 			userData.addTweetData(tweetData);
