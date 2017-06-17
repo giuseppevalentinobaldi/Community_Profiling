@@ -11,6 +11,7 @@ public class Main {
 		TwitterUserData twitterUserData = twitter.getUserData(769181646176284672L);
 		Neo4jUtil neo4j = new Neo4jUtil("bolt://localhost:7687", "neo4j", "neo4j");
 		neo4j.printUserData(twitterUserData);
+		neo4j.close();
 		System.exit(0);
 	}
 }
