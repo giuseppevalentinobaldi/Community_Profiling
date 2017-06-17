@@ -3,7 +3,9 @@ package twitter;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TwitterUserData {
+import ontology.TwitterOntologyUser;
+
+public class TwitterUserData extends TwitterOntologyUser {
 
 	private long id;
 	private String name;

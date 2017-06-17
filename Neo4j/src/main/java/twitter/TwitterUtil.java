@@ -7,9 +7,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
-import ontology.TwitterOntologyUser;
-
-public class TwitterUtil extends TwitterOntologyUser {
+public class TwitterUtil{
 	
 	final private String token = "769181646176284672-0IC2vOHqXZ22Rxe6inpBCYAecQsZouN";
 	final private String tokenSecret = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
