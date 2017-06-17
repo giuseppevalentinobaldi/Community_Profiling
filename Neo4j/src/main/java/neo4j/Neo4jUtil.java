@@ -28,11 +28,10 @@ public class Neo4jUtil {
 	}
 	
 	public void printUserData (TwitterUserData twitterUserData){
-		//creo nodo utente
-		//session.run("CREATE (a:Person {name: {name}, last_name: {last_name}})", Values.parameters("name", "Mario", "last_name", "Rossi"));
+		session.run("CREATE (a:TwitterUser {user_id: {user_id}, name: {name}, screen_name: {screen_name}})", Values.parameters("user_id", twitterUserData.getId(), "name", twitterUserData.getName(), "screen_name", twitterUserData.getScreenName() ));
 		//session.run("CREATE (a:Person {name: {name}, last_name: {last_name}})", Values.parameters("name", "Maria", "last_name", "Verdi"));
 		
-		// creazione archo
+		//creazione archo
 		//.session.run("MATCH (a:Person),(b:Person) WHERE a.name = 'Mario' AND b.name = 'Maria' CREATE (a)-[r:RELTYPE]->(b)");		
 	}	
 

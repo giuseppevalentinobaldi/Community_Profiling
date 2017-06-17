@@ -9,8 +9,8 @@ public class Main {
 	public static void main(String args[]) throws Exception {
 		TwitterUtil twitter = new TwitterUtil();
 		TwitterUserData twitterUserData = twitter.getUserData(769181646176284672L);
-		@SuppressWarnings("resource")
 		Neo4jUtil neo4j = new Neo4jUtil("bolt://localhost:7687", "neo4j", "neo4j");
+		neo4j.printUserData(twitterUserData);
 		System.exit(0);
 	}
 }
