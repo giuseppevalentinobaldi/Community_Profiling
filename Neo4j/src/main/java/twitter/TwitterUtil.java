@@ -50,6 +50,7 @@ public class TwitterUtil {
 		String temp;
 		boolean isFirst;
 		List<String>  item= new LinkedList<String>();
+		item.add(status.getId()+"");
 		item.add(status.getText());
 		long[] contributors =status.getContributors();
 		temp="";
@@ -74,7 +75,6 @@ public class TwitterUtil {
 			item.add("");
 			item.add("");
 		}
-		item.add(status.getCreatedAt()+"");
 		item.add(status.getCreatedAt()+"");
 		HashtagEntity[] hashtagEntities = status.getHashtagEntities();
 		temp="";
@@ -113,7 +113,6 @@ public class TwitterUtil {
 		}
 		item.add(temp);
 		item.add(status.getFavoriteCount()+"");
-		item.add(status.getId()+"");
 		item.add(status.getInReplyToScreenName());
 		item.add(status.getInReplyToStatusId()+"");
 		item.add(status.getInReplyToUserId()+"");

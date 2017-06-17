@@ -1,5 +1,6 @@
 package neo4j;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.neo4j.driver.v1.AuthTokens;
@@ -11,11 +12,11 @@ import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.TransactionWork;
 import org.neo4j.driver.v1.Values;
 
-public class Neo4JUtil implements AutoCloseable {
+public class Neo4jUtil implements AutoCloseable {
 
 	private final Driver driver;
 
-	public Neo4JUtil(String uri, String user, String password) {
+	public Neo4jUtil(String uri, String user, String password) {
 		driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
 	}
 
@@ -39,16 +40,23 @@ public class Neo4JUtil implements AutoCloseable {
 			System.out.println(greeting);
 		}
 	}
-
+	/*provvisorio*/
 	public void printTweets(List<String> tweetItem) {
-		/* continuo domani inizio a non connettere più XD */
 		try (Session session = driver.session()) {
-			// crazione nodi
-			session.run("CREATE (a:TweetDataItemPart {label: {label}, value: {value}, description: {description} })",
-					Values.parameters("label", "Mario", "value", "Rossi", "description", ""));
-			// creazione archo
-			session.run(
-					"MATCH (a:Person),(b:Person) WHERE a.name = 'Mario' AND b.name = 'Maria' CREATE (a)-[r:RELTYPE]->(b)");
+			Iterator<String> i = tweetItem.iterator();
+			String value;
+			boolean isFirst=true;
+			while(i.hasNext()){
+				value=i.next();
+				if(isFirst){
+					session.run("CREATE (a:TweetDataItem {label: 'Tweet', value: {value}})", Values.parameters("value", value));
+					isFirst=false;
+				}
+				else{
+					session.run("CREATE (a:TweetDataItemPart {label: 'TweetPart', value: {value}})", Values.parameters("value", value));
+				}
+			}
+			session.run("MATCH (a:TweetDataItem),(b:TweetDataItemPart) WHERE a.label = 'Tweet' AND b.label = 'TweetPart' CREATE (a)-[r:hasAssertedValue]->(b)");
 		}
 	}
 }
