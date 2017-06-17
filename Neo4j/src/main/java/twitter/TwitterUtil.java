@@ -28,102 +28,129 @@ public class TwitterUtil {
 		this.twitter.setOAuthConsumer(this.getConsumerKey(), this.getConsumerSecret());
 		this.twitter.setOAuthAccessToken(accessToken);
 	}
-
-	public void Tweets() throws TwitterException {
-		List<Status> statuses = this.twitter.getUserTimeline(769181646176284672L);
-		System.out.println("Showing home timeline.");
-		for (Status status : statuses) {
-			System.out.println(status.getUser().getName() + ":" + status.getText());
-		}
-	}
-
-	public List<List<String>> getTweetDataItems(long userId) throws TwitterException {
+	
+	public TwitterUserData getUserData(long userId) throws Exception {
+		
+		// prelievo degli ultimi 20 tweet dell'utente
 		List<Status> statuses = this.twitter.getUserTimeline(userId);
-		List<List<String>> listOfDataItem = new LinkedList<List<String>>();
-		for (Status status : statuses) {
-			listOfDataItem.add(newItem(status));
+		
+		if(statuses.isEmpty()){
+			return new TwitterUserData(userId);
 		}
-		return listOfDataItem;
+		
+		// prelievo  del name e dello screen name dell'utente
+		String userName = statuses.get(0).getUser().getName();
+		String userScreenName = statuses.get(0).getUser().getScreenName();
+		
+		// creazione dell'oggetto TwitterUserData
+		TwitterUserData userData = new TwitterUserData(userId, userName, userScreenName);
+		
+		// estrazione dei dati da ogni tweet
+		for (Status status : statuses) {
+			
+			
+			
+		}
+		
+		return null;
+		
 	}
 
-	public List<String> newItem(Status status){
-		String temp;
-		boolean isFirst;
-		List<String>  item= new LinkedList<String>();
-		item.add(status.getId()+"");
-		item.add(status.getText());
-		long[] contributors =status.getContributors();
-		temp="";
-		isFirst=true;
-		for (long idContributor : contributors) {
-			if(isFirst){
-				temp+=idContributor;
-				isFirst=false;
-			}
-			else
-				temp+="\t"+idContributor;
-		}
-		item.add(temp);
-		GeoLocation geoLocation=status.getGeoLocation();
-		if(geoLocation!=null){	
-			item.add(geoLocation.getLongitude()+"");
-			item.add(geoLocation.getLatitude()+"");
-			item.add(geoLocation.toString());
-		}
-		else{
-			item.add("");
-			item.add("");
-			item.add("");
-		}
-		item.add(status.getCreatedAt()+"");
-		HashtagEntity[] hashtagEntities = status.getHashtagEntities();
-		temp="";
-		isFirst=true;
-		for (HashtagEntity hashtagEntity : hashtagEntities) {
-			if(isFirst){
-				temp+=hashtagEntity.getText();
-				isFirst=false;
-			}
-			else
-				temp+="\t"+hashtagEntity.getText();
-		}
-		item.add(temp);
-		URLEntity[] URLEntities = status.getURLEntities();
-		temp="";
-		isFirst=true;
-		for (URLEntity URLEntity : URLEntities) {
-			if(isFirst){
-				temp+=URLEntity.getText();
-				isFirst=false;
-			}
-			else
-				temp+="\t"+URLEntity.getText();
-		}
-		item.add(temp);
-		UserMentionEntity[] userMentionEntities = status.getUserMentionEntities();
-		temp="";
-		isFirst=true;
-		for (UserMentionEntity userMentionEntity : userMentionEntities) {
-			if(isFirst){
-				temp+=userMentionEntity.getText();
-				isFirst=false;
-			}
-			else
-				temp+="\t"+userMentionEntity.getText();
-		}
-		item.add(temp);
-		item.add(status.getFavoriteCount()+"");
-		item.add(status.getInReplyToScreenName());
-		item.add(status.getInReplyToStatusId()+"");
-		item.add(status.getInReplyToUserId()+"");
-		item.add(status.getLang());
-		item.add(status.getRetweetCount()+"");
-		item.add(status.getSource());
-		item.add(status.getUser().getName());
-		item.add(status.getUser().getScreenName());
-		item.add(status.getUser().getId()+"");
-		return item;
-	}
+//	public void Tweets() throws TwitterException {
+//		List<Status> statuses = this.twitter.getUserTimeline(769181646176284672L);
+//		System.out.println("Showing home timeline.");
+//		for (Status status : statuses) {
+//			System.out.println(status.getUser().getName() + ":" + status.getText());
+//		}
+//	}
+//
+//	public List<List<String>> getTweetDataItems(long userId) throws TwitterException {
+//		List<Status> statuses = this.twitter.getUserTimeline(userId);
+//		List<List<String>> listOfDataItem = new LinkedList<List<String>>();
+//		for (Status status : statuses) {
+//			listOfDataItem.add(newItem(status));
+//		}
+//		return listOfDataItem;
+//	}
+//
+//	public List<String> newItem(Status status){
+//		String temp;
+//		boolean isFirst;
+//		List<String>  item= new LinkedList<String>();
+//		item.add(status.getId()+"");
+//		item.add(status.getText());
+//		long[] contributors =status.getContributors();
+//		temp="";
+//		isFirst=true;
+//		for (long idContributor : contributors) {
+//			if(isFirst){
+//				temp+=idContributor;
+//				isFirst=false;
+//			}
+//			else
+//				temp+="\t"+idContributor;
+//		}
+//		item.add(temp);
+//		GeoLocation geoLocation=status.getGeoLocation();
+//		if(geoLocation!=null){	
+//			item.add(geoLocation.getLongitude()+"");
+//			item.add(geoLocation.getLatitude()+"");
+//			item.add(geoLocation.toString());
+//		}
+//		else{
+//			item.add("");
+//			item.add("");
+//			item.add("");
+//		}
+//		item.add(status.getCreatedAt()+"");
+//		HashtagEntity[] hashtagEntities = status.getHashtagEntities();
+//		temp="";
+//		isFirst=true;
+//		for (HashtagEntity hashtagEntity : hashtagEntities) {
+//			if(isFirst){
+//				temp+=hashtagEntity.getText();
+//				isFirst=false;
+//			}
+//			else
+//				temp+="\t"+hashtagEntity.getText();
+//		}
+//		item.add(temp);
+//		URLEntity[] URLEntities = status.getURLEntities();
+//		temp="";
+//		isFirst=true;
+//		for (URLEntity URLEntity : URLEntities) {
+//			if(isFirst){
+//				temp+=URLEntity.getText();
+//				isFirst=false;
+//			}
+//			else
+//				temp+="\t"+URLEntity.getText();
+//		}
+//		item.add(temp);
+//		UserMentionEntity[] userMentionEntities = status.getUserMentionEntities();
+//		temp="";
+//		isFirst=true;
+//		for (UserMentionEntity userMentionEntity : userMentionEntities) {
+//			if(isFirst){
+//				temp+=userMentionEntity.getText();
+//				isFirst=false;
+//			}
+//			else
+//				temp+="\t"+userMentionEntity.getText();
+//		}
+//		item.add(temp);
+//		item.add(status.getFavoriteCount()+"");
+//		item.add(status.getInReplyToScreenName());
+//		item.add(status.getInReplyToStatusId()+"");
+//		item.add(status.getInReplyToUserId()+"");
+//		item.add(status.getLang());
+//		item.add(status.getRetweetCount()+"");
+//		item.add(status.getSource());
+//		item.add(status.getUser().getName());
+//		item.add(status.getUser().getScreenName());
+//		item.add(status.getUser().getId()+"");
+//		return item;
+//	}
 
 	public Twitter getTwitter() {
 		return twitter;
