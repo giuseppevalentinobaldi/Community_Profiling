@@ -6,6 +6,9 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
+import twitter4j.HashtagEntity;
+import twitter4j.URLEntity;
+import twitter4j.UserMentionEntity;
 
 public class TwitterUtil{
 	
@@ -58,12 +61,14 @@ public class TwitterUtil{
 				
 				long[] array = status.getContributors();
 				String s = ""+array[0];
-				int count = 1;
 				
+				int count = 1;
 				while(count < array.length){
 					s += ", "+array[count];
 					count++;
 				}
+				
+				tweetData.setContributorsId(s);
 				
 			}
 			else{
@@ -91,7 +96,26 @@ public class TwitterUtil{
 			
 			// data set containing hashtags
 			if(status.getHashtagEntities() != null){
-				tweetData.setHashTag(status.getHashtagEntities().toString());
+				
+				HashtagEntity[] array = status.getHashtagEntities();
+				
+				if(array.length > 0){
+					
+					String s = array[0].getText();
+					
+					int count = 1;
+					while(count < array.length){
+						s += ", "+array[count].getText();
+						count++;
+					}
+					
+					tweetData.setHashTag(s);
+					
+				}
+				else{
+					tweetData.setHashTag("");
+				}
+				
 			}
 			else{
 				tweetData.setHashTag("");
@@ -99,7 +123,26 @@ public class TwitterUtil{
 			
 			// data set containing tweet-relevant urls
 			if(status.getURLEntities() != null){
-				tweetData.setUrl(status.getURLEntities().toString());
+				
+				URLEntity[] array = status.getURLEntities();
+				
+				if(array.length > 0){
+					
+					String s = array[0].getText();
+					
+					int count = 1;
+					while(count < array.length){
+						s += ", "+array[count].getText();
+						count++;
+					}
+					
+					tweetData.setUrl(s);
+					
+				}
+				else{
+					tweetData.setUrl("");
+				}
+				
 			}
 			else{
 				tweetData.setUrl("");
@@ -107,7 +150,26 @@ public class TwitterUtil{
 			
 			// data set containing mentioned user ids
 			if(status.getUserMentionEntities() != null){
-				tweetData.setMentionedUserId(status.getUserMentionEntities().toString());
+				
+				UserMentionEntity[] array = status.getUserMentionEntities();
+				
+				if(array.length > 0){
+					
+					String s = array[0].getText();
+					
+					int count = 1;
+					while(count < array.length){
+						s += ", "+array[count].getText();
+						count++;
+					}
+					
+					tweetData.setMentionedUserId(s);
+					
+				}
+				else{
+					tweetData.setMentionedUserId("");
+				}
+				
 			}
 			else{
 				tweetData.setMentionedUserId("");
@@ -117,7 +179,12 @@ public class TwitterUtil{
 			tweetData.setCountFavoriteUser(status.getFavoriteCount());
 			
 			// user screen name responded to
-			tweetData.setScreenNameRespondedUser(status.getInReplyToScreenName());
+			if(status.getInReplyToScreenName() != null){
+				tweetData.setScreenNameRespondedUser(status.getInReplyToScreenName());
+			}
+			else{
+				tweetData.setScreenNameRespondedUser("");
+			}
 			
 			// tweet id responded to
 			tweetData.setTweetIdResponded(status.getInReplyToStatusId());
@@ -136,7 +203,8 @@ public class TwitterUtil{
 			
 			// coordinates
 			if(status.getGeoLocation() != null){
-				tweetData.setCoordinates(status.getGeoLocation().toString());
+				String c = status.getGeoLocation().toString();
+				tweetData.setCoordinates(c.substring(12, c.length()-1));
 			}
 			else{
 				tweetData.setCoordinates("");

@@ -12,17 +12,17 @@ public class TweetData extends TwitterOntologyData {
 	private String longitude;
 	private String latitude;
 	private Date timeStamp;
-	private String hashTag; // problema toString()
-	private String url; // problema toString()
-	private String mentionedUserId; // problema toString()
+	private String hashTag;
+	private String url;
+	private String mentionedUserId;
 	private int countFavoriteUser;
-	private String screenNameRespondedUser; // fare if in TwitterUtil
+	private String screenNameRespondedUser;
 	private long tweetIdResponded;
 	private long userIdResponded;
 	private String language;
 	private int countRetweet;
 	private String source;
-	private String coordinates; // fare subString se si vuole (non necessario)
+	private String coordinates;
 	
 	
 	public TweetData(){

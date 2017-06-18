@@ -212,14 +212,18 @@ public class Neo4jUtil {
 			
 			
 			// screenNameRespondedUser
-			sID = tweet.getId()+tweet.getScreenNameRespondedUserLabel().replace(" ", "");
-			session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
-					Values.parameters("name", tweet.getScreenNameRespondedUserLabel(),"value", tweet.getScreenNameRespondedUser(), "description",
-					tweet.getScreenNameRespondedUserDescription(),"id",sID));
+			if(!tweet.getScreenNameRespondedUser().equals("")){
+				
+				sID = tweet.getId()+tweet.getScreenNameRespondedUserLabel().replace(" ", "");
+				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+						Values.parameters("name", tweet.getScreenNameRespondedUserLabel(),"value", tweet.getScreenNameRespondedUser(), "description",
+						tweet.getScreenNameRespondedUserDescription(),"id",sID));
+				
+				session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+						" AND b.id = '"+sID+
+						"' CREATE (a)-[r:"+property+"]->(b)");
 			
-			session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
-					" AND b.id = '"+sID+
-					"' CREATE (a)-[r:"+property+"]->(b)");
+			}
 			
 			
 			// tweetIdResponded
