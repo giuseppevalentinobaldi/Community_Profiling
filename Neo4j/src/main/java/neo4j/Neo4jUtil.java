@@ -35,10 +35,10 @@ public class Neo4jUtil {
 				Values.parameters("name", twitterUserData.getNameLabel(),"value", twitterUserData.getName(), "description",
 						twitterUserData.getNameDescription(),"id",twitterUserData.getId()+twitterUserData.getNameLabel()));
 		session.run("MATCH (a:TwitterUser),(b:TwitterUserPart) WHERE a.value = "+twitterUserData.getId()+" AND b.id = '"+twitterUserData.getId()+twitterUserData.getNameLabel()+"' CREATE (a)-[r:RELTYPE]->(b)");
-		session.run("CREATE (c:TwitterUserPArt {name : {name}, value: {value}, description: {description}, id: {id}})",
+		session.run("CREATE (c:TwitterUserPart {name : {name}, value: {value}, description: {description}, id: {id}})",
 				Values.parameters("name", twitterUserData.getScreenNameLabel(),"value", twitterUserData.getScreenName(), "description",
 						twitterUserData.getScreenNameDescription(),"id",twitterUserData.getId()+twitterUserData.getScreenNameLabel()));
-		session.run("MATCH (a:TwitterUser),(c:TwitterUserPArt) WHERE a.value = "+twitterUserData.getId()+" AND c.id = '"+twitterUserData.getId()+twitterUserData.getScreenNameLabel()+"' CREATE (a)-[r:RELTYPE]->(c)");
+		session.run("MATCH (a:TwitterUser),(c:TwitterUserPart) WHERE a.value = "+twitterUserData.getId()+" AND c.id = '"+twitterUserData.getId()+twitterUserData.getScreenNameLabel()+"' CREATE (a)-[r:RELTYPE]->(c)");
 
 		// session.run("CREATE (a:Person {name: {name}, last_name:
 		// {last_name}})", Values.parameters("name", "Maria", "last_name",
