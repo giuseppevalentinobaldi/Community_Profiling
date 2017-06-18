@@ -1,5 +1,7 @@
 package neo4j;
 
+import java.text.SimpleDateFormat;
+
 import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
@@ -110,7 +112,7 @@ public class Neo4jUtil {
 			
 			
 			// longitude
-			if(tweet.getLongitude().equals("")){
+			if(!tweet.getLongitude().equals("")){
 				
 				sID = tweet.getId()+tweet.getLongitudeLabel().replace(" ", "");
 				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
@@ -125,7 +127,7 @@ public class Neo4jUtil {
 			
 			
 			// latitude
-			if(tweet.getLatitude().equals("")){
+			if(!tweet.getLatitude().equals("")){
 				
 				sID = tweet.getId()+tweet.getLatitudeLabel().replace(" ", "");
 				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
@@ -136,6 +138,169 @@ public class Neo4jUtil {
 						" AND b.id = '"+sID+
 						"' CREATE (a)-[r:"+property+"]->(b)");
 				
+			}
+			
+			
+			// timeStamp
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String formattedDate = sdf.format(tweet.getTimeStamp());
+			
+			sID = tweet.getId()+tweet.getTimeStampLabel().replace(" ", "");
+			session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", tweet.getTimeStampLabel(),"value", formattedDate, "description",
+					tweet.getTimeStampDescription(),"id",sID));
+			
+			session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+					" AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			// hashTag
+			if(!tweet.getHashTag().equals("")){
+				
+				sID = tweet.getId()+tweet.getHashTagLabel().replace(" ", "");
+				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+						Values.parameters("name", tweet.getHashTagLabel(),"value", tweet.getHashTag(), "description",
+						tweet.getHashTagDescription(),"id",sID));
+				
+				session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+						" AND b.id = '"+sID+
+						"' CREATE (a)-[r:"+property+"]->(b)");
+				
+			}
+			
+			
+			// url
+			if(!tweet.getUrl().equals("")){
+				
+				sID = tweet.getId()+tweet.getUrlLabel().replace(" ", "");
+				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+						Values.parameters("name", tweet.getUrlLabel(),"value", tweet.getUrl(), "description",
+						tweet.getUrlDescription(),"id",sID));
+				
+				session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+						" AND b.id = '"+sID+
+						"' CREATE (a)-[r:"+property+"]->(b)");
+				
+			}
+			
+			
+			// mentionedUserId
+			if(!tweet.getMentionedUserId().equals("")){
+				
+				sID = tweet.getId()+tweet.getMentionedUserIdLabel().replace(" ", "");
+				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+						Values.parameters("name", tweet.getMentionedUserIdLabel(),"value", tweet.getMentionedUserId(), "description",
+						tweet.getMentionedUserIdDescription(),"id",sID));
+				
+				session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+						" AND b.id = '"+sID+
+						"' CREATE (a)-[r:"+property+"]->(b)");
+				
+			}
+			
+			
+			// countFavoriteUser
+			sID = tweet.getId()+tweet.getCountFavoriteUserLabel().replace(" ", "");
+			session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", tweet.getCountFavoriteUserLabel(),"value", tweet.getCountFavoriteUser(), "description",
+					tweet.getCountFavoriteUserDescription(),"id",sID));
+			
+			session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+					" AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			// screenNameRespondedUser
+			sID = tweet.getId()+tweet.getScreenNameRespondedUserLabel().replace(" ", "");
+			session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", tweet.getScreenNameRespondedUserLabel(),"value", tweet.getScreenNameRespondedUser(), "description",
+					tweet.getScreenNameRespondedUserDescription(),"id",sID));
+			
+			session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+					" AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			// tweetIdResponded
+			if(tweet.getTweetIdResponded() != -1){
+				
+				sID = tweet.getId()+tweet.getTweetIdRespondedLabel().replace(" ", "");
+				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+						Values.parameters("name", tweet.getTweetIdRespondedLabel(),"value", tweet.getTweetIdResponded(), "description",
+						tweet.getTweetIdRespondedDescription(),"id",sID));
+				
+				session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+						" AND b.id = '"+sID+
+						"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			}
+			
+			
+			// userIdResponded
+			if(tweet.getUserIdResponded() != -1){
+				
+				sID = tweet.getId()+tweet.getUserIdRespondedLabel().replace(" ", "");
+				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+						Values.parameters("name", tweet.getUserIdRespondedLabel(),"value", tweet.getUserIdResponded(), "description",
+						tweet.getUserIdRespondedDescription(),"id",sID));
+				
+				session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+						" AND b.id = '"+sID+
+						"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			}
+			
+			
+			// language
+			sID = tweet.getId()+tweet.getLanguageLabel().replace(" ", "");
+			session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", tweet.getLanguageLabel(),"value", tweet.getLanguage(), "description",
+					tweet.getLanguageDescription(),"id",sID));
+			
+			session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+					" AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			// countRetweet
+			sID = tweet.getId()+tweet.getCountRetweetLabel().replace(" ", "");
+			session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", tweet.getCountRetweetLabel(),"value", tweet.getCountRetweet(), "description",
+					tweet.getCountRetweetDescription(),"id",sID));
+			
+			session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+					" AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			// source
+			if(!tweet.getSource().equals("")){
+			
+				sID = tweet.getId()+tweet.getSourceLabel().replace(" ", "");
+				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+						Values.parameters("name", tweet.getSourceLabel(),"value", tweet.getSource(), "description",
+						tweet.getSourceDescription(),"id",sID));
+				
+				session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+						" AND b.id = '"+sID+
+						"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			}
+			
+			
+			// coordinates
+			if(!tweet.getCoordinates().equals("")){
+			
+				sID = tweet.getId()+tweet.getCoordinatesLabel().replace(" ", "");
+				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",
+						Values.parameters("name", tweet.getCoordinatesLabel(),"value", tweet.getCoordinates(), "description",
+						tweet.getCoordinatesDescription(),"id",sID));
+				
+				session.run("MATCH (a:TweetItem),(b:TweetItemPart) WHERE a.value = "+tweet.getId()+
+						" AND b.id = '"+sID+
+						"' CREATE (a)-[r:"+property+"]->(b)");
+			
 			}
 			
 		}

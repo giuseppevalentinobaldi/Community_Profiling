@@ -8,21 +8,21 @@ public class TweetData extends TwitterOntologyData {
 
 	private long id;
 	private String message;
-	private long[] contributorsId;
+	private long[] contributorsId; // problema tipo ritorno
 	private String longitude;
 	private String latitude;
 	private Date timeStamp;
-	private String hashTag;
-	private String url;
-	private String mentionedUserId;
+	private String hashTag; // problema toString()
+	private String url; // problema toString()
+	private String mentionedUserId; // problema toString()
 	private int countFavoriteUser;
-	private String screenNameRespondedUser;
+	private String screenNameRespondedUser; // fare if in TwitterUtil
 	private long tweetIdResponded;
 	private long userIdResponded;
 	private String language;
 	private int countRetweet;
 	private String source;
-	private String coordinates;
+	private String coordinates; // fare subString se si vuole (non necessario)
 	
 	
 	public TweetData(){
