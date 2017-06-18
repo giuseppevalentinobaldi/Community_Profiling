@@ -8,7 +8,7 @@ public class TweetData extends TwitterOntologyData {
 
 	private long id;
 	private String message;
-	private long[] contributorsId; // problema tipo ritorno
+	private String contributorsId;
 	private String longitude;
 	private String latitude;
 	private Date timeStamp;
@@ -49,12 +49,12 @@ public class TweetData extends TwitterOntologyData {
 	}
 
 
-	public long[] getContributorsId() {
+	public String getContributorsId() {
 		return contributorsId;
 	}
 
 
-	public void setContributorsId(long[] contributorsId) {
+	public void setContributorsId(String contributorsId) {
 		this.contributorsId = contributorsId;
 	}
 

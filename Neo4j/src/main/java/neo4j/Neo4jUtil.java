@@ -97,7 +97,7 @@ public class Neo4jUtil {
 			
 			
 			// contributorsId
-			if(tweet.getContributorsId().length > 0){
+			if(!tweet.getContributorsId().equals("")){
 				
 				sID = tweet.getId()+tweet.getContributorsIdLabel().replace(" ", "");
 				session.run("CREATE (b:TweetItemPart {name : {name}, value: {value}, description: {description}, id: {id}})",

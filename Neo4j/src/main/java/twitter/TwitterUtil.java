@@ -54,7 +54,21 @@ public class TwitterUtil{
 			tweetData.setMessage(status.getText());
 			
 			// data set containing contributors ids
-			tweetData.setContributorsId(status.getContributors());
+			if(status.getContributors().length > 0){
+				
+				long[] array = status.getContributors();
+				String s = ""+array[0];
+				int count = 1;
+				
+				while(count < array.length){
+					s += ", "+array[count];
+					count++;
+				}
+				
+			}
+			else{
+				tweetData.setContributorsId("");
+			}
 			
 			// longitude of the location tweet was generated
 			if(status.getGeoLocation() != null){
