@@ -8,7 +8,7 @@ import twitterOntology.neo4j.Neo4jUtil;
 import twitterOntology.twitter.TwitterUserData;
 import twitterOntology.twitter.TwitterUtil;
 
-public class Main {
+public class MainTwitterOntology {
 
 	public static void main(String args[]) throws Exception {
 		TwitterUtil twitter;
