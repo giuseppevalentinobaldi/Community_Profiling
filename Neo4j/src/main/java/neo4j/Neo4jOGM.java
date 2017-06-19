@@ -10,11 +10,11 @@ import twitter.TwitterUserData;
 public class Neo4jOGM {
 	private Session session;
 	
-	public Neo4jOGM(){
+	public Neo4jOGM(String uri, String user, String password){
 		Configuration cfg = Components.getConfiguration();
 		cfg.driverConfiguration()
 	        .setDriverClassName("org.neo4j.ogm.drivers.bolt.driver.BoltDriver")
-	        .setURI("bolt://neo4j:neo4j@localhost:7687");
+	        .setURI("bolt://"+user+":"+password+"@"+uri);
 		SessionFactory sessionFactory = new SessionFactory("twitter");
 		setSession(sessionFactory.openSession());
 	}
