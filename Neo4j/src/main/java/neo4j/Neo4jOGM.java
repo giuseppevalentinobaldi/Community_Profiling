@@ -16,7 +16,7 @@ public class Neo4jOGM {
 	        .setDriverClassName("org.neo4j.ogm.drivers.bolt.driver.BoltDriver")
 	        .setURI("bolt://"+user+":"+password+"@"+uri);
 		SessionFactory sessionFactory = new SessionFactory("twitter");
-		setSession(sessionFactory.openSession());
+		this.setSession(sessionFactory.openSession());
 	}
 	
 	public void printCompactUserData(TwitterUserData twitterUserData){
