@@ -1,4 +1,4 @@
-package neo4j;
+package twitterOntology.neo4j;
 
 import java.text.SimpleDateFormat;
 
@@ -8,8 +8,8 @@ import org.neo4j.driver.v1.GraphDatabase;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.Values;
 
-import twitter.TwitterUserData;
-import twitter.TweetData;
+import twitterOntology.twitter.TwitterUserData;
+import twitterOntology.twitter.TweetData;
 
 public class Neo4jUtil {
 
@@ -312,24 +312,3 @@ public class Neo4jUtil {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

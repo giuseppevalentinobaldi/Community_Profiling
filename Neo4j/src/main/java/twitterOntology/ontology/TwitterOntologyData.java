@@ -1,4 +1,4 @@
-package ontology;
+package twitterOntology.ontology;
 
 public class TwitterOntologyData {
 

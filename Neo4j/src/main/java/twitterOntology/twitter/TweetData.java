@@ -1,4 +1,4 @@
-package twitter;
+package twitterOntology.twitter;
 
 import java.util.Date;
 
@@ -6,7 +6,7 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 
-import ontology.TwitterOntologyData;
+import twitterOntology.ontology.TwitterOntologyData;
 @NodeEntity
 public class TweetData extends TwitterOntologyData {
 	@GraphId private Long graphId;

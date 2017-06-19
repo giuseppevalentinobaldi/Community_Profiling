@@ -1,11 +1,11 @@
-package neo4j;
+package twitterOntology.neo4j;
 
 import org.neo4j.ogm.config.Configuration;
 import org.neo4j.ogm.service.Components;
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
 
-import twitter.TwitterUserData;
+import twitterOntology.twitter.TwitterUserData;
 
 public class Neo4jOGM {
 	private Session session;

@@ -1,12 +1,12 @@
-package main;
+package twitterOntology.main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import neo4j.Neo4jOGM;
-import neo4j.Neo4jUtil;
-import twitter.TwitterUserData;
-import twitter.TwitterUtil;
+import twitterOntology.neo4j.Neo4jOGM;
+import twitterOntology.neo4j.Neo4jUtil;
+import twitterOntology.twitter.TwitterUserData;
+import twitterOntology.twitter.TwitterUtil;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package twitter;
+package twitterOntology.twitter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
-import ontology.TwitterOntologyUser;
+import twitterOntology.ontology.TwitterOntologyUser;
 
 @NodeEntity
 public class TwitterUserData extends TwitterOntologyUser {

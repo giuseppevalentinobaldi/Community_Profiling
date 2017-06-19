@@ -1,8 +1,8 @@
-/home/giuseppe/git/Community_Profiling/Neo4j/src/main/java/twitter/TwitterUserData.java
-/home/giuseppe/git/Community_Profiling/Neo4j/src/main/java/twitter/TweetData.java
-/home/giuseppe/git/Community_Profiling/Neo4j/src/main/java/ontology/TwitterOntologyUser.java
-/home/giuseppe/git/Community_Profiling/Neo4j/src/main/java/neo4j/Neo4jOGM.java
-/home/giuseppe/git/Community_Profiling/Neo4j/src/main/java/ontology/TwitterOntologyData.java
-/home/giuseppe/git/Community_Profiling/Neo4j/src/main/java/main/Main.java
-/home/giuseppe/git/Community_Profiling/Neo4j/src/main/java/neo4j/Neo4jUtil.java
-/home/giuseppe/git/Community_Profiling/Neo4j/src/main/java/twitter/TwitterUtil.java
+/home/marco/workspace/Community_Profiling/Neo4j/src/main/java/twitter/TweetData.java
+/home/marco/workspace/Community_Profiling/Neo4j/src/main/java/main/Main.java
+/home/marco/workspace/Community_Profiling/Neo4j/src/main/java/neo4j/Neo4jUtil.java
+/home/marco/workspace/Community_Profiling/Neo4j/src/main/java/neo4j/Neo4jOGM.java
+/home/marco/workspace/Community_Profiling/Neo4j/src/main/java/twitter/TwitterUserData.java
+/home/marco/workspace/Community_Profiling/Neo4j/src/main/java/ontology/TwitterOntologyUser.java
+/home/marco/workspace/Community_Profiling/Neo4j/src/main/java/twitter/TwitterUtil.java
+/home/marco/workspace/Community_Profiling/Neo4j/src/main/java/ontology/TwitterOntologyData.java
