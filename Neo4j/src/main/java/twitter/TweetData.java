@@ -2,27 +2,31 @@ package twitter;
 
 import java.util.Date;
 
+import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
+
 import ontology.TwitterOntologyData;
-
+@NodeEntity
 public class TweetData extends TwitterOntologyData {
-
-	private long id;
-	private String message;
-	private String contributorsId;
-	private String longitude;
-	private String latitude;
-	private Date timeStamp;
-	private String hashTag;
-	private String url;
-	private String mentionedUserId;
-	private int countFavoriteUser;
-	private String screenNameRespondedUser;
-	private long tweetIdResponded;
-	private long userIdResponded;
-	private String language;
-	private int countRetweet;
-	private String source;
-	private String coordinates;
+	@GraphId private Long graphId;
+	@Property private long id;
+	@Property private String message;
+	@Property private String contributorsId;
+	@Property private String longitude;
+	@Property private String latitude;
+	@Property private Date timeStamp;
+	@Property private String hashTag;
+	@Property private String url;
+	@Property private String mentionedUserId;
+	@Property private int countFavoriteUser;
+	@Property private String screenNameRespondedUser;
+	@Property private long tweetIdResponded;
+	@Property private long userIdResponded;
+	@Property private String language;
+	@Property private int countRetweet;
+	@Property private String source;
+	@Property private String coordinates;
 	
 	
 	public TweetData(){

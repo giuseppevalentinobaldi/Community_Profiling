@@ -3,53 +3,61 @@ package twitter;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
+import org.neo4j.ogm.annotation.Relationship;
+
 import ontology.TwitterOntologyUser;
 
+@NodeEntity
 public class TwitterUserData extends TwitterOntologyUser {
-
-	private long id;
-	private String name;
-	private String screenName;
-	private List<TweetData> tweetDataList;
 	
-	public TwitterUserData(long userId){
-		
+	@GraphId private Long graphId;
+	@Property private long id;
+	@Property private String name;
+	@Property private String screenName;
+	@Relationship(type = "HAS_ASSERTED_VALUE", direction = "OUTGOING")
+	private List<TweetData> tweetDataList;
+
+	public TwitterUserData(long userId) {
+
 		this.id = userId;
 		this.name = "";
 		this.screenName = "";
 		this.tweetDataList = null;
-		
+
 	}
-	
-	public TwitterUserData(long userId, String userName, String userScreenName){
-		
+
+	public TwitterUserData(long userId, String userName, String userScreenName) {
+
 		this.id = userId;
 		this.name = userName;
 		this.screenName = userScreenName;
 		this.tweetDataList = new LinkedList<TweetData>();
-		
+
 	}
-	
-	public void addTweetData(TweetData tweetData){
-		
+
+	public void addTweetData(TweetData tweetData) {
+
 		this.tweetDataList.add(tweetData);
-		
+
 	}
-	
-	public long getId(){
+
+	public long getId() {
 		return this.id;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return this.name;
 	}
-	
-	public String getScreenName(){
+
+	public String getScreenName() {
 		return this.screenName;
 	}
-	
-	public List<TweetData> getTweetDataList(){
+
+	public List<TweetData> getTweetDataList() {
 		return this.tweetDataList;
 	}
-	
+
 }
