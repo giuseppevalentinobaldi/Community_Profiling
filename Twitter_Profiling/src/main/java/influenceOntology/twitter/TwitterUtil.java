@@ -2,15 +2,10 @@ package influenceOntology.twitter;
 
 import java.util.List;
 
-import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
-import twitter4j.URLEntity;
-import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
-import twitterOntology.twitter.TweetData;
-import twitterOntology.twitter.TwitterUserData;
 
 public class TwitterUtil {
 
