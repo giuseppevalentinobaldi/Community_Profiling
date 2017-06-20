@@ -13,7 +13,7 @@ public class TwitterUserAccount extends OnlineAccount {
 	private List<TwitterUserAccount> isFollowing;
 	private List<TwitterUserAccount> hasSimilar;
 
-	public TwitterUserAccount(String id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetrics qm,
+	public TwitterUserAccount(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetrics qm,
 			List<TwitterUserAccount> mentions, List<TwitterUserAccount> replyTo, List<TwitterUserAccount> hasFollower,
 			List<TwitterUserAccount> isFollowing, List<TwitterUserAccount> hasSimilar) {
 		super(id);
@@ -28,7 +28,7 @@ public class TwitterUserAccount extends OnlineAccount {
 		this.hasSimilar = hasSimilar;
 	}
 	
-	public TwitterUserAccount(String id) {
+	public TwitterUserAccount(long id) {
 		super(id);
 	}
 	
