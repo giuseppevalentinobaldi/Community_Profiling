@@ -1,6 +1,6 @@
 package influenceOntology.twitter;
 
-public class OnlineAccount {
+public abstract class OnlineAccount {
 	private long id;
 	
 	public OnlineAccount(long id){

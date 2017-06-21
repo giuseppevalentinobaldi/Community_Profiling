@@ -2,66 +2,41 @@ package influenceOntology.twitter;
 
 import java.util.List;
 
-public class TwitterUserAccount extends OnlineAccount {
-	private List<Hashtag> hashtag;
-	private List<URL> url;
-	private GeneralInformation gi;
-	private QualityMetrics qm;
+public class TwitterUserAccount extends User {
+
 	private List<TwitterUserAccount> mentions;
 	private List<TwitterUserAccount> replyTo;
 	private List<TwitterUserAccount> hasFollower;
 	private List<TwitterUserAccount> isFollowing;
-	private List<TwitterUserAccount> hasSimilar;
+	// private List<TwitterUserAccount> hasSimilar;
 
-	public TwitterUserAccount(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetrics qm,
-			List<TwitterUserAccount> mentions, List<TwitterUserAccount> replyTo, List<TwitterUserAccount> hasFollower,
-			List<TwitterUserAccount> isFollowing, List<TwitterUserAccount> hasSimilar) {
-		super(id);
-		this.hashtag = hashtag;
-		this.url = url;
-		this.gi = gi;
-		this.qm = qm;
-		this.mentions = mentions;
-		this.replyTo = replyTo;
-		this.hasFollower = hasFollower;
-		this.isFollowing = isFollowing;
-		this.hasSimilar = hasSimilar;
-	}
-	
 	public TwitterUserAccount(long id) {
 		super(id);
 	}
-	
-	public List<Hashtag> getHashtag() {
-		return hashtag;
+
+	public TwitterUserAccount(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetrics qm) {
+		super(id, hashtag, url, gi, qm);
 	}
 
-	public void setHashtag(List<Hashtag> hashtag) {
-		this.hashtag = hashtag;
+	public TwitterUserAccount(long id, List<TwitterUserAccount> mentions, List<TwitterUserAccount> replyTo,
+			List<TwitterUserAccount> hasFollower, List<TwitterUserAccount> isFollowing) {
+		super(id);
+		this.setMentions(mentions);
+		this.setReplyTo(replyTo);
+		this.setHasFollower(hasFollower);
+		this.setIsFollowing(isFollowing);
+		// this.hasSimilar = hasSimilar;
 	}
 
-	public List<URL> getUrl() {
-		return url;
-	}
-
-	public void setUrl(List<URL> url) {
-		this.url = url;
-	}
-
-	public GeneralInformation getGi() {
-		return gi;
-	}
-
-	public void setGi(GeneralInformation gi) {
-		this.gi = gi;
-	}
-
-	public QualityMetrics getQm() {
-		return qm;
-	}
-
-	public void setQm(QualityMetrics qm) {
-		this.qm = qm;
+	public TwitterUserAccount(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetrics qm,
+			List<TwitterUserAccount> mentions, List<TwitterUserAccount> replyTo, List<TwitterUserAccount> hasFollower,
+			List<TwitterUserAccount> isFollowing) {
+		super(id, hashtag, url, gi, qm);
+		this.setMentions(mentions);
+		this.setReplyTo(replyTo);
+		this.setHasFollower(hasFollower);
+		this.setIsFollowing(isFollowing);
+		// this.hasSimilar = hasSimilar;
 	}
 
 	public List<TwitterUserAccount> getMentions() {
@@ -96,12 +71,10 @@ public class TwitterUserAccount extends OnlineAccount {
 		this.isFollowing = isFollowing;
 	}
 
-	public List<TwitterUserAccount> getHasSimilar() {
-		return hasSimilar;
-	}
-
-	public void setHasSimilar(List<TwitterUserAccount> hasSimilar) {
-		this.hasSimilar = hasSimilar;
-	}
+	/*
+	 * public List<TwitterUserAccount> getHasSimilar() { return hasSimilar; }
+	 * public void setHasSimilar(List<TwitterUserAccount> hasSimilar) {
+	 * this.hasSimilar = hasSimilar; }
+	 */
 
 }
