@@ -212,7 +212,7 @@ public class TwitterUtil {
 		return null;
 	}
 
-	public QualityMetrics setQualityMetrics(long userId) {
+	public QualityMetric setQualityMetrics(long userId) {
 		return null;
 	}
 

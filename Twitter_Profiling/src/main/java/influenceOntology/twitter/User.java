@@ -6,9 +6,9 @@ public abstract class User extends OnlineAccount{
 	private List<Hashtag> hashtag;
 	private List<URL> url;
 	private GeneralInformation gi;
-	private QualityMetrics qm;
+	private QualityMetric qm;
 	
-	public User(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetrics qm) {
+	public User(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetric qm) {
 		super(id);
 		this.hashtag=hashtag;
 		this.url=url;
@@ -44,11 +44,11 @@ public abstract class User extends OnlineAccount{
 		this.gi = gi;
 	}
 
-	public QualityMetrics getQm() {
+	public QualityMetric getQm() {
 		return qm;
 	}
 
-	public void setQm(QualityMetrics qm) {
+	public void setQm(QualityMetric qm) {
 		this.qm = qm;
 	}
 
