@@ -1,6 +1,6 @@
 package twitterOntology.ontology;
 
-public class TwitterOntologyData {
+public abstract class TwitterOntologyData {
 
 	private final String idLabel = "tweet id";
 	private final String idDescription = "A centrally registered identifier that denotes a tweet data item.";

@@ -1,6 +1,6 @@
 package twitterOntology.ontology;
 
-public class TwitterOntologyUser {
+public abstract class TwitterOntologyUser {
 	
 	private final String nameLabel = "tweet user";
 	private final String nameDescription = "A data item about the user account which generated the associated tweet data item.";
