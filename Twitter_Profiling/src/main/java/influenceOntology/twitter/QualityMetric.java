@@ -27,9 +27,8 @@ public class QualityMetric {
 	@Property
 	private float influenceMetric;
 	
-	public QualityMetric(long graphId){
+	public QualityMetric(){
 		
-		this.graphId = graphId;
 		this.hIndexRetweet = 0;
 		this.hIndexRetweetDaily = 0;
 		this.hIndexFavorite = 0;
