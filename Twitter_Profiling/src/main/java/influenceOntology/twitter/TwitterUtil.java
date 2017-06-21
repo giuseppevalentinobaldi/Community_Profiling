@@ -91,7 +91,7 @@ public class TwitterUtil {
 
 						int count = 0;
 						while (count < array.length) {
-							//newUser.getMentions().add(getgetTwitterUserAccount(mentionUserId));
+							newUser.getMentions().add(this.getTwitterUserAccount(array[count].getId()));
 							count++;
 						}
 				}
