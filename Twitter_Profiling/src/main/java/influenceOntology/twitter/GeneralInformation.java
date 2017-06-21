@@ -1,20 +1,31 @@
 package influenceOntology.twitter;
 
+import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
+
+@NodeEntity
 public class GeneralInformation {
+	@GraphId
+	private Long graphId;
+	@Property
 	private String description; // Provides the description of the account, as
 								// set by its owner.
+	@Property
 	private int followers; // Provides the number of the followers of the
 							// account.
+	@Property
 	private String displayName; // Provides the name displayed at the web page
 								// of the account, as set by its owner.
+	@Property
 	private int following; // Provides the number of the accounts that the
 							// account follows.
-	//tweets per day
-	//active account
-	//profile locked
-	//retrieved on
-	//retweet percentage
-	//number of tweets
+	// tweets per day
+	// active account
+	// profile locked
+	// retrieved on
+	// retweet percentage
+	// number of tweets
 
 	public GeneralInformation(String description, int followers, String displayName, int following) {
 		this.description = description;

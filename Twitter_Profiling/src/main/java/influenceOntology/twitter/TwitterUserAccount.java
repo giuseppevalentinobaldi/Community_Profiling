@@ -2,11 +2,21 @@ package influenceOntology.twitter;
 
 import java.util.List;
 
-public class TwitterUserAccount extends User {
+import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
 
+@NodeEntity
+public class TwitterUserAccount extends User {
+	@GraphId
+	private Long graphId;
+	@Property
 	private List<TwitterUserAccount> mentions;
+	@Property
 	private List<TwitterUserAccount> replyTo;
+	@Property
 	private List<TwitterUserAccount> hasFollower;
+	@Property
 	private List<TwitterUserAccount> isFollowing;
 	// private List<TwitterUserAccount> hasSimilar;
 
