@@ -9,6 +9,7 @@ import twitter4j.HashtagEntity;
 import twitter4j.IDs;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
@@ -38,17 +39,54 @@ public class TwitterUtil {
 
 		// check user in cache
 		if (this.cache.containsKey(new Long(userId)))
-			if(this.cache.get(new Long(userId)).isComplete())
+			if (this.cache.get(new Long(userId)).isComplete())
 				newUser = this.cache.get(new Long(userId)).getTua();
-			else{
+			else {
 				newUser = this.cache.get(new Long(userId)).getTua();
+				this.cache.get(new Long(userId)).setComplete(true);
+				// initialize private statements
+				newUser.setMentions(new ArrayList<TwitterUserAccount>());
+				newUser.setReplyTo(new ArrayList<TwitterUserAccount>());
+				newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
+				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
+
+				IDs isFollowing = this.twitter.getFollowersIDs(-1);
+				while (isFollowing.hasNext()) {
+					newUser.getIsFollowing().add(this.getUser(isFollowing.getNextCursor()));
+				}
+
+				IDs hasFollower = this.twitter.getFriendsIDs(-1);
+				while (hasFollower.hasNext()) {
+					newUser.getIsFollowing().add(this.getUser(hasFollower.getNextCursor()));
+				}
+
+				// takes the last 20 tweets from the user
+				List<Status> statuses = this.twitter.getUserTimeline(userId);
+
+				for (Status status : statuses) {
+
+					// data set containing mentioned user ids
+					if (status.getUserMentionEntities() != null) {
+						UserMentionEntity[] array = status.getUserMentionEntities();
+
+						int count = 0;
+						while (count < array.length) {
+							newUser.getMentions().add(this.getUser(array[count].getId()));
+							count++;
+						}
+					}
+
+					long replyToUserId = status.getInReplyToUserId();
+					if (replyToUserId != -1)
+						newUser.getReplyTo().add(this.getUser(replyToUserId));
+				}
 			}
 		// create new user and add in cache
 		else {
 			// create an user complete
 			newUser = new TwitterUserAccount(userId);
 			// add user in cache
-			this.cache.put(new Long(userId), new Structure(newUser,true));
+			this.cache.put(new Long(userId), new Structure(newUser, true));
 			// set general information
 			newUser.setGi(this.setGeneralInformation(userId));
 			// set quality metrics
@@ -62,18 +100,17 @@ public class TwitterUtil {
 			newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 			newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
-			
-			IDs isFollowing=this.twitter.getFollowersIDs(-1);
-			while(isFollowing.hasNext()){
+
+			IDs isFollowing = this.twitter.getFollowersIDs(-1);
+			while (isFollowing.hasNext()) {
 				newUser.getIsFollowing().add(this.getUser(isFollowing.getNextCursor()));
 			}
-			
-			IDs hasFollower=this.twitter.getFriendsIDs(-1);
-			while(hasFollower.hasNext()){
+
+			IDs hasFollower = this.twitter.getFriendsIDs(-1);
+			while (hasFollower.hasNext()) {
 				newUser.getIsFollowing().add(this.getUser(hasFollower.getNextCursor()));
 			}
-			
-			
+
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
 
@@ -111,24 +148,64 @@ public class TwitterUtil {
 						count++;
 					}
 				}
-				
-				// data set containing mentioned user ids
-				if (status.getUserMentionEntities() != null) {
-					UserMentionEntity[] array = status.g;
 
-					int count = 0;
-					while (count < array.length) {
-						newUser.getMentions().add(this.getUser(array[count].getId()));
-						count++;
-					}
-				}
+				long replyToUserId = status.getInReplyToUserId();
+				if (replyToUserId != -1)
+					newUser.getReplyTo().add(this.getUser(replyToUserId));
 			}
 		}
 		return newUser;
 	}
 
-	public TwitterUserAccount getUser(long id){
-		return null;
+	public TwitterUserAccount getUser(long userId) throws TwitterException {
+		TwitterUserAccount newUser;
+
+		// check user in cache
+		if (this.cache.containsKey(new Long(userId)))
+			newUser = this.cache.get(new Long(userId)).getTua();
+		else {
+			newUser = new TwitterUserAccount(userId);
+			// add user in cache
+			this.cache.put(new Long(userId), new Structure(newUser, false));
+			// set general information
+			newUser.setGi(this.setGeneralInformation(userId));
+			// set quality metrics
+			newUser.setQm(this.setQualityMetrics(userId));
+
+			// initialize private statements
+			newUser.setHashtag(new ArrayList<Hashtag>());
+			newUser.setUrl(new ArrayList<URL>());
+
+			// takes the last 20 tweets from the user
+			List<Status> statuses = this.twitter.getUserTimeline(userId);
+
+			for (Status status : statuses) {
+
+				// add hashtag if present
+				if (status.getHashtagEntities() != null) {
+					HashtagEntity[] array = status.getHashtagEntities();
+
+					int count = 0;
+					while (count < array.length) {
+						newUser.getHashtag().add(new Hashtag(array[count].getText()));
+						count++;
+					}
+				}
+
+				// add url if present
+				if (status.getURLEntities() != null) {
+					URLEntity[] array = status.getURLEntities();
+
+					int count = 0;
+					while (count < array.length) {
+						newUser.getUrl().add(new URL(array[count].getText()));
+						count++;
+					}
+				}
+			}
+		}
+
+		return newUser;
 	}
 
 	public GeneralInformation setGeneralInformation(long userId) {
