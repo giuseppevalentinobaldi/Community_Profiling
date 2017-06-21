@@ -11,6 +11,10 @@ public class URL {
 		this.fullurl=fullurl;
 	}
 	
+	public URL(String fullurl){
+		this.fullurl=fullurl;
+	}
+	
 	public String getDomain() {
 		return domain;
 	}
