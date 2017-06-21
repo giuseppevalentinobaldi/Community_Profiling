@@ -1,6 +1,8 @@
 package influenceOntology.twitter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -15,6 +17,7 @@ public class TwitterUtil {
 	final private String consumerSecret = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
 
 	private Twitter twitter;
+	private Map<Long, TwitterUserAccount> cache;
 
 	public TwitterUtil() {
 		TwitterFactory factory = new TwitterFactory();
@@ -22,18 +25,30 @@ public class TwitterUtil {
 		this.twitter = factory.getInstance();
 		this.twitter.setOAuthConsumer(this.getConsumerKey(), this.getConsumerSecret());
 		this.twitter.setOAuthAccessToken(accessToken);
+		this.cache = new HashMap<Long, TwitterUserAccount>();
 	}
 
 	public TwitterUserAccount getUserData(long userId) throws Exception {
 
-		// prelievo degli ultimi 20 tweet dell'utente
-		List<Status> statuses = this.twitter.getUserTimeline(userId);
+		// check user in cache
+		if (this.cache.containsKey(new Long(userId)))
+			return this.cache.get(new Long(userId));
+		// create new use and add in cache
+		else {
+			// create an user
+			TwitterUserAccount newUser = new TwitterUserAccount(userId);
+			// add user in cache
+			this.cache.put(new Long(userId), newUser);
 
-		if (statuses.isEmpty()) {
-			return new TwitterUserAccount(userId);
+			// prelievo degli ultimi 20 tweet dell'utente
+			List<Status> statuses = this.twitter.getUserTimeline(userId);
+
+			if (statuses.isEmpty()) {
+				return new TwitterUserAccount(userId);
+			}
+
+			return null;
 		}
-
-		return null;
 	}
 
 	public Twitter getTwitter() {
@@ -58,5 +73,13 @@ public class TwitterUtil {
 
 	public String getConsumerSecret() {
 		return consumerSecret;
+	}
+
+	public Map<Long, TwitterUserAccount> getCache() {
+		return cache;
+	}
+
+	public void setCache(Map<Long, TwitterUserAccount> cache) {
+		this.cache = cache;
 	}
 }
