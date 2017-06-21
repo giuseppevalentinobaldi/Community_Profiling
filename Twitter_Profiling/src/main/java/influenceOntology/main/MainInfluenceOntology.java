@@ -3,16 +3,16 @@ package influenceOntology.main;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import twitterOntology.neo4j.Neo4jOGM;
+import influenceOntology.twitter.TwitterUserAccount;
+import influenceOntology.twitter.TwitterUtil;
+import influenceOntology.neo4j.Neo4jOGM;
 //import twitterOntology.neo4j.Neo4jUtil;
-import twitterOntology.twitter.TwitterUserData;
-import twitterOntology.twitter.TwitterUtil;
 
 public class MainInfluenceOntology {
 
 	public static void main(String args[]) throws Exception {
 		TwitterUtil twitter;
-		TwitterUserData twitterUserData;
+		TwitterUserAccount twitterUserAccount;
 		InputStreamReader is = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(is);
 		System.out.print("Choose your visualization graph\n\t 1: Extended view\n\t 2: Compact view\n (1 or 2)?:");
@@ -28,8 +28,8 @@ public class MainInfluenceOntology {
 		} else if (read.equals("2")) {
 			Neo4jOGM nogm = new Neo4jOGM("localhost:7687", "neo4j", "neo4j");
 			twitter = new TwitterUtil();
-			twitterUserData = twitter.getUserData(769181646176284672L);
-			nogm.printCompactUserData(twitterUserData);
+			twitterUserAccount = twitter.getTwitterUserAccount(769181646176284672L);
+			nogm.printCompactUserData(twitterUserAccount);
 		}
 		else{
 			main(args);
