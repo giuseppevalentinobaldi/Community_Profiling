@@ -20,18 +20,23 @@ public class GeneralInformation {
 	@Property
 	private int following; // Provides the number of the accounts that the
 							// account follows.
-	// tweets per day
-	// active account
+	@Property
+	private float tweetsPerDay;
+	@Property
+	private boolean activeAccount;
 	// profile locked
 	// retrieved on
 	// retweet percentage
 	// number of tweets
 
-	public GeneralInformation(String description, int followers, String displayName, int following) {
+	public GeneralInformation(String description, int followers, String displayName, int following,
+			float tweetsPerDay, boolean activeAccount) {
 		this.description = description;
 		this.followers = followers;
 		this.displayName = displayName;
 		this.following = following;
+		this.tweetsPerDay = tweetsPerDay;
+		this.activeAccount=activeAccount;
 	}
 
 	public String getDescription() {
@@ -64,6 +69,22 @@ public class GeneralInformation {
 
 	public void setFollowing(int following) {
 		this.following = following;
+	}
+
+	public float getTweetsPerDay() {
+		return tweetsPerDay;
+	}
+
+	public void setTweetsPerDay(float tweetsPerDay) {
+		this.tweetsPerDay = tweetsPerDay;
+	}
+
+	public boolean isActiveAccount() {
+		return activeAccount;
+	}
+
+	public void setActiveAccount(boolean activeAccount) {
+		this.activeAccount = activeAccount;
 	}
 
 }

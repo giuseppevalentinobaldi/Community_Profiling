@@ -50,12 +50,12 @@ public class TwitterUtil {
 				newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 
-				IDs isFollowing = this.twitter.getFollowersIDs(-1);
+				IDs isFollowing = this.twitter.getFollowersIDs(userId, -1);
 				while (isFollowing.hasNext()) {
 					newUser.getIsFollowing().add(this.getUser(isFollowing.getNextCursor()));
 				}
 
-				IDs hasFollower = this.twitter.getFriendsIDs(-1);
+				IDs hasFollower = this.twitter.getFriendsIDs(userId, -1);
 				while (hasFollower.hasNext()) {
 					newUser.getIsFollowing().add(this.getUser(hasFollower.getNextCursor()));
 				}
@@ -87,8 +87,7 @@ public class TwitterUtil {
 			newUser = new TwitterUserAccount(userId);
 			// add user in cache
 			this.cache.put(new Long(userId), new Structure(newUser, true));
-			// set general information
-			newUser.setGi(this.setGeneralInformation(userId));
+
 			// set quality metrics
 			newUser.setQm(this.setQualityMetrics(userId));
 
@@ -101,18 +100,21 @@ public class TwitterUtil {
 			newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
 
-			IDs isFollowing = this.twitter.getFollowersIDs(-1);
+			IDs isFollowing = this.twitter.getFollowersIDs(userId, -1);
 			while (isFollowing.hasNext()) {
 				newUser.getIsFollowing().add(this.getUser(isFollowing.getNextCursor()));
 			}
 
-			IDs hasFollower = this.twitter.getFriendsIDs(-1);
+			IDs hasFollower = this.twitter.getFriendsIDs(userId, -1);
 			while (hasFollower.hasNext()) {
 				newUser.getIsFollowing().add(this.getUser(hasFollower.getNextCursor()));
 			}
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
+
+			// set general information
+			newUser.setGi(this.setGeneralInformation(statuses.get(0)));
 
 			for (Status status : statuses) {
 
@@ -167,8 +169,7 @@ public class TwitterUtil {
 			newUser = new TwitterUserAccount(userId);
 			// add user in cache
 			this.cache.put(new Long(userId), new Structure(newUser, false));
-			// set general information
-			newUser.setGi(this.setGeneralInformation(userId));
+
 			// set quality metrics
 			newUser.setQm(this.setQualityMetrics(userId));
 
@@ -178,6 +179,9 @@ public class TwitterUtil {
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
+
+			// set general information
+			newUser.setGi(this.setGeneralInformation(statuses.get(0)));
 
 			for (Status status : statuses) {
 
@@ -208,8 +212,27 @@ public class TwitterUtil {
 		return newUser;
 	}
 
-	public GeneralInformation setGeneralInformation(long userId) {
-		return null;
+	public GeneralInformation setGeneralInformation(Status status) {
+		twitter4j.User user = status.getUser();
+		int following = user.getFollowersCount();
+		int followers = user.getFriendsCount();
+		String description = user.getDescription();
+		String displayName = user.getScreenName();
+		float daysUser = (System.currentTimeMillis() - user.getCreatedAt().getTime()) / (1000 * 3600 * 24);
+		if (daysUser == 0) {
+			daysUser = 1;
+		}
+		float tweetsPerDay = user.getStatusesCount() / daysUser; // tweet totali
+																	// su giorni
+																	// totali
+		boolean activeAccount;
+		float daysStatus = (System.currentTimeMillis() - status.getCreatedAt().getTime()) / (1000 * 3600 * 24);
+		if (daysStatus > 365)
+			activeAccount = false;
+		else
+			activeAccount = true;
+
+		return new GeneralInformation(description, followers, displayName, following, tweetsPerDay, activeAccount);
 	}
 
 	public QualityMetric setQualityMetrics(long userId) {
