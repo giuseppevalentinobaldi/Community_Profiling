@@ -159,7 +159,7 @@ public class QualityMetric {
 	
 	private static float InfluenceMetric(int tweet, float day, int follower, int following){
 		
-		float im = (float)((tweet/day)*(OOM(follower))*(Math.log10((double)((follower/following)+1))));
+		float im = (float)((tweet/day)*(OOM(follower))*(Math.log10((double)((follower/(following+1))))));
 		return im;
 	
 	}
