@@ -152,8 +152,8 @@ public class TwitterUtil {
 						if (this.cache_3.containsKey(array[count].getText()))
 							newUser.getUrl().add(this.cache_3.get(array[count].getText()));
 						else {
-							this.cache_3.put(array[count].getText(), new URL(array[count].getText()));
-							newUser.getUrl().add(new URL(array[count].getText()));
+							this.cache_3.put(array[count].getText(), new URL(array[count].getURL(),array[count].getExpandedURL()));
+							newUser.getUrl().add(new URL(array[count].getURL(),array[count].getExpandedURL()));
 						}
 						count++;
 					}
@@ -229,8 +229,8 @@ public class TwitterUtil {
 						if (this.cache_3.containsKey(array[count].getText()))
 							newUser.getUrl().add(this.cache_3.get(array[count].getText()));
 						else {
-							this.cache_3.put(array[count].getText(), new URL(array[count].getText()));
-							newUser.getUrl().add(new URL(array[count].getText()));
+							this.cache_3.put(array[count].getText(), new URL(array[count].getURL(),array[count].getExpandedURL()));
+							newUser.getUrl().add(new URL(array[count].getURL(),array[count].getExpandedURL()));
 						}
 						count++;
 					}

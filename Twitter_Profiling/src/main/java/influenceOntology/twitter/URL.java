@@ -21,6 +21,27 @@ public class URL {
 		this.fullurl = fullurl;
 	}
 
+	public URL(String url, String fullurl) {
+		this.domain = getDomain(fullurl);
+		this.url = url;
+		this.fullurl = fullurl;
+	}
+
+	private String getDomain(String fullurl) {
+		String output = "";
+		int count = 0;
+		for (int i = 0; i < fullurl.length() && count < 3; i++) {
+			char lettera = fullurl.charAt(i);
+			if (lettera == '/')
+				count++;
+			if (count == 3 && lettera == '/')
+				output += "";
+			else
+				output += lettera;
+		}
+		return output;
+	}
+
 	public URL(String fullurl) {
 		this.fullurl = fullurl;
 	}
