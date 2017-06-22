@@ -36,6 +36,8 @@ public class URL {
 				count++;
 			if (count == 3 && lettera == '/')
 				output += "";
+			if(count<2  || lettera == '/')
+				output += "";
 			else
 				output += lettera;
 		}
