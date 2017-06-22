@@ -4,19 +4,19 @@ import java.util.List;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Property;
+import org.neo4j.ogm.annotation.Relationship;
 
 @NodeEntity
 public class TwitterUserAccount extends User {
 	@GraphId
 	private Long graphId;
-	@Property
+	@Relationship(type = "HAS_MENTIONED", direction = "OUTGOING")
 	private List<TwitterUserAccount> mentions;
-	@Property
+	@Relationship(type = "HAS_REPLIED_TO", direction = "OUTGOING")
 	private List<TwitterUserAccount> replyTo;
-	@Property
+	@Relationship(type = "HAS_FOLLOWER", direction = "OUTGOING")
 	private List<TwitterUserAccount> hasFollower;
-	@Property
+	@Relationship(type = "IS_FOLLOWING", direction = "OUTGOING")
 	private List<TwitterUserAccount> isFollowing;
 	// private List<TwitterUserAccount> hasSimilar;
 

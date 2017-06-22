@@ -2,10 +2,16 @@ package influenceOntology.twitter;
 
 import java.util.List;
 
+import org.neo4j.ogm.annotation.Relationship;
+
 public abstract class User extends OnlineAccount{
+	@Relationship(type = "INCLUDED_HASHTAG", direction = "OUTGOING")
 	private List<Hashtag> hashtag;
+	@Relationship(type = "INCLUDED_URL", direction = "OUTGOING")
 	private List<URL> url;
+	@Relationship(type = "HAS_GENERAL_INFORMATION", direction = "OUTGOING")
 	private GeneralInformation gi;
+	@Relationship(type = "HAS_QUALITY_METRICS", direction = "OUTGOING")
 	private QualityMetric qm;
 	
 	public User(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetric qm) {
