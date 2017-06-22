@@ -64,7 +64,7 @@ public class TwitterUtil {
 				IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 				long[] idsHasFollower = hasFollower.getIDs();
 				for (long id : idsHasFollower) {
-					newUser.getIsFollowing().add(this.getUser(id));
+					newUser.getHasFollower().add(this.getUser(id));
 				}
 
 				// takes the last 20 tweets from the user
@@ -113,7 +113,7 @@ public class TwitterUtil {
 			IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 			long[] idsHasFollower = hasFollower.getIDs();
 			for (long id : idsHasFollower) {
-				newUser.getIsFollowing().add(this.getUser(id));
+				newUser.getHasFollower().add(this.getUser(id));
 			}
 
 			// takes the last 20 tweets from the user
