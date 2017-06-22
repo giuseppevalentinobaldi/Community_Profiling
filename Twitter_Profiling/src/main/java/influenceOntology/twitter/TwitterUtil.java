@@ -14,6 +14,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
+import twitterOntology.twitter.TwitterUserData;
 
 public class TwitterUtil {
 
@@ -118,7 +119,9 @@ public class TwitterUtil {
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
-
+			if (statuses.isEmpty()) {
+				return newUser;
+			}
 			// set general information
 			newUser.setGi(this.setGeneralInformation(statuses.get(0)));
 
@@ -152,8 +155,9 @@ public class TwitterUtil {
 						if (this.cache_3.containsKey(array[count].getText()))
 							newUser.getUrl().add(this.cache_3.get(array[count].getText()));
 						else {
-							this.cache_3.put(array[count].getText(), new URL(array[count].getURL(),array[count].getExpandedURL()));
-							newUser.getUrl().add(new URL(array[count].getURL(),array[count].getExpandedURL()));
+							this.cache_3.put(array[count].getText(),
+									new URL(array[count].getURL(), array[count].getExpandedURL()));
+							newUser.getUrl().add(new URL(array[count].getURL(), array[count].getExpandedURL()));
 						}
 						count++;
 					}
@@ -195,7 +199,9 @@ public class TwitterUtil {
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
-
+			if (statuses.isEmpty()) {
+				return newUser;
+			}
 			// set general information
 			newUser.setGi(this.setGeneralInformation(statuses.get(0)));
 
@@ -229,8 +235,9 @@ public class TwitterUtil {
 						if (this.cache_3.containsKey(array[count].getText()))
 							newUser.getUrl().add(this.cache_3.get(array[count].getText()));
 						else {
-							this.cache_3.put(array[count].getText(), new URL(array[count].getURL(),array[count].getExpandedURL()));
-							newUser.getUrl().add(new URL(array[count].getURL(),array[count].getExpandedURL()));
+							this.cache_3.put(array[count].getText(),
+									new URL(array[count].getURL(), array[count].getExpandedURL()));
+							newUser.getUrl().add(new URL(array[count].getURL(), array[count].getExpandedURL()));
 						}
 						count++;
 					}
