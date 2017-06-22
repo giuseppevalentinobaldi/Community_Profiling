@@ -23,7 +23,10 @@ public class TwitterUtil {
 	final private String consumerSecret = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
 
 	private Twitter twitter;
-	private Map<Long, Structure> cache;
+
+	private Map<Long, Structure> cache_1;
+	private Map<String, Hashtag> cache_2;
+	private Map<String, URL> cache_3;
 
 	public TwitterUtil() {
 		TwitterFactory factory = new TwitterFactory();
@@ -31,19 +34,21 @@ public class TwitterUtil {
 		this.twitter = factory.getInstance();
 		this.twitter.setOAuthConsumer(this.getConsumerKey(), this.getConsumerSecret());
 		this.twitter.setOAuthAccessToken(accessToken);
-		this.cache = new HashMap<Long, Structure>();
+		this.cache_1 = new HashMap<Long, Structure>();
+		this.cache_2 = new HashMap<String, Hashtag>();
+		this.cache_3 = new HashMap<String, URL>();
 	}
 
 	public TwitterUserAccount getTwitterUserAccount(long userId) throws Exception {
 		TwitterUserAccount newUser;
 
 		// check user in cache
-		if (this.cache.containsKey(new Long(userId)))
-			if (this.cache.get(new Long(userId)).isComplete())
-				newUser = this.cache.get(new Long(userId)).getTua();
+		if (this.cache_1.containsKey(new Long(userId)))
+			if (this.cache_1.get(new Long(userId)).isComplete())
+				newUser = this.cache_1.get(new Long(userId)).getTua();
 			else {
-				newUser = this.cache.get(new Long(userId)).getTua();
-				this.cache.get(new Long(userId)).setComplete(true);
+				newUser = this.cache_1.get(new Long(userId)).getTua();
+				this.cache_1.get(new Long(userId)).setComplete(true);
 				// initialize private statements
 				newUser.setMentions(new ArrayList<TwitterUserAccount>());
 				newUser.setReplyTo(new ArrayList<TwitterUserAccount>());
@@ -88,7 +93,7 @@ public class TwitterUtil {
 			// create an user complete
 			newUser = new TwitterUserAccount(userId);
 			// add user in cache
-			this.cache.put(new Long(userId), new Structure(newUser, true));
+			this.cache_1.put(new Long(userId), new Structure(newUser, true));
 
 			// initialize private statements
 			newUser.setHashtag(new ArrayList<Hashtag>());
@@ -108,7 +113,7 @@ public class TwitterUtil {
 			IDs hasFollower = this.twitter.getFriendsIDs(userId, -1);
 			long[] idsHasFollower = hasFollower.getIDs();
 			for (long id : idsHasFollower) {
-				newUser.getIsFollowing().add(this.getUser(id));
+				newUser.getHasFollower().add(this.getUser(id));
 			}
 
 			// takes the last 20 tweets from the user
@@ -128,7 +133,12 @@ public class TwitterUtil {
 
 					int count = 0;
 					while (count < array.length) {
-						newUser.getHashtag().add(new Hashtag(array[count].getText()));
+						if (this.cache_2.containsKey(array[count].getText()))
+							newUser.getHashtag().add(this.cache_2.get(array[count].getText()));
+						else {
+							this.cache_2.put(array[count].getText(), new Hashtag(array[count].getText()));
+							newUser.getHashtag().add(new Hashtag(array[count].getText()));
+						}
 						count++;
 					}
 				}
@@ -139,7 +149,12 @@ public class TwitterUtil {
 
 					int count = 0;
 					while (count < array.length) {
-						newUser.getUrl().add(new URL(array[count].getText()));
+						if (this.cache_3.containsKey(array[count].getText()))
+							newUser.getUrl().add(this.cache_3.get(array[count].getText()));
+						else {
+							this.cache_3.put(array[count].getText(), new URL(array[count].getText()));
+							newUser.getUrl().add(new URL(array[count].getText()));
+						}
 						count++;
 					}
 				}
@@ -167,12 +182,12 @@ public class TwitterUtil {
 		TwitterUserAccount newUser;
 
 		// check user in cache
-		if (this.cache.containsKey(new Long(userId)))
-			newUser = this.cache.get(new Long(userId)).getTua();
+		if (this.cache_1.containsKey(new Long(userId)))
+			newUser = this.cache_1.get(new Long(userId)).getTua();
 		else {
 			newUser = new TwitterUserAccount(userId);
 			// add user in cache
-			this.cache.put(new Long(userId), new Structure(newUser, false));
+			this.cache_1.put(new Long(userId), new Structure(newUser, false));
 
 			// initialize private statements
 			newUser.setHashtag(new ArrayList<Hashtag>());
@@ -195,7 +210,12 @@ public class TwitterUtil {
 
 					int count = 0;
 					while (count < array.length) {
-						newUser.getHashtag().add(new Hashtag(array[count].getText()));
+						if (this.cache_2.containsKey(array[count].getText()))
+							newUser.getHashtag().add(this.cache_2.get(array[count].getText()));
+						else {
+							this.cache_2.put(array[count].getText(), new Hashtag(array[count].getText()));
+							newUser.getHashtag().add(new Hashtag(array[count].getText()));
+						}
 						count++;
 					}
 				}
@@ -206,7 +226,12 @@ public class TwitterUtil {
 
 					int count = 0;
 					while (count < array.length) {
-						newUser.getUrl().add(new URL(array[count].getText()));
+						if (this.cache_3.containsKey(array[count].getText()))
+							newUser.getUrl().add(this.cache_3.get(array[count].getText()));
+						else {
+							this.cache_3.put(array[count].getText(), new URL(array[count].getText()));
+							newUser.getUrl().add(new URL(array[count].getText()));
+						}
 						count++;
 					}
 				}
