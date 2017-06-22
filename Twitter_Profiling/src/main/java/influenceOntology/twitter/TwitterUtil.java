@@ -123,7 +123,7 @@ public class TwitterUtil {
 				return newUser;
 			}
 			// set general information
-			newUser.setGi(this.setGeneralInformation(statuses.get(0)));
+			newUser.setGi(this.setGeneralInformation(statuses));
 
 			// set quality metrics
 			newUser.setQm(this.setQualityMetrics(statuses));
@@ -203,7 +203,7 @@ public class TwitterUtil {
 				return newUser;
 			}
 			// set general information
-			newUser.setGi(this.setGeneralInformation(statuses.get(0)));
+			newUser.setGi(this.setGeneralInformation(statuses));
 
 			// set quality metrics
 			newUser.setQm(this.setQualityMetrics(statuses));
@@ -248,27 +248,11 @@ public class TwitterUtil {
 		return newUser;
 	}
 
-	public GeneralInformation setGeneralInformation(Status status) {
-		twitter4j.User user = status.getUser();
-		int following = user.getFollowersCount();
-		int followers = user.getFriendsCount();
-		String description = user.getDescription();
-		String displayName = user.getScreenName();
-		float daysUser = (System.currentTimeMillis() - user.getCreatedAt().getTime()) / (1000 * 3600 * 24);
-		if (daysUser == 0) {
-			daysUser = 1;
-		}
-		float tweetsPerDay = user.getStatusesCount() / daysUser; // tweet totali
-																	// su giorni
-																	// totali
-		boolean activeAccount;
-		float daysStatus = (System.currentTimeMillis() - status.getCreatedAt().getTime()) / (1000 * 3600 * 24);
-		if (daysStatus > 365)
-			activeAccount = false;
-		else
-			activeAccount = true;
-
-		return new GeneralInformation(description, followers, displayName, following, tweetsPerDay, activeAccount);
+	public GeneralInformation setGeneralInformation(List<Status> statuses) {
+		GeneralInformation gi = new GeneralInformation();
+		gi.userGeneralInformation(statuses);
+		return gi;
+		
 	}
 
 	public QualityMetric setQualityMetrics(List<Status> statuses) {

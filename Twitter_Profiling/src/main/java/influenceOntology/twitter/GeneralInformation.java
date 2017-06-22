@@ -4,87 +4,163 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 
+import java.util.List;
+
+import twitter4j.Status;
+
 @NodeEntity
 public class GeneralInformation {
 	@GraphId
 	private Long graphId;
 	@Property
-	private String description; // Provides the description of the account, as
-								// set by its owner.
+	private String displayName;
 	@Property
-	private int followers; // Provides the number of the followers of the
-							// account.
+	private String description;
 	@Property
-	private String displayName; // Provides the name displayed at the web page
-								// of the account, as set by its owner.
+	private int numberTweet;
 	@Property
-	private int following; // Provides the number of the accounts that the
-							// account follows.
+	private float tweetForDay;
 	@Property
-	private float tweetsPerDay;
+	private int follower;
 	@Property
-	private boolean activeAccount;
-	// profile locked
-	// retrieved on
-	// retweet percentage
-	// number of tweets
-
-	public GeneralInformation(String description, int followers, String displayName, int following, float tweetsPerDay,
-			boolean activeAccount) {
-		this.description = description;
-		this.followers = followers;
-		this.displayName = displayName;
-		this.following = following;
-		this.tweetsPerDay = tweetsPerDay;
-		this.activeAccount=activeAccount;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getFollowers() {
-		return followers;
-	}
-
-	public void setFollowers(int followers) {
-		this.followers = followers;
+	private int following;
+	@Property
+	private float retweetPercentage;
+	@Property
+	private boolean activeAccount; // ?
+	@Property
+	private boolean profileLocked;
+	@Property
+	private String retrivedOn; // ?
+	
+	public GeneralInformation(){
+		
+		this.displayName = "";
+		this.description = "";
+		this.numberTweet = 0;
+		this.tweetForDay = 0;
+		this.follower = 0;
+		this.following = 0;
+		this.retweetPercentage = 0;
+		this.activeAccount = false;
+		this.profileLocked = false;
+		this.retrivedOn = "";
+		
 	}
 
 	public String getDisplayName() {
 		return displayName;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+	public String getDescription() {
+		return description;
+	}
+
+	public int getNumberTweet() {
+		return numberTweet;
+	}
+
+	public float getTweetForDay() {
+		return tweetForDay;
+	}
+
+	public int getFollower() {
+		return follower;
 	}
 
 	public int getFollowing() {
 		return following;
 	}
 
-	public void setFollowing(int following) {
-		this.following = following;
-	}
-
-	public float getTweetsPerDay() {
-		return tweetsPerDay;
-	}
-
-	public void setTweetsPerDay(float tweetsPerDay) {
-		this.tweetsPerDay = tweetsPerDay;
+	public float getRetweetPercentage() {
+		return retweetPercentage;
 	}
 
 	public boolean isActiveAccount() {
 		return activeAccount;
 	}
 
-	public void setActiveAccount(boolean activeAccount) {
-		this.activeAccount = activeAccount;
+	public boolean isProfileLocked() {
+		return profileLocked;
+	}
+
+	public String getRetrivedOn() {
+		return retrivedOn;
+	}
+	
+	private static float fromMillisecondsToDay(long time){
+		return time/(1000*3600*24);
+	}
+	
+public void userGeneralInformation(List<Status> statuses){
+		
+		if(statuses.size() == 0){
+			return;
+		}
+		
+		Status status = statuses.get(0);
+		
+		long dateOldestTweet = Long.MAX_VALUE;
+		long dateLastTweet = Long.MIN_VALUE;
+		int retweetCount = 0;
+		long data;
+		for(Status s : statuses){
+			
+			// retweet
+			if(s.getRetweetCount() > 0){
+				retweetCount++;
+			}
+			
+			data = s.getCreatedAt().getTime();
+			
+			// date oldest tweet
+			if(dateOldestTweet > data){
+				dateOldestTweet = data;
+			}
+			
+			// date last tweet
+			if(dateLastTweet < data){
+				dateLastTweet = data;
+			}
+			
+		}
+		
+		// display name
+		this.displayName = status.getUser().getScreenName();
+		
+		// description
+		this.description = status.getUser().getDescription();
+		
+		// number tweet (max last 20 tweet)
+		this.numberTweet = status.getUser().getStatusesCount();
+		
+		// tweet for day
+		float day = fromMillisecondsToDay(System.currentTimeMillis() - dateOldestTweet);
+		
+		if(day != 0){
+			this.tweetForDay = this.numberTweet/day;
+		}
+		
+		// follower
+		this.follower = status.getUser().getFollowersCount();
+		
+		// following
+		this.following = status.getUser().getFriendsCount();
+		
+		// retweet percentage last tweets
+		if(this.numberTweet != 0){
+			this.retweetPercentage = (retweetCount/this.numberTweet)*100;
+		}
+		
+		// active Account
+		float lastActivity = fromMillisecondsToDay(System.currentTimeMillis() - dateLastTweet);
+		if(lastActivity <= 365){
+			this.activeAccount = true;
+		}
+		
+		// profile locked
+		this.profileLocked = status.getUser().isProtected();
+		
 	}
 
 }
