@@ -29,8 +29,8 @@ public class GeneralInformation {
 	// retweet percentage
 	// number of tweets
 
-	public GeneralInformation(String description, int followers, String displayName, int following,
-			float tweetsPerDay, boolean activeAccount) {
+	public GeneralInformation(String description, int followers, String displayName, int following, float tweetsPerDay,
+			boolean activeAccount) {
 		this.description = description;
 		this.followers = followers;
 		this.displayName = displayName;
