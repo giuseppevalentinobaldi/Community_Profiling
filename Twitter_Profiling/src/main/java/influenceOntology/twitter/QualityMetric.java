@@ -80,19 +80,28 @@ public class QualityMetric {
 		if(daysUser == 0){
 			daysUser = 1;
 		}
-		int replyCount = 0;
 		
 		// conteggio retweet, favorite e reply
+		int replyCount = 0;
 		for(Status status : statuses)
 		{
 			
-			this.hIndexRetweet += status.getRetweetCount();
-			this.hIndexFavorite += status.getFavoriteCount();
+			// retweet
+			if(status.getRetweetCount() > 0){
+				this.hIndexRetweet++;
+			}
 			
-			if(status.getInReplyToUserId() != -1){
+			// favorite
+			if(status.getFavoriteCount() > 0){
+				this.hIndexFavorite++;
+			}
+			
+			// reply
+			if(status.getInReplyToStatusId() != -1){
 				replyCount++;
 			}
 			
+			// date of last tweet
 			if(dayLastTweet < status.getCreatedAt().getTime()){
 				dayLastTweet = status.getCreatedAt().getTime();
 			}
