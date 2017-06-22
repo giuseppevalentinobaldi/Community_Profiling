@@ -28,7 +28,7 @@ public class MainInfluenceOntology {
 		} else if (read.equals("2")) {
 			Neo4jOGM nogm = new Neo4jOGM("localhost:7687", "neo4j", "neo4j");
 			twitter = new TwitterUtil();
-			twitterUserAccount = twitter.getTwitterUserAccount(807927466425729025L);
+			twitterUserAccount = twitter.getTwitterUserAccount(769181646176284672L);
 			nogm.printCompactUserData(twitterUserAccount);
 		}
 		else{

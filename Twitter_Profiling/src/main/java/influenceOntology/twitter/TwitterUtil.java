@@ -51,13 +51,15 @@ public class TwitterUtil {
 				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 
 				IDs isFollowing = this.twitter.getFollowersIDs(userId, -1);
-				while (isFollowing.hasNext()) {
-					newUser.getIsFollowing().add(this.getUser(isFollowing.getNextCursor()));
+				long[] idsIsFollowing = isFollowing.getIDs();
+				for (long id : idsIsFollowing) {
+					newUser.getIsFollowing().add(this.getUser(id));
 				}
 
 				IDs hasFollower = this.twitter.getFriendsIDs(userId, -1);
-				while (hasFollower.hasNext()) {
-					newUser.getIsFollowing().add(this.getUser(hasFollower.getNextCursor()));
+				long[] idsHasFollower = hasFollower.getIDs();
+				for (long id : idsHasFollower) {
+					newUser.getIsFollowing().add(this.getUser(id));
 				}
 
 				// takes the last 20 tweets from the user
@@ -98,13 +100,15 @@ public class TwitterUtil {
 			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
 
 			IDs isFollowing = this.twitter.getFollowersIDs(userId, -1);
-			while (isFollowing.hasNext()) {
-				newUser.getIsFollowing().add(this.getUser(isFollowing.getNextCursor()));
+			long[] idsIsFollowing = isFollowing.getIDs();
+			for (long id : idsIsFollowing) {
+				newUser.getIsFollowing().add(this.getUser(id));
 			}
 
 			IDs hasFollower = this.twitter.getFriendsIDs(userId, -1);
-			while (hasFollower.hasNext()) {
-				newUser.getIsFollowing().add(this.getUser(hasFollower.getNextCursor()));
+			long[] idsHasFollower = hasFollower.getIDs();
+			for (long id : idsHasFollower) {
+				newUser.getIsFollowing().add(this.getUser(id));
 			}
 
 			// takes the last 20 tweets from the user
