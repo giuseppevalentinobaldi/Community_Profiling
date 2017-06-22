@@ -8,6 +8,7 @@ import java.util.Map;
 import twitter4j.HashtagEntity;
 import twitter4j.HttpResponseCode;
 import twitter4j.IDs;
+import twitter4j.RateLimitStatus;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -55,10 +56,18 @@ public class TwitterUtil {
 				newUser.setReplyTo(new ArrayList<TwitterUserAccount>());
 				newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
-
+				
 				IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
 				long[] idsIsFollowing = isFollowing.getIDs();
 				for (long id : idsIsFollowing) {
+					RateLimitStatus status = isFollowing.getRateLimitStatus();
+					if (status.getRemaining() == 0) {
+						try {
+							Thread.sleep(status.getSecondsUntilReset() * 1000);
+						} catch (InterruptedException e) {
+							// ...
+						}
+					}
 					try {
 
 						newUser.getIsFollowing().add(this.getUser(id));
@@ -80,6 +89,14 @@ public class TwitterUtil {
 				IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 				long[] idsHasFollower = hasFollower.getIDs();
 				for (long id : idsHasFollower) {
+					RateLimitStatus status = hasFollower.getRateLimitStatus();
+					if (status.getRemaining() == 0) {
+						try {
+							Thread.sleep(status.getSecondsUntilReset() * 1000);
+						} catch (InterruptedException e) {
+							// ...
+						}
+					}
 					try {
 
 						newUser.getHasFollower().add(this.getUser(id));
@@ -138,6 +155,14 @@ public class TwitterUtil {
 			IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
 			long[] idsIsFollowing = isFollowing.getIDs();
 			for (long id : idsIsFollowing) {
+				RateLimitStatus status = isFollowing.getRateLimitStatus();
+				if (status.getRemaining() == 0) {
+					try {
+						Thread.sleep(status.getSecondsUntilReset() * 1000);
+					} catch (InterruptedException e) {
+						// ...
+					}
+				}
 				try {
 
 					newUser.getIsFollowing().add(this.getUser(id));
@@ -159,6 +184,14 @@ public class TwitterUtil {
 			IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 			long[] idsHasFollower = hasFollower.getIDs();
 			for (long id : idsHasFollower) {
+				RateLimitStatus status = hasFollower.getRateLimitStatus();
+				if (status.getRemaining() == 0) {
+					try {
+						Thread.sleep(status.getSecondsUntilReset() * 1000);
+					} catch (InterruptedException e) {
+						// ...
+					}
+				}
 				try {
 
 					newUser.getHasFollower().add(this.getUser(id));
