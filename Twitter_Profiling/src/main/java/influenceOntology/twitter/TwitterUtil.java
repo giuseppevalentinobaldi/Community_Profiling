@@ -104,16 +104,16 @@ public class TwitterUtil {
 			newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
 
-			IDs isFollowing = this.twitter.getFollowersIDs(userId, -1);
+			IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
 			long[] idsIsFollowing = isFollowing.getIDs();
 			for (long id : idsIsFollowing) {
 				newUser.getIsFollowing().add(this.getUser(id));
 			}
 
-			IDs hasFollower = this.twitter.getFriendsIDs(userId, -1);
+			IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 			long[] idsHasFollower = hasFollower.getIDs();
 			for (long id : idsHasFollower) {
-				newUser.getHasFollower().add(this.getUser(id));
+				newUser.getIsFollowing().add(this.getUser(id));
 			}
 
 			// takes the last 20 tweets from the user
