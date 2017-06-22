@@ -31,15 +31,15 @@ public class URL {
 		String output = "";
 		int count = 0;
 		for (int i = 0; i < fullurl.length() && count < 3; i++) {
-			char lettera = fullurl.charAt(i);
-			if (lettera == '/')
+			char c = fullurl.charAt(i);
+			if (c == '/')
 				count++;
-			if (count == 3 && lettera == '/')
+			if (count == 3 && c == '/')
 				output += "";
-			if(count<2  || lettera == '/')
+			if(count<2  || c == '/')
 				output += "";
 			else
-				output += lettera;
+				output += c;
 		}
 		return output;
 	}
