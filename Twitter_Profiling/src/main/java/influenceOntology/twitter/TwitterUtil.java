@@ -88,9 +88,6 @@ public class TwitterUtil {
 			// add user in cache
 			this.cache.put(new Long(userId), new Structure(newUser, true));
 
-			// set quality metrics
-			newUser.setQm(this.setQualityMetrics(userId));
-
 			// initialize private statements
 			newUser.setHashtag(new ArrayList<Hashtag>());
 			newUser.setUrl(new ArrayList<URL>());
@@ -115,6 +112,9 @@ public class TwitterUtil {
 
 			// set general information
 			newUser.setGi(this.setGeneralInformation(statuses.get(0)));
+
+			// set quality metrics
+			newUser.setQm(this.setQualityMetrics(statuses));
 
 			for (Status status : statuses) {
 
@@ -170,9 +170,6 @@ public class TwitterUtil {
 			// add user in cache
 			this.cache.put(new Long(userId), new Structure(newUser, false));
 
-			// set quality metrics
-			newUser.setQm(this.setQualityMetrics(userId));
-
 			// initialize private statements
 			newUser.setHashtag(new ArrayList<Hashtag>());
 			newUser.setUrl(new ArrayList<URL>());
@@ -182,6 +179,9 @@ public class TwitterUtil {
 
 			// set general information
 			newUser.setGi(this.setGeneralInformation(statuses.get(0)));
+
+			// set quality metrics
+			newUser.setQm(this.setQualityMetrics(statuses));
 
 			for (Status status : statuses) {
 
@@ -235,8 +235,10 @@ public class TwitterUtil {
 		return new GeneralInformation(description, followers, displayName, following, tweetsPerDay, activeAccount);
 	}
 
-	public QualityMetric setQualityMetrics(long userId) {
-		return null;
+	public QualityMetric setQualityMetrics(List<Status> statuses) {
+		QualityMetric qm = new QualityMetric();
+		qm.calculationUserQualityMetric(statuses);
+		return qm;
 	}
 
 	public Twitter getTwitter() {
