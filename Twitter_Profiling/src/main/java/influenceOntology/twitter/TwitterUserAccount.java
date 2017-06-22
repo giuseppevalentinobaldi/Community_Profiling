@@ -14,7 +14,7 @@ public class TwitterUserAccount extends User {
 	private List<TwitterUserAccount> mentions;
 	@Relationship(type = "HAS_REPLIED_TO", direction = "OUTGOING")
 	private List<TwitterUserAccount> replyTo;
-	@Relationship(type = "HAS_FOLLOWER", direction = "OUTGOING")
+	@Relationship(type = "HAS_FOLLOWER", direction = "INCOMING")
 	private List<TwitterUserAccount> hasFollower;
 	@Relationship(type = "IS_FOLLOWING", direction = "OUTGOING")
 	private List<TwitterUserAccount> isFollowing;
