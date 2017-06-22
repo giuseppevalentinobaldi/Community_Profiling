@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import twitter4j.HashtagEntity;
+import twitter4j.HttpResponseCode;
 import twitter4j.IDs;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -14,7 +15,6 @@ import twitter4j.TwitterFactory;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
-import twitterOntology.twitter.TwitterUserData;
 
 public class TwitterUtil {
 
@@ -59,13 +59,43 @@ public class TwitterUtil {
 				IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
 				long[] idsIsFollowing = isFollowing.getIDs();
 				for (long id : idsIsFollowing) {
-					newUser.getIsFollowing().add(this.getUser(id));
+					try {
+
+						newUser.getIsFollowing().add(this.getUser(id));
+
+					} catch (TwitterException e) {
+						// do not throw if user has protected tweets, or if they
+						// deleted their account
+						if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
+								|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
+
+							// log something here
+						} else {
+							throw e;
+						}
+					}
+
 				}
 
 				IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 				long[] idsHasFollower = hasFollower.getIDs();
 				for (long id : idsHasFollower) {
-					newUser.getHasFollower().add(this.getUser(id));
+					try {
+
+						newUser.getHasFollower().add(this.getUser(id));
+
+					} catch (TwitterException e) {
+						// do not throw if user has protected tweets, or if they
+						// deleted their account
+						if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
+								|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
+
+							// log something here
+						} else {
+							throw e;
+						}
+					}
+
 				}
 
 				// takes the last 20 tweets from the user
@@ -108,13 +138,43 @@ public class TwitterUtil {
 			IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
 			long[] idsIsFollowing = isFollowing.getIDs();
 			for (long id : idsIsFollowing) {
-				newUser.getIsFollowing().add(this.getUser(id));
+				try {
+
+					newUser.getIsFollowing().add(this.getUser(id));
+
+				} catch (TwitterException e) {
+					// do not throw if user has protected tweets, or if they
+					// deleted their account
+					if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
+							|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
+
+						// log something here
+					} else {
+						throw e;
+					}
+				}
+
 			}
 
 			IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 			long[] idsHasFollower = hasFollower.getIDs();
 			for (long id : idsHasFollower) {
-				newUser.getHasFollower().add(this.getUser(id));
+				try {
+
+					newUser.getHasFollower().add(this.getUser(id));
+
+				} catch (TwitterException e) {
+					// do not throw if user has protected tweets, or if they
+					// deleted their account
+					if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
+							|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
+
+						// log something here
+					} else {
+						throw e;
+					}
+				}
+
 			}
 
 			// takes the last 20 tweets from the user
@@ -252,7 +312,7 @@ public class TwitterUtil {
 		GeneralInformation gi = new GeneralInformation();
 		gi.userGeneralInformation(statuses);
 		return gi;
-		
+
 	}
 
 	public QualityMetric setQualityMetrics(List<Status> statuses) {
