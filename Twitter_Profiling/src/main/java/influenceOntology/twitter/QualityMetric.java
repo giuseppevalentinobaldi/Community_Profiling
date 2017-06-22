@@ -112,9 +112,7 @@ public class QualityMetric {
 		
 		// calcolo giorni dall'ultimo tweet effettuato
 		float daysTweet = fromMillisecondsToDay(System.currentTimeMillis() - dayLastTweet);
-		if(daysTweet == 0){
-			daysTweet = 1;
-		}
+		
 		// calcolo dell'influence metric
 		this.influenceMetric = InfluenceMetric(tweet, daysTweet, follower, following);
 		
@@ -159,7 +157,15 @@ public class QualityMetric {
 	
 	private static float InfluenceMetric(int tweet, float day, int follower, int following){
 		
-		float im = (float)((tweet/day)*(OOM(follower))*(Math.log10((double)((follower/(following+1))))));
+		if(day == 0){
+			day = 1;
+		}
+		if(following == 0){
+			following = 1;
+		}
+		
+		float im = (float)((tweet/day)*(OOM(follower))*(Math.log10((double)((follower/following)+1))));
+		
 		return im;
 	
 	}
