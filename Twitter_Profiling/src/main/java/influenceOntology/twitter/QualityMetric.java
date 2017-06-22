@@ -72,28 +72,27 @@ public class QualityMetric {
 			return;
 		}
 		
-		long dayLastTweet = Long.MIN_VALUE;
-		
-		// calcolo giorni dalla registrazione utente
-		long dateUserRegister = statuses.get(0).getUser().getCreatedAt().getTime();
-		float daysUser = fromMillisecondsToDay(System.currentTimeMillis() - dateUserRegister);
-		if(daysUser == 0){
-			daysUser = 1;
-		}
+		long dateLastTweet = Long.MIN_VALUE;
+		long dateOldestTweet = Long.MAX_VALUE;
 		
 		// conteggio retweet, favorite e reply
 		int replyCount = 0;
+		long date;
+		int totalRetweet = 0;
+		int totalFavorite = 0;
 		for(Status status : statuses)
 		{
 			
 			// retweet
 			if(status.getRetweetCount() > 0){
 				this.hIndexRetweet++;
+				totalRetweet += status.getRetweetCount();
 			}
 			
 			// favorite
 			if(status.getFavoriteCount() > 0){
 				this.hIndexFavorite++;
+				totalFavorite = status.getFavoriteCount();
 			}
 			
 			// reply
@@ -101,29 +100,39 @@ public class QualityMetric {
 				replyCount++;
 			}
 			
+			date = dateLastTweet = status.getCreatedAt().getTime();
+			
 			// date of last tweet
-			if(dayLastTweet < status.getCreatedAt().getTime()){
-				dayLastTweet = status.getCreatedAt().getTime();
+			if(dateLastTweet < date){
+				dateLastTweet = date;
+			}
+			
+			// date of oldest tweet
+			if(dateOldestTweet > date){
+				dateOldestTweet = date;
 			}
 			
 		}
 		
+		// calcolo giorni dall'ultimo tweet effettuato e dal primo
+		float daysLastTweet = fromMillisecondsToDay(System.currentTimeMillis() - dateLastTweet);
+		float daysFirstTweet = fromMillisecondsToDay(System.currentTimeMillis() - dateOldestTweet);
+
 		// calcolo retweet e favorite giornaliero
-		this.hIndexRetweetDaily = this.hIndexRetweet/daysUser;
-		this.hIndexFavoriteDaily = this.hIndexFavorite/daysUser;
+		this.hIndexRetweetDaily = totalRetweet/daysFirstTweet;
+		this.hIndexFavoriteDaily = totalFavorite/daysFirstTweet;
 		
-		int tweet = statuses.size();
+		int tweetCount = statuses.size();
 		int follower = statuses.get(0).getUser().getFollowersCount();
 		int following = statuses.get(0).getUser().getFriendsCount();
 		
 		// calcolo reply ratio
-		this.replayRatio = replyCount/tweet;
-		
-		// calcolo giorni dall'ultimo tweet effettuato
-		float daysTweet = fromMillisecondsToDay(System.currentTimeMillis() - dayLastTweet);
+		if(tweetCount != 0){
+			this.replayRatio = replyCount/tweetCount;
+		}
 		
 		// calcolo dell'influence metric
-		this.influenceMetric = InfluenceMetric(tweet, daysTweet, follower, following);
+		this.influenceMetric = InfluenceMetric(tweetCount, daysLastTweet, follower, following);
 		
 	}
 	
@@ -174,7 +183,6 @@ public class QualityMetric {
 		}
 		
 		float im = (float)((tweet/day)*(OOM(follower))*(Math.log10((double)((follower/following)+1))));
-		
 		return im;
 	
 	}
