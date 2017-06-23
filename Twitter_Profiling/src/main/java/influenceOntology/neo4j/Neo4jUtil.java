@@ -29,8 +29,50 @@ public class Neo4jUtil {
 	
 	public void printTwitterUserAccount(TwitterUserAccount twitterUser){
 		
+		String sID = "";
 		
+		// CREAZIONE NODO UTENTE
+		
+		// creazione del nodo utente (TwitterUser)
+		session.run("CREATE (a:TwitterUser {name : {name}, value: {value}, description: {description}})",
+				Values.parameters("name", twitterUser.getGi().getDisplayName(),"value", twitterUser.getId(), "description",
+				""));
+		
+		
+		// CREAZIONE NODO GENERAL INFORMATION
+		
+		// creazione nodo general information
+		session.run("CREATE (a:TwitterUser {name : {name}, value: {value}, description: {description}})",
+				Values.parameters("name", twitterUser.getGi().getDisplayName(),"value", twitterUser.getId(), "description",
+				""));
 		
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
