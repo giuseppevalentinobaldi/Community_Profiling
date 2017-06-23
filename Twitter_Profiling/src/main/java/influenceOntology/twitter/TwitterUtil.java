@@ -177,14 +177,12 @@ public class TwitterUtil {
 				}
 			}
 			try {
-
+				// add user to following
 				newUser.getIsFollowing().add(this.getUser(id));
-
 			} catch (TwitterException e) {
 				System.out.println(e);
-				System.out.println("You must wait 15 minutes of timeout");
+				System.out.println("This user is private, for add him you must add between your followings");
 			}
-
 		}
 	}
 
@@ -203,12 +201,12 @@ public class TwitterUtil {
 				}
 			}
 			try {
+				// add user to follower
 				newUser.getHasFollower().add(this.getUser(id));
 			} catch (TwitterException e) {
 				System.out.println(e);
 				System.out.println("This user is private, for add him you must add between your followings");
 			}
-
 		}
 	}
 
