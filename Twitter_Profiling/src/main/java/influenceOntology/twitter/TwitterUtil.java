@@ -61,9 +61,11 @@ public class TwitterUtil {
 				long[] idsIsFollowing = isFollowing.getIDs();
 				for (long id : idsIsFollowing) {
 					RateLimitStatus status = isFollowing.getRateLimitStatus();
-					if (status.getRemaining() == 0) {
+					if (status.getRemaining() <= 20) {
 						try {
-							Thread.sleep(status.getSecondsUntilReset() * 1000);
+							long timeout=900000;
+							System.out.println("timeout: "+status.getSecondsUntilReset()+" s");
+							Thread.sleep(timeout);
 						} catch (InterruptedException e) {
 							// ...
 						}
@@ -90,9 +92,11 @@ public class TwitterUtil {
 				long[] idsHasFollower = hasFollower.getIDs();
 				for (long id : idsHasFollower) {
 					RateLimitStatus status = hasFollower.getRateLimitStatus();
-					if (status.getRemaining() == 0) {
+					if (status.getRemaining() <= 20) {
 						try {
-							Thread.sleep(status.getSecondsUntilReset() * 1000);
+							long timeout=900000;
+							System.out.println("timeout: "+status.getSecondsUntilReset()+" s");
+							Thread.sleep(timeout);
 						} catch (InterruptedException e) {
 							// ...
 						}
@@ -156,9 +160,11 @@ public class TwitterUtil {
 			long[] idsIsFollowing = isFollowing.getIDs();
 			for (long id : idsIsFollowing) {
 				RateLimitStatus status = isFollowing.getRateLimitStatus();
-				if (status.getRemaining() == 0) {
+				if (status.getRemaining() <= 20) {
 					try {
-						Thread.sleep(status.getSecondsUntilReset() * 1000);
+						long timeout=900000;
+						System.out.println("timeout: "+status.getSecondsUntilReset()+" s");
+						Thread.sleep(timeout);
 					} catch (InterruptedException e) {
 						// ...
 					}
@@ -185,9 +191,11 @@ public class TwitterUtil {
 			long[] idsHasFollower = hasFollower.getIDs();
 			for (long id : idsHasFollower) {
 				RateLimitStatus status = hasFollower.getRateLimitStatus();
-				if (status.getRemaining() == 0) {
+				if (status.getRemaining() <= 20) {
 					try {
-						Thread.sleep(status.getSecondsUntilReset() * 1000);
+						long timeout=900000;
+						System.out.println("timeout: "+status.getSecondsUntilReset()+" s");
+						Thread.sleep(timeout);
 					} catch (InterruptedException e) {
 						// ...
 					}
@@ -292,6 +300,7 @@ public class TwitterUtil {
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
+			
 			if (statuses.isEmpty()) {
 				return newUser;
 			}
