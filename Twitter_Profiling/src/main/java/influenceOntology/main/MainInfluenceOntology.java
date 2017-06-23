@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import influenceOntology.twitter.TwitterUserAccount;
 import influenceOntology.twitter.TwitterUtil;
 import influenceOntology.neo4j.Neo4jOGM;
-//import twitterOntology.neo4j.Neo4jUtil;
+import influenceOntology.neo4j.Neo4jUtil;
 
 public class MainInfluenceOntology {
 
@@ -19,11 +19,11 @@ public class MainInfluenceOntology {
 		String read = br.readLine();
 		long startTime=System.currentTimeMillis();;
 		if (read.equals("1")) {
-			/*Neo4jUtil neo4j = new Neo4jUtil("bolt://localhost:7687", "neo4j", "neo4j");
+			Neo4jUtil neo4j = new Neo4jUtil("bolt://localhost:7687", "neo4j", "neo4j");
 			twitter = new TwitterUtil();
 			twitterUserAccount = twitter.getTwitterUserAccount(769181646176284672L);
 			neo4j.printTwitterUserAccount(twitterUserAccount);
-			neo4j.close();*/
+			neo4j.close();
 		} else if (read.equals("2")) {
 			Neo4jOGM nogm = new Neo4jOGM("localhost:7687", "neo4j", "neo4j");
 			twitter = new TwitterUtil();
