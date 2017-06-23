@@ -1,6 +1,11 @@
 package influenceOntology.twitter;
 
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
+
+@NodeEntity
 public class Image {
+	@Property
 	private String imageurl;
 
 	public Image(String imageurl) {
