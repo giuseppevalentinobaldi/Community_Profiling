@@ -23,6 +23,8 @@ public class TwitterUtil {
 	final private String tokenSecret = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
 	final private String consumerKey = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
 	final private String consumerSecret = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
+	
+	final private long timeout=900000;
 
 	private Twitter twitter;
 
@@ -57,67 +59,9 @@ public class TwitterUtil {
 				newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 				
-				IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
-				long[] idsIsFollowing = isFollowing.getIDs();
-				for (long id : idsIsFollowing) {
-					RateLimitStatus status = isFollowing.getRateLimitStatus();
-					if (status.getRemaining() <= 20) {
-						try {
-							long timeout=900000;
-							System.out.println("timeout: "+status.getSecondsUntilReset()+" s");
-							Thread.sleep(timeout);
-						} catch (InterruptedException e) {
-							// ...
-						}
-					}
-					try {
-
-						newUser.getIsFollowing().add(this.getUser(id));
-
-					} catch (TwitterException e) {
-						// do not throw if user has protected tweets, or if they
-						// deleted their account
-						if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
-								|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
-
-							// log something here
-						} else {
-							throw e;
-						}
-					}
-
-				}
-
-				IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
-				long[] idsHasFollower = hasFollower.getIDs();
-				for (long id : idsHasFollower) {
-					RateLimitStatus status = hasFollower.getRateLimitStatus();
-					if (status.getRemaining() <= 20) {
-						try {
-							long timeout=900000;
-							System.out.println("timeout: "+status.getSecondsUntilReset()+" s");
-							Thread.sleep(timeout);
-						} catch (InterruptedException e) {
-							// ...
-						}
-					}
-					try {
-
-						newUser.getHasFollower().add(this.getUser(id));
-
-					} catch (TwitterException e) {
-						// do not throw if user has protected tweets, or if they
-						// deleted their account
-						if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
-								|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
-
-							// log something here
-						} else {
-							throw e;
-						}
-					}
-
-				}
+				this.setFollowing(newUser,userId);
+				
+				this.setFollower(newUser,userId);
 
 				// takes the last 20 tweets from the user
 				List<Status> statuses = this.twitter.getUserTimeline(userId);
@@ -156,67 +100,9 @@ public class TwitterUtil {
 			newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
 
-			IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
-			long[] idsIsFollowing = isFollowing.getIDs();
-			for (long id : idsIsFollowing) {
-				RateLimitStatus status = isFollowing.getRateLimitStatus();
-				if (status.getRemaining() <= 20) {
-					try {
-						long timeout=900000;
-						System.out.println("timeout: "+status.getSecondsUntilReset()+" s");
-						Thread.sleep(timeout);
-					} catch (InterruptedException e) {
-						// ...
-					}
-				}
-				try {
-
-					newUser.getIsFollowing().add(this.getUser(id));
-
-				} catch (TwitterException e) {
-					// do not throw if user has protected tweets, or if they
-					// deleted their account
-					if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
-							|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
-
-						// log something here
-					} else {
-						throw e;
-					}
-				}
-
-			}
-
-			IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
-			long[] idsHasFollower = hasFollower.getIDs();
-			for (long id : idsHasFollower) {
-				RateLimitStatus status = hasFollower.getRateLimitStatus();
-				if (status.getRemaining() <= 20) {
-					try {
-						long timeout=900000;
-						System.out.println("timeout: "+status.getSecondsUntilReset()+" s");
-						Thread.sleep(timeout);
-					} catch (InterruptedException e) {
-						// ...
-					}
-				}
-				try {
-
-					newUser.getHasFollower().add(this.getUser(id));
-
-				} catch (TwitterException e) {
-					// do not throw if user has protected tweets, or if they
-					// deleted their account
-					if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
-							|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
-
-						// log something here
-					} else {
-						throw e;
-					}
-				}
-
-			}
+			this.setFollowing(newUser,userId);
+			
+			this.setFollower(newUser,userId);
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
@@ -354,6 +240,70 @@ public class TwitterUtil {
 		}
 
 		return newUser;
+	}
+	
+	public void setFollowing(TwitterUserAccount newUser,long userId) throws TwitterException{
+		IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
+		long[] idsIsFollowing = isFollowing.getIDs();
+		for (long id : idsIsFollowing) {
+			RateLimitStatus status = isFollowing.getRateLimitStatus();
+			if (status.getRemaining() <= 20) {
+				try {
+					System.out.println("timeout: "+status.getSecondsUntilReset()+"s");
+					Thread.sleep(timeout);
+				} catch (InterruptedException e) {
+					// ...
+				}
+			}
+			try {
+
+				newUser.getIsFollowing().add(this.getUser(id));
+
+			} catch (TwitterException e) {
+				// do not throw if user has protected tweets, or if they
+				// deleted their account
+				if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
+						|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
+
+					// log something here
+				} else {
+					throw e;
+				}
+			}
+
+		}
+	}
+	
+	public void setFollower(TwitterUserAccount newUser,long userId) throws TwitterException{
+		IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
+		long[] idsHasFollower = hasFollower.getIDs();
+		for (long id : idsHasFollower) {
+			RateLimitStatus status = hasFollower.getRateLimitStatus();
+			if (status.getRemaining() <= 20) {
+				try {
+					System.out.println("timeout: "+status.getSecondsUntilReset()+"s");
+					Thread.sleep(timeout);
+				} catch (InterruptedException e) {
+					// ...
+				}
+			}
+			try {
+
+				newUser.getHasFollower().add(this.getUser(id));
+
+			} catch (TwitterException e) {
+				// do not throw if user has protected tweets, or if they
+				// deleted their account
+				if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
+						|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
+
+					// log something here
+				} else {
+					throw e;
+				}
+			}
+
+		}
 	}
 
 	public GeneralInformation setGeneralInformation(List<Status> statuses) {
