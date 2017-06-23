@@ -47,8 +47,15 @@ public abstract class InfluenceOntology {
 
 	// HashTag
 	final private String hashtagLabel = "Hashtag";
-	final private String hashtagDecription="";
-	
+	final private String hashtagDecription = "";
+
+	// Image
+	final private String imageurlLabel = "image URL";
+	final private String imageurlDescription = "Provides the URL that leads to an image which was included in a tweet.";
+
+	// Account Online
+	final private String accountNameLabel = "account name";
+	final private String accountNameDecription = "Indicates the name (identifier) associated with this online account.";
 
 	public String getDisplayNameLabel() {
 		return displayNameLabel;
@@ -208,6 +215,22 @@ public abstract class InfluenceOntology {
 
 	public String getHashtagDecription() {
 		return hashtagDecription;
+	}
+
+	public String getAccountNameLabel() {
+		return accountNameLabel;
+	}
+
+	public String getAccountNameDecription() {
+		return accountNameDecription;
+	}
+
+	public String getImageurlLabel() {
+		return imageurlLabel;
+	}
+
+	public String getImageurlDescription() {
+		return imageurlDescription;
 	}
 
 }
