@@ -38,6 +38,8 @@ public class Neo4jUtil {
 				Values.parameters("name", twitterUser.getGi().getDisplayName(),"value", twitterUser.getId(), "description",
 				""));
 		
+		//creazione nodo account name (literal)
+		//...
 		
 		// CREAZIONE NODO GENERAL INFORMATION
 		
