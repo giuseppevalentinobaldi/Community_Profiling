@@ -24,31 +24,6 @@ public class TwitterUserAccount extends User {
 		super(id);
 	}
 
-	public TwitterUserAccount(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetric qm) {
-		super(id, hashtag, url, gi, qm);
-	}
-
-	public TwitterUserAccount(long id, List<TwitterUserAccount> mentions, List<TwitterUserAccount> replyTo,
-			List<TwitterUserAccount> hasFollower, List<TwitterUserAccount> isFollowing) {
-		super(id);
-		this.setMentions(mentions);
-		this.setReplyTo(replyTo);
-		this.setHasFollower(hasFollower);
-		this.setIsFollowing(isFollowing);
-		// this.hasSimilar = hasSimilar;
-	}
-
-	public TwitterUserAccount(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetric qm,
-			List<TwitterUserAccount> mentions, List<TwitterUserAccount> replyTo, List<TwitterUserAccount> hasFollower,
-			List<TwitterUserAccount> isFollowing) {
-		super(id, hashtag, url, gi, qm);
-		this.setMentions(mentions);
-		this.setReplyTo(replyTo);
-		this.setHasFollower(hasFollower);
-		this.setIsFollowing(isFollowing);
-		// this.hasSimilar = hasSimilar;
-	}
-
 	public List<TwitterUserAccount> getMentions() {
 		return mentions;
 	}

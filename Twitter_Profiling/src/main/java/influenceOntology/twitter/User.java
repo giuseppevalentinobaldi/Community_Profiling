@@ -9,18 +9,12 @@ public abstract class User extends OnlineAccount{
 	private List<Hashtag> hashtag;
 	@Relationship(type = "INCLUDED_URL", direction = "OUTGOING")
 	private List<URL> url;
+	@Relationship(type = "INCLUDED_IMAGE", direction = "OUTGOING")
+	private List<Image> image;
 	@Relationship(type = "HAS_GENERAL_INFORMATION", direction = "OUTGOING")
 	private GeneralInformation gi;
 	@Relationship(type = "HAS_QUALITY_METRICS", direction = "OUTGOING")
 	private QualityMetric qm;
-	
-	public User(long id, List<Hashtag> hashtag, List<URL> url, GeneralInformation gi, QualityMetric qm) {
-		super(id);
-		this.hashtag=hashtag;
-		this.url=url;
-		this.gi=gi;
-		this.qm=qm;
-	}
 	
 	public User(long id) {
 		super(id);
