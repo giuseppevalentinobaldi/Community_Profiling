@@ -45,6 +45,11 @@ public abstract class InfluenceOntology {
 	final private String fullurlLabel = "full URL";
 	final private String fullurlDescritpion = "Indicates the full URL representation of a shortened one which was included in a tweet.";
 
+	// HashTag
+	final private String hashtagLabel = "Hashtag";
+	final private String hashtagDecription="";
+	
+
 	public String getDisplayNameLabel() {
 		return displayNameLabel;
 	}
@@ -195,6 +200,14 @@ public abstract class InfluenceOntology {
 
 	public String getFullurlDescritpion() {
 		return fullurlDescritpion;
+	}
+
+	public String getHashtagLabel() {
+		return hashtagLabel;
+	}
+
+	public String getHashtagDecription() {
+		return hashtagDecription;
 	}
 
 }
