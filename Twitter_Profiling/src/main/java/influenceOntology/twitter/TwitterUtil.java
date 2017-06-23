@@ -53,14 +53,17 @@ public class TwitterUtil {
 			else {
 				newUser = this.cache_1.get(new Long(userId)).getTua();
 				this.cache_1.get(new Long(userId)).setComplete(true);
+				
 				// initialize private statements
 				newUser.setMentions(new ArrayList<TwitterUserAccount>());
 				newUser.setReplyTo(new ArrayList<TwitterUserAccount>());
 				newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 				
+				// set user following
 				this.setFollowing(newUser,userId);
 				
+				// set user follower
 				this.setFollower(newUser,userId);
 
 				// takes the last 20 tweets from the user
@@ -80,6 +83,7 @@ public class TwitterUtil {
 					}
 
 					long replyToUserId = status.getInReplyToUserId();
+					// add reply user if present
 					if (replyToUserId != -1)
 						newUser.getReplyTo().add(this.getUser(replyToUserId));
 				}
@@ -100,8 +104,10 @@ public class TwitterUtil {
 			newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
 
+			// set user following
 			this.setFollowing(newUser,userId);
 			
+			// set user follower
 			this.setFollower(newUser,userId);
 
 			// takes the last 20 tweets from the user
@@ -110,6 +116,7 @@ public class TwitterUtil {
 				return newUser;
 			}
 			
+			//set user acount name identifier
 			newUser.setAccountName(statuses.get(0).getUser().getScreenName());
 			
 			// set general information
@@ -153,7 +160,7 @@ public class TwitterUtil {
 					}
 				}
 
-				// data set containing mentioned user ids
+				// add mentions if present
 				if (status.getUserMentionEntities() != null) {
 					UserMentionEntity[] array = status.getUserMentionEntities();
 
@@ -163,8 +170,9 @@ public class TwitterUtil {
 						count++;
 					}
 				}
-
+				
 				long replyToUserId = status.getInReplyToUserId();
+				// add reply user if present
 				if (replyToUserId != -1)
 					newUser.getReplyTo().add(this.getUser(replyToUserId));
 			}
@@ -194,6 +202,7 @@ public class TwitterUtil {
 				return newUser;
 			}
 			
+			//set user acount name identifier
 			newUser.setAccountName(statuses.get(0).getUser().getScreenName());
 			
 			// set general information

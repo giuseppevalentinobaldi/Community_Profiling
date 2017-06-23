@@ -2,7 +2,9 @@ package influenceOntology.twitter;
 
 import org.neo4j.ogm.annotation.Property;
 
-public abstract class OnlineAccount {
+import influenceOntology.ontology.InfluenceOntology;
+
+public abstract class OnlineAccount extends InfluenceOntology {
 	@Property
 	private long id;
 	@Property
