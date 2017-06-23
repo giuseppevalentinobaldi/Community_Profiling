@@ -29,11 +29,11 @@ public class GeneralInformation {
 	@Property
 	private float retweetPercentage;
 	@Property
-	private boolean activeAccount; // ?
+	private boolean activeAccount;
 	@Property
 	private boolean profileLocked;
 	@Property
-	private String retrivedOn; // ?
+	private String retrivedOn;
 	
 	public GeneralInformation(){
 		
