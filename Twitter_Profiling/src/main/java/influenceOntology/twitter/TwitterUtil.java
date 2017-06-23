@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import twitter4j.HashtagEntity;
-import twitter4j.HttpResponseCode;
 import twitter4j.IDs;
 import twitter4j.MediaEntity;
 import twitter4j.RateLimitStatus;
@@ -49,8 +48,10 @@ public class TwitterUtil {
 
 		// check user in cache
 		if (this.cache_1.containsKey(new Long(userId)))
+			// if the user exists, take it
 			if (this.cache_1.get(new Long(userId)).isComplete())
 				newUser = this.cache_1.get(new Long(userId)).getTua();
+			// if user exist but is incomplete
 			else {
 				newUser = this.cache_1.get(new Long(userId)).getTua();
 				this.cache_1.get(new Long(userId)).setComplete(true);
@@ -74,7 +75,7 @@ public class TwitterUtil {
 					this.loadStatementTwitterUserAccount(newUser, status);
 				}
 			}
-		// create new user and add in cache
+		// else create new user and add in cache
 		else {
 			// create an user complete
 			newUser = new TwitterUserAccount(userId);
@@ -103,7 +104,7 @@ public class TwitterUtil {
 				return newUser;
 			}
 
-			// set user acount name identifier
+			// set user account name identifier
 			newUser.setAccountName(statuses.get(0).getUser().getScreenName());
 
 			// set general information
@@ -144,7 +145,7 @@ public class TwitterUtil {
 				return newUser;
 			}
 
-			// set user acount name identifier
+			// set user account name identifier
 			newUser.setAccountName(statuses.get(0).getUser().getScreenName());
 
 			// set general information
@@ -171,7 +172,8 @@ public class TwitterUtil {
 					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
 					Thread.sleep(timeout);
 				} catch (InterruptedException e) {
-					// ...
+					System.out.println(e);
+					System.out.println("You must wait 15 minutes of timeout");
 				}
 			}
 			try {
@@ -179,15 +181,8 @@ public class TwitterUtil {
 				newUser.getIsFollowing().add(this.getUser(id));
 
 			} catch (TwitterException e) {
-				// do not throw if user has protected tweets, or if they
-				// deleted their account
-				if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
-						|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
-
-					// log something here
-				} else {
-					throw e;
-				}
+				System.out.println(e);
+				System.out.println("You must wait 15 minutes of timeout");
 			}
 
 		}
@@ -203,23 +198,15 @@ public class TwitterUtil {
 					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
 					Thread.sleep(timeout);
 				} catch (InterruptedException e) {
-					// ...
+					System.out.println(e);
+					System.out.println("You must wait 15 minutes of timeout");
 				}
 			}
 			try {
-
 				newUser.getHasFollower().add(this.getUser(id));
-
 			} catch (TwitterException e) {
-				// do not throw if user has protected tweets, or if they
-				// deleted their account
-				if (e.getStatusCode() == HttpResponseCode.UNAUTHORIZED
-						|| e.getStatusCode() == HttpResponseCode.NOT_FOUND) {
-
-					// log something here
-				} else {
-					throw e;
-				}
+				System.out.println(e);
+				System.out.println("This user is private, for add him you must add between your followings");
 			}
 
 		}
