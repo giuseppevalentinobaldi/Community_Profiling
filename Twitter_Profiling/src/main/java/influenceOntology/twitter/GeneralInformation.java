@@ -5,6 +5,8 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import twitter4j.Status;
 
@@ -92,9 +94,9 @@ public class GeneralInformation {
 		return time/(1000*3600*24);
 	}
 	
-public void userGeneralInformation(List<Status> statuses){
+	public void userGeneralInformation(List<Status> statuses){
 		
-		if(statuses.size() == 0){
+		if(statuses == null || statuses.isEmpty()){
 			return;
 		}
 		
@@ -102,6 +104,7 @@ public void userGeneralInformation(List<Status> statuses){
 		
 		long dateOldestTweet = Long.MAX_VALUE;
 		long dateLastTweet = Long.MIN_VALUE;
+		Date lastUpdate = null;
 		int retweetCount = 0;
 		long data;
 		for(Status s : statuses){
@@ -121,6 +124,7 @@ public void userGeneralInformation(List<Status> statuses){
 			// date last tweet
 			if(dateLastTweet < data){
 				dateLastTweet = data;
+				lastUpdate = s.getCreatedAt();
 			}
 			
 		}
@@ -160,6 +164,10 @@ public void userGeneralInformation(List<Status> statuses){
 		
 		// profile locked
 		this.profileLocked = status.getUser().isProtected();
+		
+		// retrived on
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		this.retrivedOn = sdf.format(lastUpdate);
 		
 	}
 

@@ -68,7 +68,7 @@ public class QualityMetric {
 	
 	public void calculationUserQualityMetric(List<Status> statuses){
 		
-		if(statuses.size() == 0){
+		if(statuses == null || statuses.isEmpty()){
 			return;
 		}
 		
