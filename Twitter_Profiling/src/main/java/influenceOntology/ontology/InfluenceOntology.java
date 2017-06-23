@@ -37,6 +37,14 @@ public abstract class InfluenceOntology {
 	final private String influenceMetricLabel = "influence metric";
 	final private String influenceMetricDescription = "Indicates the value of the Influence Metric measurement. Its aim is to describe both the importance and impact of an account in a social network.";
 
+	// URL
+	final private String domainLabel = "Domain";
+	final private String domainDescription = "Indicates the domain of a URL which was included in a tweet.";
+	final private String urlLabel = "URL";
+	final private String urlDescription = "Indicates the short URL that leads to a web site which was included in a tweet.";
+	final private String fullurlLabel = "full URL";
+	final private String fullurlDescritpion = "Indicates the full URL representation of a shortened one which was included in a tweet.";
+
 	public String getDisplayNameLabel() {
 		return displayNameLabel;
 	}
@@ -163,6 +171,30 @@ public abstract class InfluenceOntology {
 
 	public String getInfluenceMetricDescription() {
 		return influenceMetricDescription;
+	}
+
+	public String getDomainLabel() {
+		return domainLabel;
+	}
+
+	public String getDomainDescription() {
+		return domainDescription;
+	}
+
+	public String getUrlLabel() {
+		return urlLabel;
+	}
+
+	public String getUrlDescription() {
+		return urlDescription;
+	}
+
+	public String getFullurlLabel() {
+		return fullurlLabel;
+	}
+
+	public String getFullurlDescritpion() {
+		return fullurlDescritpion;
 	}
 
 }
