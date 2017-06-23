@@ -223,6 +223,9 @@ public class TwitterUtil {
 			if (statuses.isEmpty()) {
 				return newUser;
 			}
+			
+			newUser.setAccountName(statuses.get(0).getUser().getScreenName());
+			
 			// set general information
 			newUser.setGi(this.setGeneralInformation(statuses));
 
@@ -304,6 +307,9 @@ public class TwitterUtil {
 			if (statuses.isEmpty()) {
 				return newUser;
 			}
+			
+			newUser.setAccountName(statuses.get(0).getUser().getScreenName());
+			
 			// set general information
 			newUser.setGi(this.setGeneralInformation(statuses));
 
