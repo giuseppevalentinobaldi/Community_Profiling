@@ -256,7 +256,7 @@ public class TwitterUtil {
 		long[] idsIsFollowing = isFollowing.getIDs();
 		for (long id : idsIsFollowing) {
 			RateLimitStatus status = isFollowing.getRateLimitStatus();
-			if (status.getRemaining() <= 20) {
+			if (status.getRemaining() == 0) {
 				try {
 					System.out.println("timeout: "+status.getSecondsUntilReset()+"s");
 					Thread.sleep(timeout);
@@ -288,7 +288,7 @@ public class TwitterUtil {
 		long[] idsHasFollower = hasFollower.getIDs();
 		for (long id : idsHasFollower) {
 			RateLimitStatus status = hasFollower.getRateLimitStatus();
-			if (status.getRemaining() <= 20) {
+			if (status.getRemaining() == 0) {
 				try {
 					System.out.println("timeout: "+status.getSecondsUntilReset()+"s");
 					Thread.sleep(timeout);
