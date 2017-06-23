@@ -130,7 +130,7 @@ public class GeneralInformation {
 		}
 		
 		// display name
-		this.displayName = status.getUser().getScreenName();
+		this.displayName = status.getUser().getName();
 		
 		// description
 		this.description = status.getUser().getDescription();
