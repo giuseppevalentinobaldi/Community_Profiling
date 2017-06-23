@@ -8,6 +8,7 @@ import java.util.Map;
 import twitter4j.HashtagEntity;
 import twitter4j.HttpResponseCode;
 import twitter4j.IDs;
+import twitter4j.MediaEntity;
 import twitter4j.RateLimitStatus;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -23,8 +24,8 @@ public class TwitterUtil {
 	final private String tokenSecret = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
 	final private String consumerKey = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
 	final private String consumerSecret = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
-	
-	final private long timeout=900000;
+
+	final private long timeout = 900000;
 
 	private Twitter twitter;
 
@@ -43,7 +44,7 @@ public class TwitterUtil {
 		this.cache_3 = new HashMap<String, URL>();
 	}
 
-	public TwitterUserAccount getTwitterUserAccount(long userId) throws Exception {
+	public TwitterUserAccount getTwitterUserAccount(long userId) throws TwitterException {
 		TwitterUserAccount newUser;
 
 		// check user in cache
@@ -53,39 +54,24 @@ public class TwitterUtil {
 			else {
 				newUser = this.cache_1.get(new Long(userId)).getTua();
 				this.cache_1.get(new Long(userId)).setComplete(true);
-				
+
 				// initialize private statements
 				newUser.setMentions(new ArrayList<TwitterUserAccount>());
 				newUser.setReplyTo(new ArrayList<TwitterUserAccount>());
 				newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
-				
+
 				// set user following
-				this.setFollowing(newUser,userId);
-				
+				this.setFollowing(newUser, userId);
+
 				// set user follower
-				this.setFollower(newUser,userId);
+				this.setFollower(newUser, userId);
 
 				// takes the last 20 tweets from the user
 				List<Status> statuses = this.twitter.getUserTimeline(userId);
 
 				for (Status status : statuses) {
-
-					// data set containing mentioned user ids
-					if (status.getUserMentionEntities() != null) {
-						UserMentionEntity[] array = status.getUserMentionEntities();
-
-						int count = 0;
-						while (count < array.length) {
-							newUser.getMentions().add(this.getUser(array[count].getId()));
-							count++;
-						}
-					}
-
-					long replyToUserId = status.getInReplyToUserId();
-					// add reply user if present
-					if (replyToUserId != -1)
-						newUser.getReplyTo().add(this.getUser(replyToUserId));
+					this.loadStatementTwitterUserAccount(newUser, status);
 				}
 			}
 		// create new user and add in cache
@@ -98,6 +84,7 @@ public class TwitterUtil {
 			// initialize private statements
 			newUser.setHashtag(new ArrayList<Hashtag>());
 			newUser.setUrl(new ArrayList<URL>());
+			newUser.setImage(new ArrayList<Image>());
 			newUser.setMentions(new ArrayList<TwitterUserAccount>());
 			newUser.setReplyTo(new ArrayList<TwitterUserAccount>());
 			newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
@@ -105,20 +92,20 @@ public class TwitterUtil {
 			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
 
 			// set user following
-			this.setFollowing(newUser,userId);
-			
+			this.setFollowing(newUser, userId);
+
 			// set user follower
-			this.setFollower(newUser,userId);
+			this.setFollower(newUser, userId);
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
 			if (statuses.isEmpty()) {
 				return newUser;
 			}
-			
-			//set user acount name identifier
+
+			// set user acount name identifier
 			newUser.setAccountName(statuses.get(0).getUser().getScreenName());
-			
+
 			// set general information
 			newUser.setGi(this.setGeneralInformation(statuses));
 
@@ -126,55 +113,8 @@ public class TwitterUtil {
 			newUser.setQm(this.setQualityMetrics(statuses));
 
 			for (Status status : statuses) {
-
-				// add hashtag if present
-				if (status.getHashtagEntities() != null) {
-					HashtagEntity[] array = status.getHashtagEntities();
-
-					int count = 0;
-					while (count < array.length) {
-						if (this.cache_2.containsKey(array[count].getText()))
-							newUser.getHashtag().add(this.cache_2.get(array[count].getText()));
-						else {
-							this.cache_2.put(array[count].getText(), new Hashtag(array[count].getText()));
-							newUser.getHashtag().add(new Hashtag(array[count].getText()));
-						}
-						count++;
-					}
-				}
-
-				// add url if present
-				if (status.getURLEntities() != null) {
-					URLEntity[] array = status.getURLEntities();
-
-					int count = 0;
-					while (count < array.length) {
-						if (this.cache_3.containsKey(array[count].getText()))
-							newUser.getUrl().add(this.cache_3.get(array[count].getText()));
-						else {
-							this.cache_3.put(array[count].getText(),
-									new URL(array[count].getURL(), array[count].getExpandedURL()));
-							newUser.getUrl().add(new URL(array[count].getURL(), array[count].getExpandedURL()));
-						}
-						count++;
-					}
-				}
-
-				// add mentions if present
-				if (status.getUserMentionEntities() != null) {
-					UserMentionEntity[] array = status.getUserMentionEntities();
-
-					int count = 0;
-					while (count < array.length) {
-						newUser.getMentions().add(this.getUser(array[count].getId()));
-						count++;
-					}
-				}
-				
-				long replyToUserId = status.getInReplyToUserId();
-				// add reply user if present
-				if (replyToUserId != -1)
-					newUser.getReplyTo().add(this.getUser(replyToUserId));
+				this.loadStatementUser(newUser, status);
+				this.loadStatementTwitterUserAccount(newUser, status);
 			}
 		}
 		return newUser;
@@ -188,23 +128,25 @@ public class TwitterUtil {
 			newUser = this.cache_1.get(new Long(userId)).getTua();
 		else {
 			newUser = new TwitterUserAccount(userId);
+
 			// add user in cache
 			this.cache_1.put(new Long(userId), new Structure(newUser, false));
 
 			// initialize private statements
 			newUser.setHashtag(new ArrayList<Hashtag>());
 			newUser.setUrl(new ArrayList<URL>());
+			newUser.setImage(new ArrayList<Image>());
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
-			
+
 			if (statuses.isEmpty()) {
 				return newUser;
 			}
-			
-			//set user acount name identifier
+
+			// set user acount name identifier
 			newUser.setAccountName(statuses.get(0).getUser().getScreenName());
-			
+
 			// set general information
 			newUser.setGi(this.setGeneralInformation(statuses));
 
@@ -212,53 +154,21 @@ public class TwitterUtil {
 			newUser.setQm(this.setQualityMetrics(statuses));
 
 			for (Status status : statuses) {
-
-				// add hashtag if present
-				if (status.getHashtagEntities() != null) {
-					HashtagEntity[] array = status.getHashtagEntities();
-
-					int count = 0;
-					while (count < array.length) {
-						if (this.cache_2.containsKey(array[count].getText()))
-							newUser.getHashtag().add(this.cache_2.get(array[count].getText()));
-						else {
-							this.cache_2.put(array[count].getText(), new Hashtag(array[count].getText()));
-							newUser.getHashtag().add(new Hashtag(array[count].getText()));
-						}
-						count++;
-					}
-				}
-
-				// add url if present
-				if (status.getURLEntities() != null) {
-					URLEntity[] array = status.getURLEntities();
-
-					int count = 0;
-					while (count < array.length) {
-						if (this.cache_3.containsKey(array[count].getText()))
-							newUser.getUrl().add(this.cache_3.get(array[count].getText()));
-						else {
-							this.cache_3.put(array[count].getText(),
-									new URL(array[count].getURL(), array[count].getExpandedURL()));
-							newUser.getUrl().add(new URL(array[count].getURL(), array[count].getExpandedURL()));
-						}
-						count++;
-					}
-				}
+				this.loadStatementUser(newUser, status);
 			}
 		}
 
 		return newUser;
 	}
-	
-	public void setFollowing(TwitterUserAccount newUser,long userId) throws TwitterException{
+
+	public void setFollowing(TwitterUserAccount newUser, long userId) throws TwitterException {
 		IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
 		long[] idsIsFollowing = isFollowing.getIDs();
 		for (long id : idsIsFollowing) {
 			RateLimitStatus status = isFollowing.getRateLimitStatus();
 			if (status.getRemaining() == 0) {
 				try {
-					System.out.println("timeout: "+status.getSecondsUntilReset()+"s");
+					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
 					Thread.sleep(timeout);
 				} catch (InterruptedException e) {
 					// ...
@@ -282,15 +192,15 @@ public class TwitterUtil {
 
 		}
 	}
-	
-	public void setFollower(TwitterUserAccount newUser,long userId) throws TwitterException{
+
+	public void setFollower(TwitterUserAccount newUser, long userId) throws TwitterException {
 		IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 		long[] idsHasFollower = hasFollower.getIDs();
 		for (long id : idsHasFollower) {
 			RateLimitStatus status = hasFollower.getRateLimitStatus();
 			if (status.getRemaining() == 0) {
 				try {
-					System.out.println("timeout: "+status.getSecondsUntilReset()+"s");
+					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
 					Thread.sleep(timeout);
 				} catch (InterruptedException e) {
 					// ...
@@ -312,6 +222,68 @@ public class TwitterUtil {
 				}
 			}
 
+		}
+	}
+
+	public void loadStatementTwitterUserAccount(TwitterUserAccount newUser, Status status) throws TwitterException {
+		// add mentions if present
+		if (status.getUserMentionEntities() != null) {
+			UserMentionEntity[] array = status.getUserMentionEntities();
+
+			int count = 0;
+			while (count < array.length) {
+				newUser.getMentions().add(this.getUser(array[count].getId()));
+				count++;
+			}
+		}
+		long replyToUserId = status.getInReplyToUserId();
+		// add reply user if present
+		if (replyToUserId != -1)
+			newUser.getReplyTo().add(this.getUser(replyToUserId));
+	}
+
+	public void loadStatementUser(TwitterUserAccount newUser, Status status) {
+		// add hashtag if present
+		if (status.getHashtagEntities() != null) {
+			HashtagEntity[] array = status.getHashtagEntities();
+
+			int count = 0;
+			while (count < array.length) {
+				if (this.cache_2.containsKey(array[count].getText()))
+					newUser.getHashtag().add(this.cache_2.get(array[count].getText()));
+				else {
+					this.cache_2.put(array[count].getText(), new Hashtag(array[count].getText()));
+					newUser.getHashtag().add(new Hashtag(array[count].getText()));
+				}
+				count++;
+			}
+		}
+		// add url if present
+		if (status.getURLEntities() != null) {
+			URLEntity[] array = status.getURLEntities();
+
+			int count = 0;
+			while (count < array.length) {
+				if (this.cache_3.containsKey(array[count].getText()))
+					newUser.getUrl().add(this.cache_3.get(array[count].getText()));
+				else {
+					this.cache_3.put(array[count].getText(),
+							new URL(array[count].getURL(), array[count].getExpandedURL()));
+					newUser.getUrl().add(new URL(array[count].getURL(), array[count].getExpandedURL()));
+				}
+				count++;
+			}
+		}
+		// add image if present
+		if (status.getMediaEntities() != null) {
+			MediaEntity[] array = status.getMediaEntities();
+
+			int count = 0;
+			while (count < array.length) {
+				if (array[count].getType().equals("photo"))
+					newUser.getImage().add(new Image(array[count].getText()));
+				count++;
+			}
 		}
 	}
 

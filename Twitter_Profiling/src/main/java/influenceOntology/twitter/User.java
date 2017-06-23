@@ -35,6 +35,14 @@ public abstract class User extends OnlineAccount{
 	public void setUrl(List<URL> url) {
 		this.url = url;
 	}
+	
+	public List<Image> getImage() {
+		return image;
+	}
+
+	public void setImage(List<Image> image) {
+		this.image = image;
+	}
 
 	public GeneralInformation getGi() {
 		return gi;
