@@ -179,7 +179,7 @@ public class Neo4jUtil {
 				"' CREATE (a)-[r:"+property+"]->(b)");
 		
 		
-		//creazione nodo retrivedOn (literal)
+		//creazione nodo retrivedOn (literal
 		sID = twitterUser.getId()+twitterUser.getRetrivedOnLabel().replace(" ", "");
 		session.run("CREATE (a:Literal {name : {name}, value: {value}, description: {description}, id: {id}})",
 				Values.parameters("name", twitterUser.getRetrivedOnLabel(), "value", twitterUser.getGi().getRetrivedOn(),
