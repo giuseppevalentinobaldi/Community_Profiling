@@ -1,16 +1,16 @@
 package influenceOntology.twitter;
 
-import java.util.List;
+import java.util.Set;
 
 import org.neo4j.ogm.annotation.Relationship;
 
 public abstract class User extends OnlineAccount{
 	@Relationship(type = "INCLUDED_HASHTAG", direction = "OUTGOING")
-	private List<Hashtag> hashtag;
+	private Set<Hashtag> hashtag;
 	@Relationship(type = "INCLUDED_URL", direction = "OUTGOING")
-	private List<URL> url;
+	private Set<URL> url;
 	@Relationship(type = "INCLUDED_IMAGE", direction = "OUTGOING")
-	private List<Image> image;
+	private Set<Image> image;
 	@Relationship(type = "HAS_GENERAL_INFORMATION", direction = "OUTGOING")
 	private GeneralInformation gi;
 	@Relationship(type = "HAS_QUALITY_METRICS", direction = "OUTGOING")
@@ -20,27 +20,27 @@ public abstract class User extends OnlineAccount{
 		super(id);
 	}
 
-	public List<Hashtag> getHashtag() {
+	public Set<Hashtag> getHashtag() {
 		return hashtag;
 	}
 
-	public void setHashtag(List<Hashtag> hashtag) {
+	public void setHashtag(Set<Hashtag> hashtag) {
 		this.hashtag = hashtag;
 	}
 
-	public List<URL> getUrl() {
+	public Set<URL> getUrl() {
 		return url;
 	}
 
-	public void setUrl(List<URL> url) {
+	public void setUrl(Set<URL> url) {
 		this.url = url;
 	}
 	
-	public List<Image> getImage() {
+	public Set<Image> getImage() {
 		return image;
 	}
 
-	public void setImage(List<Image> image) {
+	public void setImage(Set<Image> image) {
 		this.image = image;
 	}
 

@@ -1,6 +1,7 @@
 package influenceOntology.twitter;
 
 import java.util.List;
+import java.util.Set;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -11,9 +12,9 @@ public class TwitterUserAccount extends User {
 	@GraphId
 	private Long graphId;
 	@Relationship(type = "HAS_MENTIONED", direction = "OUTGOING")
-	private List<TwitterUserAccount> mentions;
+	private Set<TwitterUserAccount> mentions;
 	@Relationship(type = "HAS_REPLIED_TO", direction = "OUTGOING")
-	private List<TwitterUserAccount> replyTo;
+	private Set<TwitterUserAccount> replyTo;
 	@Relationship(type = "HAS_FOLLOWER", direction = "INCOMING")
 	private List<TwitterUserAccount> hasFollower;
 	@Relationship(type = "IS_FOLLOWING", direction = "OUTGOING")
@@ -24,19 +25,19 @@ public class TwitterUserAccount extends User {
 		super(id);
 	}
 
-	public List<TwitterUserAccount> getMentions() {
+	public Set<TwitterUserAccount> getMentions() {
 		return mentions;
 	}
 
-	public void setMentions(List<TwitterUserAccount> mentions) {
+	public void setMentions(Set<TwitterUserAccount> mentions) {
 		this.mentions = mentions;
 	}
 
-	public List<TwitterUserAccount> getReplyTo() {
+	public Set<TwitterUserAccount> getReplyTo() {
 		return replyTo;
 	}
 
-	public void setReplyTo(List<TwitterUserAccount> replyTo) {
+	public void setReplyTo(Set<TwitterUserAccount> replyTo) {
 		this.replyTo = replyTo;
 	}
 

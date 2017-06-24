@@ -2,6 +2,7 @@ package influenceOntology.twitter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -57,8 +58,8 @@ public class TwitterUtil {
 				this.cache_1.get(new Long(userId)).setComplete(true);
 
 				// initialize private statements
-				newUser.setMentions(new ArrayList<TwitterUserAccount>());
-				newUser.setReplyTo(new ArrayList<TwitterUserAccount>());
+				newUser.setMentions(new HashSet<TwitterUserAccount>());
+				newUser.setReplyTo(new HashSet<TwitterUserAccount>());
 				newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 
@@ -83,11 +84,11 @@ public class TwitterUtil {
 			this.cache_1.put(new Long(userId), new Structure(newUser, true));
 
 			// initialize private statements
-			newUser.setHashtag(new ArrayList<Hashtag>());
-			newUser.setUrl(new ArrayList<URL>());
-			newUser.setImage(new ArrayList<Image>());
-			newUser.setMentions(new ArrayList<TwitterUserAccount>());
-			newUser.setReplyTo(new ArrayList<TwitterUserAccount>());
+			newUser.setHashtag(new HashSet<Hashtag>());
+			newUser.setUrl(new HashSet<URL>());
+			newUser.setImage(new HashSet<Image>());
+			newUser.setMentions(new HashSet<TwitterUserAccount>());
+			newUser.setReplyTo(new HashSet<TwitterUserAccount>());
 			newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 			newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
 			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
@@ -134,9 +135,9 @@ public class TwitterUtil {
 			this.cache_1.put(new Long(userId), new Structure(newUser, false));
 
 			// initialize private statements
-			newUser.setHashtag(new ArrayList<Hashtag>());
-			newUser.setUrl(new ArrayList<URL>());
-			newUser.setImage(new ArrayList<Image>());
+			newUser.setHashtag(new HashSet<Hashtag>());
+			newUser.setUrl(new HashSet<URL>());
+			newUser.setImage(new HashSet<Image>());
 
 			// takes the last 20 tweets from the user
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
