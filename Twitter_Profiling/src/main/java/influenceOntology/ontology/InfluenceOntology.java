@@ -15,7 +15,7 @@ public abstract class InfluenceOntology {
 	final private String followingLabel = "following";
 	final private String followingDescription = "Provides the number of the accounts that the account follows.";
 	final private String retweetPercentageLabel = "retweet percentage";
-	final private String retweetPercentageDescription = "Provides the percentage of the latest user�s tweets that are retweets from other accounts.";
+	final private String retweetPercentageDescription = "Provides the percentage of the latest user's tweets that are retweets from other accounts.";
 	final private String activeAccountLabel = "active account";
 	final private String activeAccountDescription = "Indicates whether the account is active or not.";
 	final private String profileLockedLabel = "profile locked";
@@ -25,13 +25,13 @@ public abstract class InfluenceOntology {
 
 	// Quality Metrics
 	final private String hIndexRetweetLabel = "h-index retweet";
-	final private String hIndexRetweetDescription = "Provides the value of the �ReTweet h-index - Last 100 Tweets� metric of the account.";
+	final private String hIndexRetweetDescription = "Provides the value of the 'ReTweet h-index - Last 100 Tweets' metric of the account.";
 	final private String hIndexRetweetDailyLabel = "h-index retweet daily";
-	final private String hIndexRetweetDailyDescription = "Provides the estimated daily value of the �ReTweet h-index� metric during the lifespan of the account.";
+	final private String hIndexRetweetDailyDescription = "Provides the estimated daily value of the 'ReTweet h-index' metric during the lifespan of the account.";
 	final private String hIndexFavoriteLabel = "h-index favorite";
-	final private String hIndexFavoriteDescription = "Provides the value of the �Favorite h-index - Last 100 Tweets� metric of the account.";
+	final private String hIndexFavoriteDescription = "Provides the value of the 'Favorite h-index - Last 100 Tweets' metric of the account.";
 	final private String hIndexFavoriteDailyLabel = "h-index favorite daily";
-	final private String hIndexFavoriteDailyDescription = "Provides the estimated daily value of the �Favorite h-index� metric during the lifespan of the account.";
+	final private String hIndexFavoriteDailyDescription = "Provides the estimated daily value of the 'Favorite h-index' metric during the lifespan of the account.";
 	final private String replayRatioLabel = "reply ratio";
 	final private String replayRatioDescription = "Provides the ratio of the user's latest tweets which are used as replies to other users' tweets.";
 	final private String influenceMetricLabel = "influence metric";
