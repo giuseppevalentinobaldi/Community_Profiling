@@ -62,6 +62,7 @@ public class TwitterUtil {
 				newUser.setReplyTo(new HashSet<TwitterUserAccount>());
 				newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 				newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
+				newUser.setHasSimilar(new HashSet<TwitterUserAccount>());
 
 				// set user following
 				this.setFollowing(newUser, userId);
@@ -91,7 +92,7 @@ public class TwitterUtil {
 			newUser.setReplyTo(new HashSet<TwitterUserAccount>());
 			newUser.setHasFollower(new ArrayList<TwitterUserAccount>());
 			newUser.setIsFollowing(new ArrayList<TwitterUserAccount>());
-			// newUser.setHasSimilar(new ArrayList<TwitterUserAccount>());
+			newUser.setHasSimilar(new HashSet<TwitterUserAccount>());
 
 			// set user following
 			this.setFollowing(newUser, userId);
@@ -119,7 +120,15 @@ public class TwitterUtil {
 				this.loadStatementTwitterUserAccount(newUser, status);
 			}
 		}
+		
+		this.setSemila(newUser);
+		
 		return newUser;
+	}
+
+	private void setSemila(TwitterUserAccount newUser) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public TwitterUserAccount getUser(long userId) throws TwitterException {
@@ -180,6 +189,7 @@ public class TwitterUtil {
 			try {
 				// add user to following
 				newUser.getIsFollowing().add(this.getUser(id));
+				newUser.getHasSimilar().add(this.getUser(id));
 			} catch (TwitterException e) {
 				System.out.println(e);
 				System.out.println("This user is private, for add him you must add between your followings");
@@ -204,6 +214,7 @@ public class TwitterUtil {
 			try {
 				// add user to follower
 				newUser.getHasFollower().add(this.getUser(id));
+				newUser.getHasSimilar().add(this.getUser(id));
 			} catch (TwitterException e) {
 				System.out.println(e);
 				System.out.println("This user is private, for add him you must add between your followings");
@@ -219,13 +230,16 @@ public class TwitterUtil {
 			int count = 0;
 			while (count < array.length) {
 				newUser.getMentions().add(this.getUser(array[count].getId()));
+				newUser.getHasSimilar().add(this.getUser(array[count].getId()));
 				count++;
 			}
 		}
 		long replyToUserId = status.getInReplyToUserId();
 		// add reply user if present
-		if (replyToUserId != -1)
+		if (replyToUserId != -1){
 			newUser.getReplyTo().add(this.getUser(replyToUserId));
+			newUser.getHasSimilar().add(this.getUser(replyToUserId));
+		}
 	}
 
 	public void loadStatementUser(TwitterUserAccount newUser, Status status) {

@@ -1,7 +1,9 @@
 package influenceOntology.twitter;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -19,7 +21,8 @@ public class TwitterUserAccount extends User {
 	private List<TwitterUserAccount> hasFollower;
 	@Relationship(type = "IS_FOLLOWING", direction = "OUTGOING")
 	private List<TwitterUserAccount> isFollowing;
-	// private List<TwitterUserAccount> hasSimilar;
+	@Relationship(type = "HAS_SIMILAR", direction = "OUTGOING")
+	private Set<TwitterUserAccount> hasSimilar;
 
 	public TwitterUserAccount(long id) {
 		super(id);
@@ -55,6 +58,14 @@ public class TwitterUserAccount extends User {
 
 	public void setIsFollowing(List<TwitterUserAccount> isFollowing) {
 		this.isFollowing = isFollowing;
+	}
+
+	public Set<TwitterUserAccount> getHasSimilar() {
+		return hasSimilar;
+	}
+
+	public void setHasSimilar(HashSet <TwitterUserAccount> hasSimilar) {
+		this.hasSimilar = hasSimilar;
 	}
 
 	/*
