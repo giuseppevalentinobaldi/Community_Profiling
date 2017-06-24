@@ -127,7 +127,6 @@ public class TwitterUtil {
 	}
 
 	private void setSemila(TwitterUserAccount newUser) {
-		// TODO Auto-generated method stub
 		
 	}
 
