@@ -7,6 +7,9 @@ import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.Values;
 
 import influenceOntology.twitter.TwitterUserAccount;
+import influenceOntology.twitter.URL;
+import influenceOntology.twitter.Hashtag;
+import influenceOntology.twitter.Image;
 
 public class Neo4jUtil {
 
@@ -33,6 +36,7 @@ public class Neo4jUtil {
 		String nodeID = "";
 		String name = "";
 		String property = "";
+		int count = 0;
 		
 		
 		// CREAZIONE NODO UTENTE
@@ -59,7 +63,7 @@ public class Neo4jUtil {
 		// CREAZIONE NODI GENERAL INFORMATION
 		
 		// creazione nodo general information
-		name = "general information";
+		name = "General Information";
 		sID = twitterUser.getId()+name.replace(" ", "");
 		nodeID = twitterUser.getId()+name.replace(" ", "");
 		session.run("CREATE (a:TwitterUserInformation {name : {name}, description: {description}, id: {id}})",
@@ -196,7 +200,7 @@ public class Neo4jUtil {
 		// CREAZIONE NODI QUALITY METRIC
 		
 		// creazione nodo quality metric
-		name = "quality metric";
+		name = "Quality Metric";
 		sID = twitterUser.getId()+name.replace(" ", "");
 		nodeID = twitterUser.getId()+name.replace(" ", "");
 		session.run("CREATE (a:TwitterUserInformation {name : {name}, description: {description}, id: {id}})",
@@ -284,17 +288,161 @@ public class Neo4jUtil {
 		
 		// CREAZIONE NODI URL
 		
-		// creazione nodo url
-		name = "url";
-		sID = twitterUser.getId()+name.replace(" ", "");
-		nodeID = twitterUser.getId()+name.replace(" ", "");
-		session.run("CREATE (a:TwitterUserInformation {name : {name}, description: {description}, id: {id}})",
-				Values.parameters("name", name, "description", name, "id", sID));
+		count = 0;
+		for(URL url : twitterUser.getUrl()){
 		
-		property = "included_url";
-		session.run("MATCH (a:TwitterUser),(b:TwitterUserInformation) WHERE a.value = "+twitterUser.getId()+
-				" AND b.id = '"+sID+
-				"' CREATE (a)-[r:"+property+"]->(b)");
+			// creazione nodo url
+			name = "URL";
+			sID = twitterUser.getId()+name.replace(" ", "")+count;
+			nodeID = twitterUser.getId()+name.replace(" ", "")+count;
+			session.run("CREATE (a:TwitterUserInformation {name : {name}, description: {description}, id: {id}})",
+					Values.parameters("name", name, "description", name, "id", sID));
+			
+			property = "included_url";
+			session.run("MATCH (a:TwitterUser),(b:TwitterUserInformation) WHERE a.value = "+twitterUser.getId()+
+					" AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			//creazione nodo domain (literal)
+			sID = twitterUser.getId()+twitterUser.getDomainLabel().replace(" ", "")+count;
+			session.run("CREATE (a:Literal {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", twitterUser.getDomainLabel(), "value", url.getDomain(),
+					"description", twitterUser.getDomainDescription(), "id", sID));
+			
+			property = twitterUser.getDomainLabel().replace(" ", "_");
+			session.run("MATCH (a:TwitterUserInformation),(b:Literal) WHERE a.id = '"+nodeID+
+					"' AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			//creazione nodo url (literal)
+			sID = twitterUser.getId()+twitterUser.getUrlLabel().replace(" ", "")+count;
+			session.run("CREATE (a:Literal {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", twitterUser.getUrlLabel(), "value", url.getUrl(),
+					"description", twitterUser.getUrlDescription(), "id", sID));
+			
+			property = twitterUser.getUrlLabel().replace(" ", "_");
+			session.run("MATCH (a:TwitterUserInformation),(b:Literal) WHERE a.id = '"+nodeID+
+					"' AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			//creazione nodo fullurl (literal)
+			sID = twitterUser.getId()+twitterUser.getFullurlLabel().replace(" ", "")+count;
+			session.run("CREATE (a:Literal {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", twitterUser.getFullurlLabel(), "value", url.getFullurl(),
+					"description", twitterUser.getFullurlDescription(), "id", sID));
+			
+			property = twitterUser.getFullurlLabel().replace(" ", "_");
+			session.run("MATCH (a:TwitterUserInformation),(b:Literal) WHERE a.id = '"+nodeID+
+					"' AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+			count++;
+			
+		}
+		
+		
+		
+		
+		// CREAZIONE NODI HASHTAG
+		
+		count = 0;
+		for(Hashtag hashtag : twitterUser.getHashtag()){
+			
+			// creazione nodo hashtag
+			name = "Hashtag";
+			sID = twitterUser.getId()+name.replace(" ", "")+count;
+			nodeID = twitterUser.getId()+name.replace(" ", "")+count;
+			session.run("CREATE (a:TwitterUserInformation {name : {name}, description: {description}, id: {id}})",
+					Values.parameters("name", name, "description", name, "id", sID));
+			
+			property = "included_hashtag";
+			session.run("MATCH (a:TwitterUser),(b:TwitterUserInformation) WHERE a.value = "+twitterUser.getId()+
+					" AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			//creazione nodo hashtag (literal)
+			sID = twitterUser.getId()+twitterUser.getHashtagLabel().replace(" ", "")+count;
+			session.run("CREATE (a:Literal {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", twitterUser.getHashtagLabel(), "value", hashtag.toString(),
+					"description", twitterUser.getHashtagDescription(), "id", sID));
+			
+			property = twitterUser.getHashtagLabel().replace(" ", "_");
+			session.run("MATCH (a:TwitterUserInformation),(b:Literal) WHERE a.id = '"+nodeID+
+					"' AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			count++;
+			
+		}
+		
+		
+		
+		
+		// CREAZIONE NODO IMAGE
+		
+		count = 0;
+		for(Image image : twitterUser.getImage()){
+			
+			// creazione nodo image
+			name = "Image";
+			sID = twitterUser.getId()+name.replace(" ", "")+count;
+			nodeID = twitterUser.getId()+name.replace(" ", "")+count;
+			session.run("CREATE (a:TwitterUserInformation {name : {name}, description: {description}, id: {id}})",
+					Values.parameters("name", name, "description", name, "id", sID));
+			
+			property = "included_image";
+			session.run("MATCH (a:TwitterUser),(b:TwitterUserInformation) WHERE a.value = "+twitterUser.getId()+
+					" AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			//creazione nodo image (literal)
+			sID = twitterUser.getId()+twitterUser.getImageurlLabel().replace(" ", "")+count;
+			session.run("CREATE (a:Literal {name : {name}, value: {value}, description: {description}, id: {id}})",
+					Values.parameters("name", twitterUser.getImageurlLabel(), "value", image.getImageurl(),
+					"description", twitterUser.getImageurlDescription(), "id", sID));
+			
+			property = twitterUser.getImageurlLabel().replace(" ", "_");
+			session.run("MATCH (a:TwitterUserInformation),(b:Literal) WHERE a.id = '"+nodeID+
+					"' AND b.id = '"+sID+
+					"' CREATE (a)-[r:"+property+"]->(b)");
+			
+			count++;
+			
+		}
+		
+		
+		
+		
+		// CREAZIONE USER MENTIONS
+		System.out.println(twitterUser.getMentions().size());
+		for(TwitterUserAccount user : twitterUser.getMentions()){
+			
+			// creazione del nodo utente (TwitterUser)
+			session.run("CREATE (a:TwitterUser {name : {name}, value: {value}, description: {description}})",
+					Values.parameters("name", user.getAccountName(), "value", user.getId(), "description", "Twitter User Account"));
+			
+			property = "has_mentioned";
+			session.run("MATCH (a:TwitterUser),(b:TwitterUser) WHERE a.value = "+twitterUser.getId()+
+					" AND b.id = "+user.getId()+
+					" CREATE (a)-[r:"+property+"]->(b)");
+			
+			
+//			//creazione nodo account name (literal)
+//			sID = user.getId()+user.getAccountNameLabel().replace(" ", "");
+//			session.run("CREATE (a:Literal {name : {name}, value: {value}, description: {description}, id: {id}})",
+//					Values.parameters("name", user.getAccountNameLabel(), "value", user.getAccountName(),
+//					"description", user.getAccountNameDescription(), "id", sID));
+//			
+//			property = user.getAccountNameLabel().replace(" ", "_");
+//			session.run("MATCH (a:TwitterUser),(b:Literal) WHERE a.value = "+user.getId()+
+//					" AND b.id = '"+sID+
+//					"' CREATE (a)-[r:"+property+"]->(b)");
+//			
+		}
 		
 	}
 	
