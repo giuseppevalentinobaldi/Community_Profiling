@@ -9,8 +9,13 @@ public class EntitySimilarity {
 	private float Esn;
 	private float Ewc;
 	private float Ecc;
+	private float Ecwc;
 
-	EntitySimilarity(float Ecn, float En, float Esn) {
+	EntitySimilarity() {
+		this.Ecwc=0;
+	}
+	
+	public void init(float Ecn, float En, float Esn){
 		this.setEn(En);
 		this.setEcf(Ecn, En);
 		this.setEsn(Esn);
@@ -76,7 +81,15 @@ public class EntitySimilarity {
 	}
 
 	public float getEcwc() {
-		return this.getEcc() * this.getEw();
+		return Ecwc;
+	}
+
+	public void setEcwc(float ecwc) {
+		Ecwc = ecwc;
+	}
+	
+	public void generateEcwc() {
+		this.setEcwc(this.getEcc() * this.getEw());
 	}
 
 }
