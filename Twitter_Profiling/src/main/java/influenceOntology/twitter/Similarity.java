@@ -39,7 +39,6 @@ public class Similarity {
 			this.label++;
 			this.hashtag.init(this.hashtagC, hashtagN, sN);
 		}
-		System.out.println(urlC+" "+hashtagC+" "+mentionsC+" "+label);
 		this.b = b;
 	}
 
