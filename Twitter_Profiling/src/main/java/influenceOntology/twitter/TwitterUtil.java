@@ -1,14 +1,13 @@
 package influenceOntology.twitter;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.Stack;
 
 import twitter4j.HashtagEntity;
 import twitter4j.IDs;
@@ -30,8 +29,8 @@ public class TwitterUtil {
 	final private String CONSUMERSECRET = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
 
 	final private long TIMEOUT = 900000;
-	
-	final private int TOPK= 5;
+
+	final private int TOPK = 5;
 
 	private Twitter twitter;
 
@@ -52,7 +51,7 @@ public class TwitterUtil {
 
 	public TwitterUserAccount getTwitterUserAccount(long userId) throws TwitterException {
 		TwitterUserAccount newUser;
-		System.out.println("creo utente completo:"+userId);
+		System.out.println("creo utente completo:" + userId);
 		// check user in cache
 		if (this.cache_1.containsKey(new Long(userId)))
 			// if the user exists, take it
@@ -137,21 +136,14 @@ public class TwitterUtil {
 	private void setSemilar(TwitterUserAccount newUser) throws TwitterException {
 		Set<TwitterUserAccount> similar = newUser.getHasSimilar();
 		Iterator<TwitterUserAccount> i = similar.iterator();
-		PriorityQueue<Similarity> pq = new PriorityQueue<Similarity>(5, new Comparator<Similarity>() {
-			public int compare(Similarity s1, Similarity s2) {
-				if (s1.getSimilarity() < s2.getSimilarity())
-					return -1;
-				if (s1.getSimilarity() > s2.getSimilarity())
-					return 1;
-				return 0;
-			}
-		});
+		Stack<Similarity> s1 = new Stack<Similarity>();
 		while (i.hasNext()) {
 			TwitterUserAccount b = i.next();
-			pq.add(new Similarity(newUser,b,getMentionsUserId(b.getId())));
+			s1.push(new Similarity(newUser, b, getMentionsUserId(b.getId())));
 		}
+		sort(s1);
 		HashSet<TwitterUserAccount> trueSimilar = new HashSet<TwitterUserAccount>();
-		Object[] j = pq.toArray();
+		Object[] j = s1.toArray();
 		for (int k = 0; k < j.length && k < TOPK; k++)
 			trueSimilar.add(((Similarity) j[k]).getB());
 		newUser.setHasSimilar(trueSimilar);
@@ -179,7 +171,7 @@ public class TwitterUtil {
 		if (this.cache_1.containsKey(new Long(userId)))
 			newUser = this.cache_1.get(new Long(userId)).getTua();
 		else {
-			System.out.println("creo utente parziale:"+userId);
+			System.out.println("creo utente parziale:" + userId);
 			newUser = new TwitterUserAccount(userId);
 
 			// add user in cache
@@ -212,6 +204,43 @@ public class TwitterUtil {
 		}
 
 		return newUser;
+	}
+
+	public static Stack<Similarity> sort(Stack<Similarity> s) {
+
+		if (s.isEmpty()) {
+			return s;
+		}
+		Similarity pivot = s.pop();
+
+		// partition
+		Stack<Similarity> left = new Stack<Similarity>();
+		Stack<Similarity> right = new Stack<Similarity>();
+		while (!s.isEmpty()) {
+			Similarity temp = s.pop();
+			float y = temp.getSimilarity();
+			if (y > pivot.getSimilarity()) {
+				left.push(temp);
+			} else {
+				right.push(temp);
+			}
+		}
+		sort(left);
+		sort(right);
+
+		// merge
+		Stack<Similarity> tmp = new Stack<Similarity>();
+		while (!right.isEmpty()) {
+			tmp.push(right.pop());
+		}
+		tmp.push(pivot);
+		while (!left.isEmpty()) {
+			tmp.push(left.pop());
+		}
+		while (!tmp.isEmpty()) {
+			s.push(tmp.pop());
+		}
+		return s;
 	}
 
 	public void setFollowing(TwitterUserAccount newUser, long userId) throws TwitterException {
