@@ -17,11 +17,19 @@ public class EntitySimilarity {
 	
 	public void init(float Ecn, float En, float Esn){
 		this.setEn(En);
+		this.setEcn(Ecn);
 		this.setEcf(Ecn, En);
 		this.setEsn(Esn);
 		this.setEw(this.getEn(), this.getEsn());
 		this.setEwc(this.getEcf(), this.getEw());
 		this.setEcc(this.getEcf(), this.getEcn());
+		this.generateEcwc();
+		System.out.println("parameters:");
+		System.out.println(this.getEcf());
+		System.out.println(this.getEcn());
+		System.out.println(this.getEw());
+		System.out.println(this.getEcc());
+		System.out.println(this.getEcwc());
 	}
 
 	public float getEn() {

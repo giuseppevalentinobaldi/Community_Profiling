@@ -52,7 +52,7 @@ public class TwitterUtil {
 
 	public TwitterUserAccount getTwitterUserAccount(long userId) throws TwitterException {
 		TwitterUserAccount newUser;
-
+		System.out.println("creo utente completo:"+userId);
 		// check user in cache
 		if (this.cache_1.containsKey(new Long(userId)))
 			// if the user exists, take it
@@ -82,7 +82,7 @@ public class TwitterUtil {
 				for (Status status : statuses) {
 					this.loadStatementTwitterUserAccount(newUser, status);
 				}
-				
+				System.out.println("calcolo similarità");
 				this.setSemilar(newUser);
 			}
 		// else create new user and add in cache
@@ -128,7 +128,7 @@ public class TwitterUtil {
 				this.loadStatementTwitterUserAccount(newUser, status);
 			}
 		}
-
+		System.out.println("calcolo similarità");
 		this.setSemilar(newUser);
 
 		return newUser;
@@ -175,11 +175,11 @@ public class TwitterUtil {
 
 	public TwitterUserAccount getUser(long userId) throws TwitterException {
 		TwitterUserAccount newUser;
-
 		// check user in cache
 		if (this.cache_1.containsKey(new Long(userId)))
 			newUser = this.cache_1.get(new Long(userId)).getTua();
 		else {
+			System.out.println("creo utente parziale:"+userId);
 			newUser = new TwitterUserAccount(userId);
 
 			// add user in cache
@@ -219,10 +219,11 @@ public class TwitterUtil {
 		long[] idsIsFollowing = isFollowing.getIDs();
 		for (long id : idsIsFollowing) {
 			RateLimitStatus status = isFollowing.getRateLimitStatus();
-			if (status.getRemaining() == 0) {
+			if (status.getRemaining() <= 0) {
 				try {
 					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
 					Thread.sleep(TIMEOUT);
+					System.out.println("start");
 				} catch (InterruptedException e) {
 					System.out.println(e);
 					System.out.println("You must wait 15 minutes of timeout");
@@ -244,10 +245,11 @@ public class TwitterUtil {
 		long[] idsHasFollower = hasFollower.getIDs();
 		for (long id : idsHasFollower) {
 			RateLimitStatus status = hasFollower.getRateLimitStatus();
-			if (status.getRemaining() == 0) {
+			if (status.getRemaining() <= 0) {
 				try {
 					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
 					Thread.sleep(TIMEOUT);
+					System.out.println("start");
 				} catch (InterruptedException e) {
 					System.out.println(e);
 					System.out.println("You must wait 15 minutes of timeout");

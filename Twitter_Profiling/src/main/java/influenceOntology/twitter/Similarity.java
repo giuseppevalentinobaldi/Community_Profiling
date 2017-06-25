@@ -7,10 +7,10 @@ public class Similarity {
 	private EntitySimilarity mentions;
 	private EntitySimilarity hashtag;
 	private TwitterUserAccount b;
-	private int urlC;
-	private int hashtagC;
-	private int mentionsC;
-	private int label;
+	private float urlC;
+	private float hashtagC;
+	private float mentionsC;
+	private float label;
 
 	public Similarity(TwitterUserAccount a, TwitterUserAccount b, Set<Long> idMentions) {
 		this.urlC = 0;
@@ -28,17 +28,18 @@ public class Similarity {
 		intersectHashtag(a.getHashtag(), b.getHashtag());
 		intersectMentions(a.getMentions(), idMentions);
 		if (urlN > 0) {
-			label++;
+			this.label++;
 			this.url.init(this.urlC, urlN, sN);
 		}
 		if (mentionsN > 0) {
-			label++;
+			this.label++;
 			this.mentions.init(this.mentionsC, mentionsN, sN);
 		}
 		if (hashtagN > 0) {
-			label++;
+			this.label++;
 			this.hashtag.init(this.hashtagC, hashtagN, sN);
 		}
+		System.out.println(urlC+" "+hashtagC+" "+mentionsC+" "+label);
 		this.b = b;
 	}
 
@@ -73,9 +74,9 @@ public class Similarity {
 	}
 
 	public float getSimilarity() {
-		//similarity metric
+		// similarity metric
 		return (this.getHashtag().getEcwc() + this.getMentions().getEcwc() + this.getURL().getEcwc())
-				* (this.getLabel() / 4);
+				* (this.getLabel() / 3);
 	}
 
 	public EntitySimilarity getURL() {
@@ -102,11 +103,11 @@ public class Similarity {
 		this.hashtag = hashtag;
 	}
 
-	public int getLabel() {
+	public float getLabel() {
 		return label;
 	}
 
-	public void setLabel(int label) {
+	public void setLabel(float label) {
 		this.label = label;
 	}
 
