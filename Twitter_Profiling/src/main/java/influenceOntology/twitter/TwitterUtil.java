@@ -28,8 +28,6 @@ public class TwitterUtil {
 	final private String CONSUMERKEY = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
 	final private String CONSUMERSECRET = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
 
-	final private long TIMEOUT = 900000;
-
 	final private int TOPK = 5;
 
 	private Twitter twitter;
@@ -247,17 +245,7 @@ public class TwitterUtil {
 		IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
 		long[] idsIsFollowing = isFollowing.getIDs();
 		for (long id : idsIsFollowing) {
-			RateLimitStatus status = isFollowing.getRateLimitStatus();
-			if (status.getRemaining() <= 2) {
-				try {
-					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
-					Thread.sleep(TIMEOUT);
-					System.out.println("start");
-				} catch (InterruptedException e) {
-					System.out.println(e);
-					System.out.println("You must wait 15 minutes of timeout");
-				}
-			}
+			checkRateLimitStatus();
 			try {
 				// add user to following
 				newUser.getIsFollowing().add(this.getUser(id));
@@ -273,17 +261,7 @@ public class TwitterUtil {
 		IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 		long[] idsHasFollower = hasFollower.getIDs();
 		for (long id : idsHasFollower) {
-			RateLimitStatus status = hasFollower.getRateLimitStatus();
-			if (status.getRemaining() <= 2) {
-				try {
-					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
-					Thread.sleep(TIMEOUT);
-					System.out.println("start");
-				} catch (InterruptedException e) {
-					System.out.println(e);
-					System.out.println("You must wait 15 minutes of timeout");
-				}
-			}
+			checkRateLimitStatus();
 			try {
 				// add user to follower
 				newUser.getHasFollower().add(this.getUser(id));
@@ -294,7 +272,40 @@ public class TwitterUtil {
 			}
 		}
 	}
-
+	
+	private void checkRateLimitStatus()  {
+		try {
+		Map<String,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
+		for (String endpoint : rateLimitStatus.keySet()) {
+            RateLimitStatus status = rateLimitStatus.get(endpoint);
+            //System.out.println(" Remaining: " + status.getRemaining()+"\n");
+            if (status.getRemaining() <= 2) {
+			int remainingTime = status.getSecondsUntilReset();
+			System.out.println("Twitter request rate limit reached. Waiting "+remainingTime/60+" minutes to request again.");
+			
+			try {
+				Thread.sleep(remainingTime*1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		}
+		} catch (TwitterException te) {
+			System.err.println(te.getMessage());
+			if (te.getStatusCode()==503) {
+				try {
+					Thread.sleep(120*1000);// wait 2 minutes
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} 
+			}
+		}
+		catch(Exception e) {
+			System.err.println(e.getMessage());
+			
+		}
+	}
+	
 	public void loadStatementTwitterUserAccount(TwitterUserAccount newUser, Status status) throws TwitterException {
 		// add mentions if present
 		if (status.getUserMentionEntities() != null) {
