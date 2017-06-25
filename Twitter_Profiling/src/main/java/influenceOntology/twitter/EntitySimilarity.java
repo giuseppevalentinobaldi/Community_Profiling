@@ -24,12 +24,6 @@ public class EntitySimilarity {
 		this.setEwc(this.getEcf(), this.getEw());
 		this.setEcc(this.getEcf(), this.getEcn());
 		this.generateEcwc();
-		System.out.println("parameters:");
-		System.out.println(this.getEcf());
-		System.out.println(this.getEcn());
-		System.out.println(this.getEw());
-		System.out.println(this.getEcc());
-		System.out.println(this.getEcwc());
 	}
 
 	public float getEn() {
@@ -37,7 +31,7 @@ public class EntitySimilarity {
 	}
 
 	public void setEn(float en) {
-		En = en;
+		this.En = en;
 	}
 
 	public float getEcn() {
@@ -45,7 +39,7 @@ public class EntitySimilarity {
 	}
 
 	public void setEcn(float ecn) {
-		Ecn = ecn;
+		this.Ecn = ecn;
 	}
 
 	public float getEcf() {
@@ -69,7 +63,7 @@ public class EntitySimilarity {
 	}
 
 	public void setEsn(float esn) {
-		Esn = esn;
+		this.Esn = esn;
 	}
 
 	public float getEwc() {
@@ -77,7 +71,7 @@ public class EntitySimilarity {
 	}
 
 	public void setEwc(float Ecf, float Ew) {
-		this.Ecf = Ecf * Ew;
+		this.Ewc = Ecf * Ew;
 	}
 
 	public float getEcc() {
@@ -93,7 +87,7 @@ public class EntitySimilarity {
 	}
 
 	public void setEcwc(float ecwc) {
-		Ecwc = ecwc;
+		this.Ecwc = ecwc;
 	}
 	
 	public void generateEcwc() {
