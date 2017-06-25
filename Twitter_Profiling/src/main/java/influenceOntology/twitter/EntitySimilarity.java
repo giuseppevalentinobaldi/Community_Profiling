@@ -75,8 +75,8 @@ public class EntitySimilarity {
 		return Ecf * Ecn;
 	}
 
-	public float getEcwc(float Ecc, float Ew) {
-		return Ecc * Ew;
+	public float getEcwc() {
+		return this.getEcc() * this.getEw();
 	}
 
 }

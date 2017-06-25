@@ -1,10 +1,14 @@
 package influenceOntology.twitter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 import twitter4j.HashtagEntity;
 import twitter4j.IDs;
@@ -120,14 +124,45 @@ public class TwitterUtil {
 				this.loadStatementTwitterUserAccount(newUser, status);
 			}
 		}
-		
-		this.setSemila(newUser);
-		
+
+		this.setSemilar(newUser);
+
 		return newUser;
 	}
 
-	private void setSemila(TwitterUserAccount newUser) {
-		
+	private void setSemilar(TwitterUserAccount newUser) throws TwitterException {
+		Set<TwitterUserAccount> similar = newUser.getHasSimilar();
+		Iterator<TwitterUserAccount> i = similar.iterator();
+		PriorityQueue<Similarity> pq = new PriorityQueue<Similarity>(5, new Comparator<Similarity>() {
+			public int compare(Similarity s1, Similarity s2) {
+				if (s1.getSimilarity() < s2.getSimilarity())
+					return -1;
+				if (s1.getSimilarity() > s2.getSimilarity())
+					return 1;
+				return 0;
+			}
+		});
+		while (i.hasNext()) {
+			TwitterUserAccount b = i.next();
+			pq.add(new Similarity(newUser,b,getMentionsUserId(b.getId())));
+		}
+
+	}
+
+	private Set<Long> getMentionsUserId(long userId) throws TwitterException {
+		Set<Long> userMentionsId = new HashSet<Long>();
+		List<Status> statuses = this.twitter.getUserTimeline(userId);
+		for (Status status : statuses) {
+			if (status.getUserMentionEntities() != null) {
+				UserMentionEntity[] array = status.getUserMentionEntities();
+				int count = 0;
+				while (count < array.length) {
+					userMentionsId.add(new Long(array[count].getId()));
+					count++;
+				}
+			}
+		}
+		return userMentionsId;
 	}
 
 	public TwitterUserAccount getUser(long userId) throws TwitterException {
@@ -229,15 +264,17 @@ public class TwitterUtil {
 			int count = 0;
 			while (count < array.length) {
 				newUser.getMentions().add(this.getUser(array[count].getId()));
-				newUser.getHasSimilar().add(this.getUser(array[count].getId()));
+				if (array[count].getId() != newUser.getId())
+					newUser.getHasSimilar().add(this.getUser(array[count].getId()));
 				count++;
 			}
 		}
 		long replyToUserId = status.getInReplyToUserId();
 		// add reply user if present
-		if (replyToUserId != -1){
+		if (replyToUserId != -1) {
 			newUser.getReplyTo().add(this.getUser(replyToUserId));
-			newUser.getHasSimilar().add(this.getUser(replyToUserId));
+			if (replyToUserId != newUser.getId())
+				newUser.getHasSimilar().add(this.getUser(replyToUserId));
 		}
 	}
 
