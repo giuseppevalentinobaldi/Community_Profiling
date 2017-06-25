@@ -52,16 +52,16 @@ public class EntitySimilarity {
 		return Ecf;
 	}
 
-	public float setEcf(float Ecn, float En) {
-		return Ecn / En;
+	public void setEcf(float Ecn, float En) {
+		this.Ecf = Ecn / En;
 	}
 
 	public float getEw() {
 		return Ew;
 	}
 
-	public float setEw(float En, float Esn) {
-		return En / Esn;
+	public void setEw(float En, float Esn) {
+		this.Ew = En / Esn;
 	}
 
 	public float getEsn() {
@@ -76,16 +76,16 @@ public class EntitySimilarity {
 		return Ewc;
 	}
 
-	public float setEwc(float Ecf, float Ew) {
-		return Ecf * Ew;
+	public void setEwc(float Ecf, float Ew) {
+		this.Ecf = Ecf * Ew;
 	}
 
 	public float getEcc() {
 		return Ecc;
 	}
 
-	public float setEcc(float Ecf, float Ecn) {
-		return Ecf * Ecn;
+	public void setEcc(float Ecf, float Ecn) {
+		this.Ecc = Ecf * Ecn;
 	}
 
 	public float getEcwc() {
