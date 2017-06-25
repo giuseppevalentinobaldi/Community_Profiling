@@ -82,6 +82,8 @@ public class TwitterUtil {
 				for (Status status : statuses) {
 					this.loadStatementTwitterUserAccount(newUser, status);
 				}
+				
+				this.setSemilar(newUser);
 			}
 		// else create new user and add in cache
 		else {
