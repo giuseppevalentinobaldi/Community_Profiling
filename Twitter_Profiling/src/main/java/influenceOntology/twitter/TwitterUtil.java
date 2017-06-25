@@ -137,6 +137,7 @@ public class TwitterUtil {
 		Stack<Similarity> s1 = new Stack<Similarity>();
 		while (i.hasNext()) {
 			TwitterUserAccount b = i.next();
+			checkRateLimitStatus();
 			s1.push(new Similarity(newUser, b, getMentionsUserId(b.getId())));
 		}
 		sort(s1);
