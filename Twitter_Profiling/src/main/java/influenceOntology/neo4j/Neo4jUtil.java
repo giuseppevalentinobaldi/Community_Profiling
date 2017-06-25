@@ -608,6 +608,54 @@ public class Neo4jUtil {
 			
 		}
 		
+		
+		
+		// CREAZIONE USER HAS SIMILAR
+
+		for(TwitterUserAccount user : twitterUser.getHasSimilar()){
+			
+			if(twitterUser.getId() != user.getId()){
+				
+				if(!setUser.contains(user.getId())){
+			
+					// creazione del nodo utente (TwitterUser)
+					session.run("CREATE (a:TwitterUser {name : {name}, value: {value}, description: {description}})",
+							Values.parameters("name", user.getAccountName(), "value", user.getId(), "description", "Twitter User Account"));
+					
+					property = "has_similar";
+					session.run("MATCH (a:TwitterUser),(b:TwitterUser) WHERE a.value = "+twitterUser.getId()+
+							" AND b.value = "+user.getId()+
+							" CREATE (a)-[r:"+property+"]->(b)");
+					
+					
+					//creazione nodo account name (literal)
+					sID = user.getId()+user.getAccountNameLabel().replace(" ", "");
+					session.run("CREATE (a:Literal {name : {name}, value: {value}, description: {description}, id: {id}})",
+							Values.parameters("name", user.getAccountNameLabel(), "value", user.getAccountName(),
+							"description", user.getAccountNameDescription(), "id", sID));
+					
+					property = user.getAccountNameLabel().replace(" ", "_");
+					session.run("MATCH (a:TwitterUser),(b:Literal) WHERE a.value = "+user.getId()+
+							" AND b.id = '"+sID+
+							"' CREATE (a)-[r:"+property+"]->(b)");
+					
+					// inserimeto user in setUser
+					setUser.add(user.getId());
+					
+				}
+				else{
+					
+					property = "has_similar";
+					session.run("MATCH (a:TwitterUser),(b:TwitterUser) WHERE a.value = "+twitterUser.getId()+
+							" AND b.value = "+user.getId()+
+							" CREATE (a)-[r:"+property+"]->(b)");
+					
+				}
+			
+			}
+			
+		}
+		
 	}
 	
 }
