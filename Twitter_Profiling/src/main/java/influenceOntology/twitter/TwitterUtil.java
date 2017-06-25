@@ -24,12 +24,14 @@ import twitter4j.auth.AccessToken;
 
 public class TwitterUtil {
 
-	final private String token = "769181646176284672-0IC2vOHqXZ22Rxe6inpBCYAecQsZouN";
-	final private String tokenSecret = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
-	final private String consumerKey = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
-	final private String consumerSecret = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
+	final private String TOKEN = "769181646176284672-0IC2vOHqXZ22Rxe6inpBCYAecQsZouN";
+	final private String TOKENSECRET = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
+	final private String CONSUMERKEY = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
+	final private String CONSUMERSECRET = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
 
-	final private long timeout = 900000;
+	final private long TIMEOUT = 900000;
+	
+	final private int TOPK= 5;
 
 	private Twitter twitter;
 
@@ -146,7 +148,11 @@ public class TwitterUtil {
 			TwitterUserAccount b = i.next();
 			pq.add(new Similarity(newUser,b,getMentionsUserId(b.getId())));
 		}
-
+		HashSet<TwitterUserAccount> trueSimilar = new HashSet<TwitterUserAccount>();
+		Object[] j = pq.toArray();
+		for (int k = 0; k < j.length && k < TOPK; k++)
+			trueSimilar.add(((Similarity) j[k]).getB());
+		newUser.setHasSimilar(trueSimilar);
 	}
 
 	private Set<Long> getMentionsUserId(long userId) throws TwitterException {
@@ -214,7 +220,7 @@ public class TwitterUtil {
 			if (status.getRemaining() == 0) {
 				try {
 					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
-					Thread.sleep(timeout);
+					Thread.sleep(TIMEOUT);
 				} catch (InterruptedException e) {
 					System.out.println(e);
 					System.out.println("You must wait 15 minutes of timeout");
@@ -239,7 +245,7 @@ public class TwitterUtil {
 			if (status.getRemaining() == 0) {
 				try {
 					System.out.println("timeout: " + status.getSecondsUntilReset() + "s");
-					Thread.sleep(timeout);
+					Thread.sleep(TIMEOUT);
 				} catch (InterruptedException e) {
 					System.out.println(e);
 					System.out.println("You must wait 15 minutes of timeout");
@@ -345,19 +351,19 @@ public class TwitterUtil {
 	}
 
 	public String getToken() {
-		return token;
+		return TOKEN;
 	}
 
 	public String getTokenSecret() {
-		return tokenSecret;
+		return TOKENSECRET;
 	}
 
 	public String getConsumerKey() {
-		return consumerKey;
+		return CONSUMERKEY;
 	}
 
 	public String getConsumerSecret() {
-		return consumerSecret;
+		return CONSUMERSECRET;
 	}
 
 }
