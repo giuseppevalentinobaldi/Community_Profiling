@@ -281,11 +281,11 @@ public class TwitterUtil {
             RateLimitStatus status = rateLimitStatus.get(endpoint);
             //System.out.println(" Remaining: " + status.getRemaining()+"\n");
             if (status.getRemaining() <= 2) {
-			int remainingTime = status.getSecondsUntilReset();
+			int remainingTime = status.getSecondsUntilReset() + 120;
 			System.out.println("Twitter request rate limit reached. Waiting "+remainingTime/60+" minutes to request again.");
 			
 			try {
-				Thread.sleep((remainingTime + 120)*1000);
+				Thread.sleep(remainingTime*1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
