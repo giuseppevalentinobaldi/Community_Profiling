@@ -285,7 +285,7 @@ public class TwitterUtil {
 			System.out.println("Twitter request rate limit reached. Waiting "+remainingTime/60+" minutes to request again.");
 			
 			try {
-				Thread.sleep(remainingTime*1000);
+				Thread.sleep((remainingTime + 120)*1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
