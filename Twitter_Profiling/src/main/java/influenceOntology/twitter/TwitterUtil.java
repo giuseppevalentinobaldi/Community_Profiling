@@ -74,6 +74,7 @@ public class TwitterUtil {
 				this.setFollower(newUser, userId);
 
 				// takes the last 20 tweets from the user
+				checkRateLimitStatus();
 				List<Status> statuses = this.twitter.getUserTimeline(userId);
 
 				for (Status status : statuses) {
@@ -106,6 +107,7 @@ public class TwitterUtil {
 			this.setFollower(newUser, userId);
 
 			// takes the last 20 tweets from the user
+			checkRateLimitStatus();
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
 			if (statuses.isEmpty()) {
 				return newUser;
@@ -182,6 +184,7 @@ public class TwitterUtil {
 			newUser.setImage(new HashSet<Image>());
 
 			// takes the last 20 tweets from the user
+			checkRateLimitStatus();
 			List<Status> statuses = this.twitter.getUserTimeline(userId);
 
 			if (statuses.isEmpty()) {
@@ -243,6 +246,7 @@ public class TwitterUtil {
 	}
 
 	public void setFollowing(TwitterUserAccount newUser, long userId) throws TwitterException {
+		checkRateLimitStatus();
 		IDs isFollowing = this.twitter.getFriendsIDs(userId, -1);
 		long[] idsIsFollowing = isFollowing.getIDs();
 		for (long id : idsIsFollowing) {
@@ -259,6 +263,7 @@ public class TwitterUtil {
 	}
 
 	public void setFollower(TwitterUserAccount newUser, long userId) throws TwitterException {
+		checkRateLimitStatus();
 		IDs hasFollower = this.twitter.getFollowersIDs(userId, -1);
 		long[] idsHasFollower = hasFollower.getIDs();
 		for (long id : idsHasFollower) {
