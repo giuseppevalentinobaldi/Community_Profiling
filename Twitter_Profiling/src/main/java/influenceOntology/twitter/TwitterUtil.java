@@ -32,6 +32,8 @@ public class TwitterUtil {
 
 	private Twitter twitter;
 
+	private static final int OVERTIME = 30;
+
 	private Map<Long, Structure> cache_1;
 	private Map<String, Hashtag> cache_2;
 	private Map<String, URL> cache_3;
@@ -138,9 +140,14 @@ public class TwitterUtil {
 		Iterator<TwitterUserAccount> i = similar.iterator();
 		Stack<Similarity> s1 = new Stack<Similarity>();
 		while (i.hasNext()) {
-			TwitterUserAccount b = i.next();
-			checkRateLimitStatus();
-			s1.push(new Similarity(newUser, b, getMentionsUserId(b.getId())));
+			try{
+				TwitterUserAccount b = i.next();
+				checkRateLimitStatus();
+				s1.push(new Similarity(newUser, b, getMentionsUserId(b.getId())));
+			} catch (TwitterException e) {
+				System.out.println(e);
+				System.out.println("This user is private, for add him you must add between your followings");
+			}
 		}
 		sort(s1);
 		HashSet<TwitterUserAccount> trueSimilar = new HashSet<TwitterUserAccount>();
@@ -285,8 +292,8 @@ public class TwitterUtil {
 		for (String endpoint : rateLimitStatus.keySet()) {
             RateLimitStatus status = rateLimitStatus.get(endpoint);
             //System.out.println(" Remaining: " + status.getRemaining()+"\n");
-            if (status.getRemaining() <= 2) {
-			int remainingTime = status.getSecondsUntilReset() + 120;
+            if (status.getRemaining() <= 0) {
+			int remainingTime = status.getSecondsUntilReset() + OVERTIME;
 			System.out.println("Twitter request rate limit reached. Waiting "+remainingTime/60+" minutes to request again.");
 			
 			try {
