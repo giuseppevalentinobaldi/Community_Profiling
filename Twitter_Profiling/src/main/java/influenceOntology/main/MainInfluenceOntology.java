@@ -10,32 +10,46 @@ import influenceOntology.neo4j.Neo4jUtil;
 
 public class MainInfluenceOntology {
 
-	public static void main(String args[]) throws Exception {
+	public static void CreateInfluenceOntology(long userID) throws Exception {
 		TwitterUtil twitter;
 		TwitterUserAccount twitterUserAccount;
+		
 		InputStreamReader is = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(is);
-		System.out.print("Choose your visualization graph\n\t 1: Extended view\n\t 2: Compact view\n (1 or 2)?:");
-		String read = br.readLine();
-		long startTime=System.currentTimeMillis();
-		if (read.equals("1")) {
-			Neo4jUtil neo4j = new Neo4jUtil("bolt://localhost:7687", "neo4j", "neo4j");
-			twitter = new TwitterUtil();
-			twitterUserAccount = twitter.getTwitterUserAccount(769181646176284672L);
-			neo4j.printTwitterUserAccount(twitterUserAccount);
-			neo4j.close();
-		} else if (read.equals("2")) {
-			Neo4jOGM nogm = new Neo4jOGM("localhost:7687", "neo4j", "neo4j");
-			twitter = new TwitterUtil();
-			//twitterUserAccount = twitter.getTwitterUserAccount(773181360475402240L);
-			twitterUserAccount = twitter.getTwitterUserAccount(9997022L);
-			nogm.printCompactUserData(twitterUserAccount);
+		
+		long startTime=0;
+		boolean bool = true;
+		
+		while(bool){
+		
+			System.out.print("Choose your visualization graph\n\t 1: Extended view\n\t 2: Compact view\n (1 or 2)?:");
+			String read = br.readLine();
+			
+			if (read.equals("1")) {
+				
+				bool = false;
+				startTime=System.currentTimeMillis();
+				Neo4jUtil neo4j = new Neo4jUtil("bolt://localhost:7687", "neo4j", "neo4j");
+				twitter = new TwitterUtil();
+				twitterUserAccount = twitter.getTwitterUserAccount(userID);
+				neo4j.printTwitterUserAccount(twitterUserAccount);
+				neo4j.close();
+				
+			} else if (read.equals("2")) {
+				
+				bool = false;
+				startTime=System.currentTimeMillis();
+				Neo4jOGM nogm = new Neo4jOGM("localhost:7687", "neo4j", "neo4j");
+				twitter = new TwitterUtil();
+				twitterUserAccount = twitter.getTwitterUserAccount(userID);
+				nogm.printCompactUserData(twitterUserAccount);
+				
+			}
+			
 		}
-		else{
-			main(args);
-		}
+		
 		long stopTime = System.currentTimeMillis();
 		System.out.println("Job Finished in " + (stopTime - startTime) / 1000.0 + " seconds");
-		System.exit(0);
+
 	}
 }
