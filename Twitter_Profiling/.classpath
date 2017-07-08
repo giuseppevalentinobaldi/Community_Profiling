@@ -28,5 +28,15 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/giuseppe/.m2/repository/org/twitter4j/twitter4j-core/4.0.6/twitter4j-core-4.0.6.jar" sourcepath="/home/giuseppe/.m2/repository/org/twitter4j/twitter4j-core/4.0.6/twitter4j-core-4.0.6-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="org.twitter4j"/>
+			<attribute name="maven.artifactId" value="twitter4j-core"/>
+			<attribute name="maven.version" value="4.0.6"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/giuseppe/git/ies-twitter/lib/signpost-core-1.2.1.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
