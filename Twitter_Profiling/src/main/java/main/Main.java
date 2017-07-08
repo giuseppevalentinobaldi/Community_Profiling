@@ -43,7 +43,7 @@ public class Main {
 					
 					bool = false;
 					
-					IdsReader reader = new IdsReader("data/checkUsers.txt");
+					IdsReader reader = new IdsReader("data/checkedUsers.txt");
 					
 					while(reader.hasNext()){
 						MainTwitterOntology.CreateTwitterOntology(reader.nextIsAnother());
@@ -78,7 +78,7 @@ public class Main {
 					
 					bool = false;
 					
-					IdsReader reader = new IdsReader("data/checkUsers.txt");
+					IdsReader reader = new IdsReader("data/checkedUsers.txt");
 					
 					while(reader.hasNext()){
 						MainInfluenceOntology.CreateInfluenceOntology(reader.nextIsAnother());

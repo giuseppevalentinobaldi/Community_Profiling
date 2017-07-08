@@ -1,23 +1,28 @@
 package twitterOntology.twitter;
 
 import java.util.List;
+import java.util.Map;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.HashtagEntity;
+import twitter4j.RateLimitStatus;
 import twitter4j.URLEntity;
 import twitter4j.UserMentionEntity;
 
 public class TwitterUtil {
 
-	final private String token = "769181646176284672-0IC2vOHqXZ22Rxe6inpBCYAecQsZouN";
-	final private String tokenSecret = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
+	final private String token = "769181646176284672-EYL3wIrIl5bx2lSBPtFweSocignMguH";
+	final private String tokenSecret = "bbRELLK6X4EvKvfIharcz8I1zXGykLAiJz1X1TGwenuho";
 	final private String consumerKey = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
 	final private String consumerSecret = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
 
 	private Twitter twitter;
+	
+	private final int OVERTIME = 30;
 
 	public TwitterUtil() {
 		TwitterFactory factory = new TwitterFactory();
@@ -28,7 +33,9 @@ public class TwitterUtil {
 	}
 
 	public TwitterUserData getUserData(long userId) throws Exception {
-
+		//controllo # chiamate
+		checkRateLimitStatus();
+		
 		// prelievo degli ultimi 20 tweet dell'utente
 		List<Status> statuses = this.twitter.getUserTimeline(userId);
 
@@ -206,6 +213,39 @@ public class TwitterUtil {
 
 		return userData;
 
+	}
+	
+	private void checkRateLimitStatus()  {
+		try {
+		Map<String,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
+		for (String endpoint : rateLimitStatus.keySet()) {
+            RateLimitStatus status = rateLimitStatus.get(endpoint);
+            //System.out.println(" Remaining: " + status.getRemaining()+"\n");
+            if (status.getRemaining() <= 0) {
+			int remainingTime = status.getSecondsUntilReset() + OVERTIME;
+			System.out.println("Twitter request rate limit reached. Waiting "+remainingTime/60+" minutes to request again.");
+			
+			try {
+				Thread.sleep(remainingTime*1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		}
+		} catch (TwitterException te) {
+			System.err.println(te.getMessage());
+			if (te.getStatusCode()==503) {
+				try {
+					Thread.sleep(120*1000);// wait 2 minutes
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} 
+			}
+		}
+		catch(Exception e) {
+			System.err.println(e.getMessage());
+			
+		}
 	}
 
 	public Twitter getTwitter() {
