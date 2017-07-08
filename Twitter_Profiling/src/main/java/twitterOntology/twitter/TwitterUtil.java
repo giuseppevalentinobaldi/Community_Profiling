@@ -21,7 +21,7 @@ public class TwitterUtil {
 	final private String consumerSecret = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
 
 	private Twitter twitter;
-	
+
 	private final int OVERTIME = 30;
 
 	public TwitterUtil() {
@@ -33,11 +33,17 @@ public class TwitterUtil {
 	}
 
 	public TwitterUserData getUserData(long userId) throws Exception {
-		//controllo # chiamate
+		// controllo # chiamate
 		checkRateLimitStatus();
-		
+		List<Status> statuses = null;
 		// prelievo degli ultimi 20 tweet dell'utente
-		List<Status> statuses = this.twitter.getUserTimeline(userId);
+		try {
+			statuses = this.twitter.getUserTimeline(userId);
+		} catch (TwitterException e) {
+			System.out.println(e);
+			System.out.println("This user is private, for add him you must add between your followings");
+			return new TwitterUserData(userId);
+		}
 
 		if (statuses.isEmpty()) {
 			return new TwitterUserData(userId);
@@ -214,37 +220,38 @@ public class TwitterUtil {
 		return userData;
 
 	}
-	
-	private void checkRateLimitStatus()  {
+
+	private void checkRateLimitStatus() {
 		try {
-		Map<String,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
-		for (String endpoint : rateLimitStatus.keySet()) {
-            RateLimitStatus status = rateLimitStatus.get(endpoint);
-            //System.out.println(" Remaining: " + status.getRemaining()+"\n");
-            if (status.getRemaining() <= 0) {
-			int remainingTime = status.getSecondsUntilReset() + OVERTIME;
-			System.out.println("Twitter request rate limit reached. Waiting "+remainingTime/60+" minutes to request again.");
-			
-			try {
-				Thread.sleep(remainingTime*1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			Map<String, RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
+			for (String endpoint : rateLimitStatus.keySet()) {
+				RateLimitStatus status = rateLimitStatus.get(endpoint);
+				// System.out.println(" Remaining: " +
+				// status.getRemaining()+"\n");
+				if (status.getRemaining() <= 0) {
+					int remainingTime = status.getSecondsUntilReset() + OVERTIME;
+					System.out.println("Twitter request rate limit reached. Waiting " + remainingTime / 60
+							+ " minutes to request again.");
+
+					try {
+						Thread.sleep(remainingTime * 1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 			}
-		}
-		}
 		} catch (TwitterException te) {
 			System.err.println(te.getMessage());
-			if (te.getStatusCode()==503) {
+			if (te.getStatusCode() == 503) {
 				try {
-					Thread.sleep(120*1000);// wait 2 minutes
+					Thread.sleep(120 * 1000);// wait 2 minutes
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				} 
+				}
 			}
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
-			
+
 		}
 	}
 
