@@ -23,16 +23,21 @@ import twitter4j.auth.AccessToken;
 
 public class TwitterUtil {
 
-	final private String TOKEN = "769181646176284672-0IC2vOHqXZ22Rxe6inpBCYAecQsZouN";
-	final private String TOKENSECRET = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
-	final private String CONSUMERKEY = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
-	final private String CONSUMERSECRET = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
+//	final private String TOKEN = "769181646176284672-0IC2vOHqXZ22Rxe6inpBCYAecQsZouN";
+//	final private String TOKENSECRET = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
+//	final private String CONSUMERKEY = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
+//	final private String CONSUMERSECRET = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
+	
+	final private String TOKEN = "875748616207572992-5vEAvJlCoamB8IVEtmdwZlebxW9x6Sl";
+	final private String TOKENSECRET = "Ciq7TjJkShYw2ITfN3BmYmA1vA8xrDVZbtv9zeh8tvJGa";
+	final private String CONSUMERKEY = "SWWqGBTYg0JzIEg97hh9VhoWR";
+	final private String CONSUMERSECRET = "iQLvs0SpBzMGpWU2bkB2rHqPaG5P7u0WkEALI7sqrOHWko7TDE";
 
 	final private int TOPK = 5;
 
 	private Twitter twitter;
 
-	private static final int OVERTIME = 30;
+	private final int OVERTIME = 30;
 
 	private Map<Long, Structure> cache_1;
 	private Map<String, Hashtag> cache_2;

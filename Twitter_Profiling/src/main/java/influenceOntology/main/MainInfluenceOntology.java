@@ -17,7 +17,7 @@ public class MainInfluenceOntology {
 		BufferedReader br = new BufferedReader(is);
 		System.out.print("Choose your visualization graph\n\t 1: Extended view\n\t 2: Compact view\n (1 or 2)?:");
 		String read = br.readLine();
-		long startTime=System.currentTimeMillis();;
+		long startTime=System.currentTimeMillis();
 		if (read.equals("1")) {
 			Neo4jUtil neo4j = new Neo4jUtil("bolt://localhost:7687", "neo4j", "neo4j");
 			twitter = new TwitterUtil();
