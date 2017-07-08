@@ -32,7 +32,7 @@ public class Main {
 					
 					bool = false;
 					
-					System.out.print("Insert User ID:\n\t");
+					System.out.print("Insert User ID:\n");
 					String user = br.readLine();
 					
 					MainTwitterOntology.CreateTwitterOntology(Long.parseLong(user));
@@ -67,7 +67,7 @@ public class Main {
 					
 					bool = false;
 					
-					System.out.print("Insert User ID:\n\t");
+					System.out.print("Insert User ID:\n");
 					String user = br.readLine();
 					
 					MainInfluenceOntology.CreateInfluenceOntology(Long.parseLong(user));
