@@ -22,11 +22,6 @@ import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
 
 public class TwitterUtil {
-
-//	final private String TOKEN = "769181646176284672-0IC2vOHqXZ22Rxe6inpBCYAecQsZouN";
-//	final private String TOKENSECRET = "TWieXfhALOSL2meTuxzdKo9gYtnY6viEGeeASKwwV1aUc";
-//	final private String CONSUMERKEY = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
-//	final private String CONSUMERSECRET = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
 	
 	final private String TOKEN = "875748616207572992-5vEAvJlCoamB8IVEtmdwZlebxW9x6Sl";
 	final private String TOKENSECRET = "Ciq7TjJkShYw2ITfN3BmYmA1vA8xrDVZbtv9zeh8tvJGa";
