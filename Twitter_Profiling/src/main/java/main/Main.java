@@ -18,46 +18,54 @@ public class Main {
 
 		String mod = choiceMod();
 		
-		long startTime=System.currentTimeMillis();
+		long startTime = 0;
 
 		switch (mod) {
 		case "111":
 			System.out.print("Insert User ID:");
 			user = br.readLine();
+			startTime=System.currentTimeMillis();
 			MainTwitterOntology.CreateTwitterOntologyExtended(Long.parseLong(user));
 			break;
 		case "112":
 			System.out.print("Insert User ID:");
 			user = br.readLine();
+			startTime=System.currentTimeMillis();
 			MainTwitterOntology.CreateTwitterOntologyCompact(Long.parseLong(user));
 			break;
 		case "121":
 			reader = new IdsReader("data/checkedUsers.txt");
+			startTime=System.currentTimeMillis();
 			while (reader.hasNext())
 				MainTwitterOntology.CreateTwitterOntologyExtended(reader.nextIsAnother());
 			break;
 		case "122":
 			reader = new IdsReader("data/checkedUsers.txt");
+			startTime=System.currentTimeMillis();
 			while (reader.hasNext())
 				MainTwitterOntology.CreateTwitterOntologyCompact(reader.nextIsAnother());
 			break;
 		case "211":
 			System.out.print("Insert User ID:");
 			user = br.readLine();
+			startTime=System.currentTimeMillis();
 			MainInfluenceOntology.CreateInfluenceOntologyExtended(Long.parseLong(user));
 			break;
 		case "212":
 			System.out.print("Insert User ID:");
 			user = br.readLine();
+			startTime=System.currentTimeMillis();
 			MainInfluenceOntology.CreateInfluenceOntologyCompact(Long.parseLong(user));
 			break;
 		case "221":
 			reader = new IdsReader("data/checkedUsers.txt");
+			startTime=System.currentTimeMillis();
 			while (reader.hasNext())
 				MainInfluenceOntology.CreateInfluenceOntologyExtended(reader.nextIsAnother());
 			break;
 		case "222":
 			reader = new IdsReader("data/checkedUsers.txt");
+			startTime=System.currentTimeMillis();
 			while (reader.hasNext())
 				MainInfluenceOntology.CreateInfluenceOntologyCompact(reader.nextIsAnother());
 			break;
