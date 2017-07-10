@@ -6,3 +6,7 @@ Creating knowledge graphs of twitter users based on ontologies
 * Influence Ontology
 ![Twitter Ontology](https://github.com/giuseppevalentinobaldi/Community_Profiling/blob/master/Twitter_Profiling/img/influnce_ontology.png)
 
+# Bibliographic sources
+* Twitter Ontology: [joshhanna/Twitter-Ontology](https://github.com/joshhanna/Twitter-Ontology)
+* Influence Ontology: [Influence Tracker](http://www.influencetracker.com/ontology)
+
