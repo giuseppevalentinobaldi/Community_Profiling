@@ -16,7 +16,7 @@ public class TimestampMain {
 		TsvPrinter tsv = new TsvPrinter();
 		tsv.init("timestamp.tsv");
 		
-		String[] arrayTime = new String[3];
+		String[] arrayTime = new String[4];
 		
 		long startTime;
 		long timestampOntology1, timestampOntology2, timestampTot; 
@@ -25,19 +25,20 @@ public class TimestampMain {
 		while(reader.hasNext() && count < LIMITUSER){
 			
 			user = reader.nextIsAnother();
+			arrayTime[0] = ""+user;
 			
 			startTime = System.currentTimeMillis();
 			MainTwitterOntology.CreateTwitterOntologyCompact(user);
 			timestampOntology1 = (System.currentTimeMillis() - startTime) / 1000;
-			arrayTime[0] = ""+timestampOntology1;
+			arrayTime[1] = ""+timestampOntology1;
 			
 			startTime = System.currentTimeMillis();
 			MainInfluenceOntology.CreateInfluenceOntologyCompact(user);
 			timestampOntology2 = (System.currentTimeMillis() - startTime) / 1000;
-			arrayTime[1] = ""+timestampOntology2;
+			arrayTime[2] = ""+timestampOntology2;
 			
 			timestampTot = timestampOntology1 + timestampOntology2;
-			arrayTime[2] = ""+timestampTot;
+			arrayTime[3] = ""+timestampTot;
 			
 			tsv.writeRow(arrayTime);
 			
