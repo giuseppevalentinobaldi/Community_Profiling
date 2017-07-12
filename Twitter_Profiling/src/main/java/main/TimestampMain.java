@@ -6,13 +6,12 @@ import datasetReader.*;
 import tsvWriter.*;
 
 public class TimestampMain {
-	
-	private static final int LIMITUSER = 3;
 
 	public static void main(String[] args) throws Exception {
 		
 		long user;
-		IdsReader reader = new IdsReader("data/checkedUsers.txt");
+		//IdsReader reader = new IdsReader("data/checkedUsers.txt");
+		IdsReader reader = new IdsReader("data/dataset.txt");
 		TsvPrinter tsv = new TsvPrinter();
 		tsv.init("timestamp.tsv");
 		
@@ -21,8 +20,7 @@ public class TimestampMain {
 		long startTime;
 		long timestampOntology1, timestampOntology2, timestampTot; 
 		
-		int count = 0;
-		while(reader.hasNext() && count < LIMITUSER){
+		while(reader.hasNext()){
 			
 			user = reader.nextIsAnother();
 			arrayTime[0] = ""+user;
@@ -41,8 +39,6 @@ public class TimestampMain {
 			arrayTime[3] = ""+timestampTot;
 			
 			tsv.writeRow(arrayTime);
-			
-			count++;
 			
 		}
 
