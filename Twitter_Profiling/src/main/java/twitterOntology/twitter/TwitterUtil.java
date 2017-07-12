@@ -15,10 +15,10 @@ import twitter4j.UserMentionEntity;
 
 public class TwitterUtil {
 
-	final private String token = "769181646176284672-EYL3wIrIl5bx2lSBPtFweSocignMguH";
-	final private String tokenSecret = "bbRELLK6X4EvKvfIharcz8I1zXGykLAiJz1X1TGwenuho";
-	final private String consumerKey = "N2LZiDdNAqY1qtgJ8EPRoAdx9";
-	final private String consumerSecret = "ayLGG7YtnVykMbkfNZ3XyYZRo1FDCC4sIO8VBSJELBOoM6lYHU";
+	final private String token = "";
+	final private String tokenSecret = "";
+	final private String consumerKey = "";
+	final private String consumerSecret = "";
 
 	private Twitter twitter;
 
