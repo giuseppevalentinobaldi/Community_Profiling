@@ -41,6 +41,8 @@ public class TimestampMain {
 			tsv.writeRow(arrayTime);
 			
 		}
+		
+		tsv.close();
 
 	}
 
