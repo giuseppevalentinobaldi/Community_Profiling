@@ -23,10 +23,10 @@ import twitter4j.auth.AccessToken;
 
 public class TwitterUtil {
 	
-	final private String TOKEN = "";
-	final private String TOKENSECRET = "";
-	final private String CONSUMERKEY = "";
-	final private String CONSUMERSECRET = "";
+	final private String TOKEN = "769181646176284672-4S9tH7RHcsfnAG81jgOd9dvKU89K8pY";
+	final private String TOKENSECRET = "qoie7QZWDduD0sbxuTY9AbrlqX9ZPWfItUWrYwDnr9Ojf";
+	final private String CONSUMERKEY = "8Vk3XXygxVCrDvbKrVU6I1dBR";
+	final private String CONSUMERSECRET = "8dflASDOkIrLFRZ8U89drE74AZ7wOdOjVTnq71AJei31U2VCzv";
 
 	final private int TOPK = 5;
 

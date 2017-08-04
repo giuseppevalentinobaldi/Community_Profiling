@@ -45,7 +45,7 @@ public class Similarity {
 	public void intersectURL(Set<URL> set, Set<URL> set2) {
 		set.forEach(e1 -> {
 			set2.forEach(e2 -> {
-				if (e1.getUrl().equals(e2.getUrl())) {
+				if (e1.getFullurl().equals(e2.getFullurl())) {
 					urlC++;
 				}
 			});
